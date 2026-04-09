@@ -1,0 +1,615 @@
+---
+title: "Introducción a R"
+subtitle: "Guía de referencia rápida"
+author: "René Canales"
+date: "Abril 2026"
+format:
+  html:
+    toc: true
+    toc-title: "Ir a..."
+    toc-depth: 2
+    toc-location: left
+    theme: cosmo
+    highlight-style: github
+    code-copy: true
+    self-contained: true
+    page-layout: article
+lang: es
+---
+
+```{=html}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  --blue:    #1a5fa8;
+  --light:   #53AFDA;
+  --red:     #b5241e;
+  --soft:    #f4f7fb;
+  --border:  #dde3ec;
+  --muted:   #6b7280;
+  --text:    #1c1c2e;
+}
+
+body { font-family: 'DM Sans', sans-serif; color: var(--text); font-size: 0.97rem; line-height: 1.7; }
+
+h1 { font-size: 1.7rem; color: var(--blue); border-bottom: 3px solid var(--light); padding-bottom: .35em; }
+h2 { font-size: 1.25rem; color: var(--blue); border-left: 4px solid var(--light); padding-left: .7em; margin-top: 2em; }
+h3 { font-size: 1rem; color: var(--red); margin-top: 1.4em; margin-bottom: .2em; }
+
+.quarto-title-block {
+  background: linear-gradient(120deg, var(--blue) 0%, #2278c4 70%, var(--light) 100%);
+  padding: 2rem 2rem 1.6rem; border-radius: 10px; margin-bottom: 2rem;
+}
+.quarto-title-block .title    { color: #fff !important; border: none !important; }
+.quarto-title-block .subtitle { color: rgba(255,255,255,.85) !important; font-size: .95rem; }
+.quarto-title-meta, .quarto-title-meta-heading { color: rgba(255,255,255,.65) !important; font-size: .82rem; }
+
+pre {
+  background: var(--soft) !important;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--blue);
+  border-radius: 6px;
+  padding: 1em 1.1em;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .83rem;
+  line-height: 1.6;
+}
+code { font-family: 'IBM Plex Mono', monospace; font-size: .86em; }
+p code, li code {
+  background: var(--soft); border: 1px solid var(--border);
+  border-radius: 3px; padding: .1em .35em; color: var(--red);
+}
+
+.tip {
+  background: #edf6ff; border-left: 4px solid var(--light);
+  border-radius: 0 7px 7px 0; padding: .75em 1.1em; margin: 1em 0; font-size: .92rem;
+}
+.tip::before { content: "💡  "; }
+
+.warn {
+  background: #fff8ed; border-left: 4px solid #f59e0b;
+  border-radius: 0 7px 7px 0; padding: .75em 1.1em; margin: 1em 0; font-size: .92rem;
+}
+.warn::before { content: "⚠️  "; }
+
+.note {
+  background: #f0fdf4; border-left: 4px solid #22c55e;
+  border-radius: 0 7px 7px 0; padding: .75em 1.1em; margin: 1em 0; font-size: .92rem;
+}
+.note::before { content: "📝  "; }
+
+table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: 1em 0; }
+thead tr { background: var(--blue); color: #fff; }
+th { padding: .55em .9em; text-align: left; }
+td { padding: .45em .9em; border-bottom: 1px solid var(--border); }
+tr:nth-child(even) td { background: var(--soft); }
+
+.footer {
+  margin-top: 3em; padding-top: 1em;
+  border-top: 2px solid var(--border);
+  font-size: .8rem; color: var(--muted); text-align: center;
+}
+</style>
+```
+
+---
+
+## R y RStudio
+
+**R** es el lenguaje. **RStudio** es la interfaz. Necesitas instalar ambos.
+
+| | |
+|---|---|
+| Descargar R | [cran.r-project.org](https://cran.r-project.org) |
+| Descargar RStudio | [posit.co/download/rstudio-desktop](https://posit.co/download/rstudio-desktop) |
+
+::: {.tip}
+Instala R **antes** que RStudio.
+:::
+
+### Los 4 paneles de RStudio
+
+| Panel | Función |
+|-------|---------|
+| **① Script** | Escribes y guardas tu código |
+| **② Consola** | Donde se ejecuta el código |
+| **③ Environment** | Objetos activos en memoria |
+| **④ Files / Plots / Help** | Archivos, gráficos y ayuda |
+
+---
+
+## Objetos y asignación
+
+```r
+# <- asigna un valor a un nombre
+edad   <- 25
+nombre <- "René"
+activo <- TRUE
+
+class(edad)     # "numeric"
+class(nombre)   # "character"
+class(activo)   # "logical"
+```
+
+::: {.tip}
+Puedes usar `=` en vez de `<-`, pero la convención en R es `<-`.
+:::
+
+### Tipos de datos
+
+| Tipo | Ejemplo | Uso |
+|------|---------|-----|
+| `numeric` | `3.14` | Números con decimales |
+| `integer` | `42L` | Números enteros |
+| `character` | `"hola"` | Texto, siempre entre comillas |
+| `logical` | `TRUE` / `FALSE` | Verdadero o falso |
+| `factor` | `factor("alto")` | Categorías |
+| `NA` | `NA` | Valor faltante |
+
+::: {.warn}
+Un número guardado como `character` (`"25"`) no se puede operar matemáticamente. Usa `class()` para verificar el tipo antes de operar.
+:::
+
+---
+
+## Vectores
+
+Secuencia de elementos del **mismo tipo**, creada con `c()`.
+
+```r
+edades <- c(23, 31, 28, 25, 19)
+
+edades[1]       # 23  ← los índices parten en 1, no en 0
+edades[2:4]     # 31 28 25
+mean(edades)    # promedio → 25.2
+length(edades)  # cantidad de elementos → 5
+```
+
+::: {.tip}
+En R los índices parten en **1**. `edades[1]` es el primer elemento (no el segundo como en Python).
+:::
+
+---
+
+## Data Frames
+
+Tabla donde cada **columna es una variable** y cada **fila es una observación**.
+
+```r
+estudiantes <- data.frame(
+  nombre = c("Ana", "Luis", "María", "Pedro"),
+  edad   = c(23, 31, 28, 25),
+  nota   = c(6.5, 5.8, 6.9, 6.1)
+)
+
+head(estudiantes)     # primeras filas
+str(estudiantes)      # estructura y tipos de cada columna
+summary(estudiantes)  # estadísticas descriptivas
+```
+
+### Acceder a datos
+
+```r
+estudiantes$nota           # columna por nombre
+estudiantes[1, ]           # fila 1 completa
+estudiantes[2, 3]          # fila 2, columna 3
+
+# Filtrar filas con condición
+estudiantes[estudiantes$nota >= 6.5, ]
+```
+
+::: {.note}
+`$` es la forma más común de acceder a columnas: `df$columna`. La coma en `[fila, columna]` es obligatoria — si la omites, R interpretará el número como columna, no como fila.
+:::
+
+---
+
+## Importar datos
+
+```r
+# CSV estándar (separado por coma)
+datos <- read.csv("archivo.csv")
+
+# CSV con punto y coma (común en LatAm y Europa)
+datos <- read.csv2("archivo.csv")
+
+# Excel
+library(readxl)
+datos <- read_excel("archivo.xlsx")
+```
+
+::: {.tip}
+Usa **Proyectos de RStudio** (`File → New Project`). Fija automáticamente la carpeta de trabajo y evita errores del tipo *"archivo no encontrado"*.
+:::
+
+---
+
+## Paquetes
+
+```r
+install.packages("tidyverse")  # instalar (solo una vez)
+library(tidyverse)             # cargar (cada sesión)
+```
+
+::: {.warn}
+`install.packages()` se ejecuta **una sola vez**. `library()` debe ejecutarse **cada vez** que abres RStudio.
+:::
+
+### Paquetes recomendados para empezar
+
+| Paquete | Para qué sirve |
+|---------|----------------|
+| `tidyverse` | Manipulación y visualización de datos |
+| `readxl` | Leer archivos Excel |
+| `janitor` | Limpiar nombres de columnas y datos |
+| `skimr` | Resúmenes estadísticos rápidos |
+
+---
+
+## Recodificar variables
+
+### `recode()` — para valores exactos
+
+Renombra valores específicos de una variable.
+
+```r
+library(dplyr)
+
+estudiantes <- estudiantes |>
+  mutate(
+    nivel = recode(nota,
+      "6.5" = "Bueno",
+      "5.8" = "Regular",
+      "6.9" = "Excelente"
+    )
+  )
+```
+
+::: {.tip}
+`recode()` siempre va dentro de `mutate()`. `mutate()` es la función que crea o modifica columnas.
+:::
+
+### `case_when()` — para condiciones y rangos
+
+Más flexible: permite crear categorías basadas en condiciones lógicas.
+
+```r
+estudiantes <- estudiantes |>
+  mutate(
+    categoria = case_when(
+      nota >= 6.5              ~ "Distinción",
+      nota >= 5.0 & nota < 6.5 ~ "Aprobado",
+      nota < 5.0               ~ "Reprobado"
+    )
+  )
+```
+
+::: {.note}
+Las condiciones se evalúan **en orden de arriba hacia abajo**: la primera que se cumple gana. Si una fila ya fue clasificada, las siguientes condiciones no se evalúan para esa fila.
+:::
+
+---
+
+## Principales paquetes en R
+
+Una orientación de los paquetes más usados en análisis de datos, organizados por lo que necesitas hacer.
+
+### Importar datos
+
+| Paquete | Para qué sirve | Función clave |
+|---------|----------------|---------------|
+| `readxl` | Leer archivos Excel `.xlsx` / `.xls` | `read_excel()` |
+| `haven` | Leer archivos SPSS, Stata, SAS | `read_sav()`, `read_dta()` |
+| `readr` | Leer CSV de forma más rápida y robusta | `read_csv()` |
+| `jsonlite` | Leer y escribir archivos JSON | `fromJSON()` |
+
+::: {.tip}
+`readr` (parte del `tidyverse`) es más rápido y predecible que `read.csv()` base. Úsalo cuando trabajes con archivos grandes.
+:::
+
+### Manipular y limpiar datos
+
+| Paquete | Para qué sirve | Funciones clave |
+|---------|----------------|-----------------|
+| `dplyr` | Filtrar, seleccionar, resumir, crear columnas | `filter()` `select()` `mutate()` `summarise()` `group_by()` |
+| `tidyr` | Transformar entre formato ancho y largo | `pivot_longer()` `pivot_wider()` |
+| `janitor` | Limpiar nombres de columnas y datos sucios | `clean_names()` `tabyl()` |
+| `stringr` | Manipular texto y cadenas de caracteres | `str_detect()` `str_replace()` |
+| `forcats` | Manipular factores y variables categóricas | `fct_relevel()` `fct_recode()` |
+| `lubridate` | Trabajar con fechas y horas | `ymd()` `dmy()` `year()` `month()` |
+
+::: {.note}
+`dplyr`, `tidyr`, `stringr`, `forcats` y `lubridate` son todos parte del `tidyverse`. Instalando `tidyverse` los obtienes todos de una vez.
+:::
+
+::: {.warn}
+`clean_names()` de `janitor` convierte nombres como `"Nombre Alumno"` o `"NOTA.FINAL"` a `nombre_alumno` y `nota_final`. Úsalo siempre al importar datos de Excel.
+:::
+
+### Explorar y describir datos
+
+| Paquete | Para qué sirve | Función clave |
+|---------|----------------|---------------|
+| `skimr` | Resumen estadístico rápido y legible | `skim()` |
+| `DataExplorer` | Reporte automático de exploración | `create_report()` |
+| `corrr` | Matrices de correlación ordenadas | `correlate()` |
+
+::: {.tip}
+`skim()` es el reemplazo moderno de `summary()`. Muestra histogramas en consola, conteo de `NA`, y estadísticos por tipo de variable.
+:::
+
+### Visualizar datos
+
+| Paquete | Para qué sirve | Función clave |
+|---------|----------------|---------------|
+| `ggplot2` | Visualización declarativa y flexible | `ggplot()` + `geom_*()` |
+| `ggpubr` | Gráficos listos para publicación | `ggboxplot()` `ggbarplot()` |
+| `patchwork` | Combinar múltiples gráficos de ggplot2 | `p1 + p2` / `p1 / p2` |
+| `scales` | Formatear ejes (%, $, miles) | `label_percent()` `label_comma()` |
+| `plotly` | Gráficos interactivos desde ggplot2 | `ggplotly()` |
+
+::: {.note}
+La lógica de `ggplot2` es por capas: primero defines los datos, luego la geometría, luego los ajustes estéticos. Al principio parece raro, pero es muy poderoso una vez que lo internalizas.
+:::
+
+### Análisis estadístico
+
+| Paquete | Para qué sirve | Función clave |
+|---------|----------------|---------------|
+| `stats` | Estadística base (ya viene con R) | `lm()` `t.test()` `cor()` |
+| `broom` | Convertir resultados de modelos en data frames | `tidy()` `glance()` |
+| `psych` | Estadística aplicada a ciencias sociales | `describe()` `alpha()` |
+| `lme4` | Modelos mixtos y multinivel | `lmer()` `glmer()` |
+
+::: {.tip}
+`broom::tidy()` transforma la salida de `lm()` o `t.test()` en una tabla limpia que puedes exportar directamente a Excel o usar en un gráfico.
+:::
+
+### Reportes y documentos
+
+| Paquete | Para qué sirve |
+|---------|----------------|
+| `quarto` | Documentos, presentaciones y sitios web reproducibles |
+| `knitr` | Integrar código R en documentos | 
+| `kableExtra` | Tablas HTML y PDF con formato avanzado |
+| `officer` | Exportar a Word y PowerPoint desde R |
+| `openxlsx` | Crear y escribir archivos Excel con formato |
+
+::: {.note}
+Todo lo que ves en este handout fue generado con **Quarto**. Es el estándar actual para investigación reproducible en R.
+:::
+
+---
+
+## Guía de funciones
+
+### R base
+
+Funciones disponibles sin instalar nada. Son el vocabulario fundamental de R.
+
+#### Objetos y tipos
+
+| Función | Qué hace | Ejemplo |
+|---------|----------|---------|
+| `class(x)` | Tipo de un objeto | `class(3.14)` → `"numeric"` |
+| `typeof(x)` | Tipo interno más específico | `typeof(TRUE)` → `"logical"` |
+| `is.numeric(x)` | ¿Es numérico? | `is.numeric("hola")` → `FALSE` |
+| `is.character(x)` | ¿Es texto? | `is.character("hola")` → `TRUE` |
+| `is.na(x)` | ¿Es valor faltante? | `is.na(NA)` → `TRUE` |
+| `as.numeric(x)` | Convertir a numérico | `as.numeric("25")` → `25` |
+| `as.character(x)` | Convertir a texto | `as.character(100)` → `"100"` |
+| `as.factor(x)` | Convertir a factor | `as.factor("alto")` |
+
+#### Vectores y operaciones
+
+| Función | Qué hace | Ejemplo |
+|---------|----------|---------|
+| `c(...)` | Crear un vector | `c(1, 2, 3)` |
+| `length(x)` | Cantidad de elementos | `length(c(1,2,3))` → `3` |
+| `sum(x)` | Suma | `sum(c(1,2,3))` → `6` |
+| `mean(x)` | Promedio | `mean(c(2,4,6))` → `4` |
+| `median(x)` | Mediana | `median(c(1,2,10))` → `2` |
+| `sd(x)` | Desviación estándar | `sd(c(2,4,6))` |
+| `min(x)` / `max(x)` | Mínimo / máximo | `min(c(3,1,2))` → `1` |
+| `range(x)` | Rango (mín y máx) | `range(c(1,5,3))` → `1 5` |
+| `sort(x)` | Ordenar de menor a mayor | `sort(c(3,1,2))` → `1 2 3` |
+| `rev(x)` | Invertir el orden | `rev(c(1,2,3))` → `3 2 1` |
+| `unique(x)` | Valores únicos | `unique(c(1,1,2))` → `1 2` |
+| `table(x)` | Frecuencias de cada valor | `table(c("a","b","a"))` |
+| `seq(a, b, by)` | Secuencia de números | `seq(1, 10, by=2)` → `1 3 5 7 9` |
+| `rep(x, n)` | Repetir un valor | `rep(0, 3)` → `0 0 0` |
+
+#### Data frames
+
+| Función | Qué hace | Ejemplo |
+|---------|----------|---------|
+| `data.frame(...)` | Crear un data frame | `data.frame(a=1:3, b=c("x","y","z"))` |
+| `head(df, n)` | Primeras n filas (def. 6) | `head(df, 10)` |
+| `tail(df, n)` | Últimas n filas | `tail(df, 5)` |
+| `str(df)` | Estructura y tipos de columnas | `str(estudiantes)` |
+| `summary(df)` | Estadísticas descriptivas | `summary(estudiantes)` |
+| `dim(df)` | Dimensiones (filas, columnas) | `dim(df)` → `100 5` |
+| `nrow(df)` / `ncol(df)` | N° filas / columnas | `nrow(df)` → `100` |
+| `colnames(df)` | Nombres de columnas | `colnames(df)` |
+| `subset(df, cond)` | Filtrar filas | `subset(df, nota >= 6)` |
+
+#### Utilidades generales
+
+| Función | Qué hace | Ejemplo |
+|---------|----------|---------|
+| `ls()` | Listar objetos en memoria | `ls()` |
+| `rm(x)` | Eliminar un objeto | `rm(datos_viejos)` |
+| `getwd()` | Ver carpeta de trabajo actual | `getwd()` |
+| `setwd()` | Cambiar carpeta de trabajo | `setwd("C:/mi_proyecto")` |
+| `install.packages()` | Instalar un paquete | `install.packages("dplyr")` |
+| `library()` | Cargar un paquete | `library(dplyr)` |
+| `help(f)` / `?f` | Abrir documentación | `?mean` |
+| `paste(...)` | Unir texto | `paste("Hola", "mundo")` → `"Hola mundo"` |
+| `paste0(...)` | Unir texto sin separador | `paste0("R", "2024")` → `"R2024"` |
+| `nchar(x)` | Largo de una cadena de texto | `nchar("hola")` → `4` |
+| `print(x)` | Imprimir un objeto | `print(resultado)` |
+| `round(x, n)` | Redondear a n decimales | `round(3.14159, 2)` → `3.14` |
+
+::: {.tip}
+`?función` abre la documentación directamente en RStudio. Es la forma más rápida de entender qué argumentos acepta una función.
+:::
+
+---
+
+### `dplyr` — manipulación de datos
+
+```r
+library(dplyr)
+```
+
+| Función | Qué hace | Ejemplo |
+|---------|----------|---------|
+| `filter(df, cond)` | Filtrar filas por condición | `filter(df, nota >= 6)` |
+| `select(df, cols)` | Seleccionar columnas | `select(df, nombre, nota)` |
+| `mutate(df, ...)` | Crear o modificar columnas | `mutate(df, aprobado = nota >= 5)` |
+| `rename(df, nuevo=viejo)` | Renombrar columna | `rename(df, puntaje = nota)` |
+| `arrange(df, col)` | Ordenar filas | `arrange(df, desc(nota))` |
+| `summarise(df, ...)` | Resumir en una fila | `summarise(df, promedio = mean(nota))` |
+| `group_by(df, col)` | Agrupar para resumir | `group_by(df, curso)` |
+| `count(df, col)` | Contar valores por grupo | `count(df, categoria)` |
+| `distinct(df, col)` | Filas únicas | `distinct(df, nombre)` |
+| `slice(df, n)` | Seleccionar filas por posición | `slice(df, 1:5)` |
+| `pull(df, col)` | Extraer columna como vector | `pull(df, nota)` |
+| `recode(x, ...)` | Recodificar valores exactos | `recode(x, "a" = "A")` |
+| `case_when(...)` | Recodificar con condiciones | ver sección anterior |
+| `left_join(x, y)` | Unir dos tablas por columna común | `left_join(df1, df2, by="id")` |
+
+::: {.note}
+El operador `|>` (pipe) encadena funciones: `df |> filter(...) |> mutate(...) |> summarise(...)`. Lee de izquierda a derecha: "toma df, luego filtra, luego modifica, luego resume".
+:::
+
+---
+
+### `tidyr` — reshaping de datos
+
+```r
+library(tidyr)
+```
+
+| Función | Qué hace | Ejemplo |
+|---------|----------|---------|
+| `pivot_longer(df, cols)` | De ancho a largo (una columna por año → una columna "año") | `pivot_longer(df, cols=2:5, names_to="año", values_to="valor")` |
+| `pivot_wider(df, ...)` | De largo a ancho | `pivot_wider(df, names_from=año, values_from=valor)` |
+| `drop_na(df)` | Eliminar filas con `NA` | `drop_na(df)` |
+| `replace_na(df, list)` | Reemplazar `NA` por un valor | `replace_na(df, list(nota=0))` |
+| `separate(df, col, into)` | Separar una columna en varias | `separate(df, fecha, into=c("año","mes","día"))` |
+| `unite(df, col, ...)` | Unir varias columnas en una | `unite(df, "nombre_completo", nombre, apellido)` |
+
+::: {.warn}
+`pivot_longer()` y `pivot_wider()` reemplazan a las antiguas `gather()` y `spread()`. Si ves código viejo con esas funciones, usa las nuevas versiones.
+:::
+
+---
+
+### `ggplot2` — visualización
+
+```r
+library(ggplot2)
+```
+
+La lógica es por capas: `ggplot(datos, aes(...))` + `geom_*()` + ajustes opcionales.
+
+| Función | Qué hace |
+|---------|----------|
+| `ggplot(df, aes(x, y))` | Iniciar un gráfico |
+| `geom_point()` | Gráfico de puntos (dispersión) |
+| `geom_line()` | Gráfico de líneas |
+| `geom_bar()` | Gráfico de barras (frecuencias) |
+| `geom_col()` | Gráfico de barras (valores) |
+| `geom_histogram()` | Histograma |
+| `geom_boxplot()` | Diagrama de caja |
+| `geom_density()` | Curva de densidad |
+| `facet_wrap(~var)` | Dividir en paneles por variable |
+| `labs(title, x, y)` | Etiquetas del gráfico |
+| `theme_minimal()` | Tema visual limpio |
+| `scale_x_log10()` | Escala logarítmica en X |
+
+```r
+# Ejemplo completo
+ggplot(estudiantes, aes(x = edad, y = nota)) +
+  geom_point(color = "steelblue", size = 3) +
+  labs(title = "Nota según edad", x = "Edad", y = "Nota") +
+  theme_minimal()
+```
+
+::: {.tip}
+`aes()` mapea variables del data frame a propiedades visuales: `aes(x=edad, y=nota, color=categoria)`. Todo lo que varía según los datos va dentro de `aes()`.
+:::
+
+---
+
+### `janitor` — limpieza de datos
+
+```r
+library(janitor)
+```
+
+| Función | Qué hace | Ejemplo |
+|---------|----------|---------|
+| `clean_names(df)` | Estandariza nombres de columnas a snake_case | `clean_names(df)` |
+| `tabyl(df, col)` | Tabla de frecuencias con porcentajes | `tabyl(df, categoria)` |
+| `remove_empty(df)` | Elimina filas y columnas completamente vacías | `remove_empty(df, "rows")` |
+| `get_dupes(df, col)` | Muestra filas duplicadas | `get_dupes(df, rut)` |
+| `adorn_totals()` | Agrega fila/columna de totales a una tabla | `tabyl(df, cat) |> adorn_totals()` |
+| `adorn_pct_formatting()` | Formatea porcentajes en una tabla | `tabyl(df, cat) |> adorn_pct_formatting()` |
+
+::: {.tip}
+`clean_names()` es casi siempre el primer paso al importar datos de Excel. Convierte `"Nombre Alumno"`, `"NOTA FINAL"` o `"Año.Ingreso"` a `nombre_alumno`, `nota_final`, `ano_ingreso`.
+:::
+
+---
+
+### `skimr` — exploración rápida
+
+```r
+library(skimr)
+```
+
+| Función | Qué hace |
+|---------|----------|
+| `skim(df)` | Resumen completo: tipo, NAs, distribución por columna |
+| `skim(df, col1, col2)` | Resumen solo de columnas seleccionadas |
+| `yank(skim_df, "numeric")` | Extraer solo las estadísticas numéricas |
+
+::: {.note}
+`skim()` muestra mini-histogramas en consola para variables numéricas. De un vistazo puedes ver si hay valores atípicos, NAs o distribuciones raras en tus datos.
+:::
+
+---
+
+### `readxl` y `haven` — importar datos
+
+```r
+library(readxl)
+library(haven)
+```
+
+| Función | Paquete | Qué hace |
+|---------|---------|----------|
+| `read_excel(path)` | `readxl` | Leer Excel (`.xlsx` / `.xls`) |
+| `read_excel(path, sheet=2)` | `readxl` | Leer una hoja específica |
+| `read_excel(path, skip=2)` | `readxl` | Saltar filas al inicio |
+| `excel_sheets(path)` | `readxl` | Ver nombres de hojas disponibles |
+| `read_sav(path)` | `haven` | Leer archivo SPSS (`.sav`) |
+| `read_dta(path)` | `haven` | Leer archivo Stata (`.dta`) |
+| `read_sas(path)` | `haven` | Leer archivo SAS |
+| `as_factor(x)` | `haven` | Convertir etiquetas SPSS a factores |
+
+::: {.warn}
+Al importar desde SPSS con `haven`, las variables categóricas vienen como `labelled`. Usa `as_factor()` para convertirlas a factores antes de analizarlas.
+:::
+
+---
+
+---
+
+::: {.footer}
+Taller de Estadística · Licenciatura en Estudios Internacionales · Universidad de Santiago de Chile, Abril 2026<br>
+René Canales · rene.canales@usach.cl · [github.com/renejcanales/estadistica_usach](https://github.com/renejcanales/estadistica_usach)
+:::
