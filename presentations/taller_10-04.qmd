@@ -11,7 +11,7 @@ format:
     code-block-bg: true
     code-block-border-left: "#53AFDA"
     fig-align: center
-    css: styles.scss
+    css: tesis.scss
 ---
 
 ```{r}
@@ -84,14 +84,14 @@ Asistente de Investigación FONDECYT 1250518
 ## Contenidos del taller {background-color="#f8f9fa"}
 
 ::: {.columns}
-::: {.column width="50%"}
+::: {.column width="50%" style="font-size:30px;"}
 ### Parte I
 - ¿Qué es R y por qué usarlo?
 - ¿Qué es RStudio?
 - Componentes de la interfaz
 - Instalación y configuración
 :::
-::: {.column width="50%"}
+::: {.column width="50%" style="font-size:30px;"}
 ### Parte II
 - Objetos y tipos de datos
 - Variables
@@ -105,7 +105,7 @@ Asistente de Investigación FONDECYT 1250518
 ## ¿Qué es R? {background-color="#f8f9fa"}
 
 ::: {.columns}
-::: {.column width="55%"}
+::: {.column width="55%" style="font-size:30px;"}
 R es un **lenguaje de programación estadística** de código abierto, diseñado para:
 
 - Análisis estadístico y modelamiento
@@ -132,13 +132,13 @@ R es **gratuito**, multiplataforma y tiene una comunidad académica muy activa.
 RStudio es un **entorno de desarrollo integrado (IDE)** que hace R más fácil de usar.
 
 ::: {.columns}
-::: {.column width="50%"}
+::: {.column width="50%" style="font-size:30px;"}
 **R** es el motor 🔧  
 **RStudio** es el tablero de control 🖥️
 
 > Puedes usar R sin RStudio, pero RStudio **no funciona sin R**.
 :::
-::: {.column width="50%"}
+::: {.column width="50%" style="font-size:30px;"}
 **Ventajas de RStudio:**
 
 - Interfaz visual amigable
@@ -156,7 +156,7 @@ RStudio es un **entorno de desarrollo integrado (IDE)** que hace R más fácil d
 La interfaz de RStudio tiene **4 paneles principales:**
 
 ::: {.columns}
-::: {.column width="48%"}
+::: {.column width="48%" style="font-size:30px;"}
 **① Script / Editor**  
 Donde escribes y guardas tu código R.
 
@@ -236,7 +236,7 @@ El operador `<-` se usa para **asignar valores** a objetos (también puedes usar
 | `integer` | Números enteros | `1L`, `42L` |
 | `character` | Texto | `"hola"`, `"Bremen"` |
 | `logical` | Verdadero/Falso | `TRUE`, `FALSE` |
-| `factor` | Categorías | `factor("alto", "bajo")` |
+| `factor` | Niveles | `factor("alto", "bajo")` |
 | `NA` | Valor faltante | `NA` |
 
 ```r
