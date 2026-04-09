@@ -2,4 +2,4 @@
 
 ## Presentaciones
 
-[Taller 10/04]() 
+[Taller 10/04](https://renejcanales.github.io/estadistica_usach/presentations/taller_10-04.html) 
