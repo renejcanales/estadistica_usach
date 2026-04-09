@@ -338,7 +338,9 @@ Archivos, Gráficos, Paquetes y Ayuda.</p>
 </section>
 <section id="objetos-en-r" class="slide level2" data-background-color="#f8f9fa">
 <h2>Objetos en R</h2>
+<div style="font-size:25px">
 <p>En R, todo es un <strong>objeto</strong>. Los objetos almacenan información y tienen un tipo.</p>
+</div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># Crear un objeto numérico</span></span>
 <span id="cb2-2"><a href=""></a>edad <span class="ot">&lt;-</span> <span class="dv">25</span></span>
 <span id="cb2-3"><a href=""></a></span>
@@ -352,6 +354,7 @@ Archivos, Gráficos, Paquetes y Ayuda.</p>
 <span id="cb2-11"><a href=""></a><span class="fu">class</span>(edad)         <span class="co"># "numeric"</span></span>
 <span id="cb2-12"><a href=""></a><span class="fu">class</span>(nombre)       <span class="co"># "character"</span></span>
 <span id="cb2-13"><a href=""></a><span class="fu">class</span>(es_estudiante) <span class="co"># "logical"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size:40px">
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -362,6 +365,7 @@ Archivos, Gráficos, Paquetes y Ayuda.</p>
 </div>
 <div class="callout-content">
 <p>El operador <code>&lt;-</code> se usa para <strong>asignar valores</strong> a objetos (también puedes usar <code>=</code>).</p>
+</div>
 </div>
 </div>
 </div>
@@ -416,7 +420,9 @@ Archivos, Gráficos, Paquetes y Ayuda.</p>
 </section>
 <section id="variables-en-r" class="slide level2" data-background-color="#f8f9fa">
 <h2>Variables en R</h2>
+<div style="font-size:25px">
 <p>Una <strong>variable</strong> es un nombre que apunta a un objeto almacenado en memoria.</p>
+</div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># Asignación de variables</span></span>
 <span id="cb4-2"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb4-3"><a href=""></a>y <span class="ot">&lt;-</span> <span class="dv">5</span></span>
@@ -431,6 +437,7 @@ Archivos, Gráficos, Paquetes y Ayuda.</p>
 <span id="cb4-12"><a href=""></a></span>
 <span id="cb4-13"><a href=""></a><span class="co"># Eliminar una variable</span></span>
 <span id="cb4-14"><a href=""></a><span class="fu">rm</span>(x)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size:25px">
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -441,6 +448,7 @@ Archivos, Gráficos, Paquetes y Ayuda.</p>
 </div>
 <div class="callout-content">
 <p>Usa nombres <strong>descriptivos</strong>: <code>edad_promedio</code> es mejor que <code>ep</code> o <code>var1</code>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -502,7 +510,9 @@ Archivos, Gráficos, Paquetes y Ayuda.</p>
 </section>
 <section id="importar-datos-externos" class="slide level2" data-background-color="#f8f9fa">
 <h2>Importar datos externos</h2>
+<div style="font-size:30px">
 <p>En la práctica, cargaremos datos desde archivos externos:</p>
+</div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="co"># CSV (comma-separated values)</span></span>
 <span id="cb8-2"><a href=""></a>datos <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"mi_archivo.csv"</span>)</span>
 <span id="cb8-3"><a href=""></a></span>
@@ -547,6 +557,72 @@ Archivos, Gráficos, Paquetes y Ayuda.</p>
 <span id="cb9-11"><a href=""></a>  <span class="st">"janitor"</span>,     <span class="co"># Limpieza de datos</span></span>
 <span id="cb9-12"><a href=""></a>  <span class="st">"skimr"</span>        <span class="co"># Resúmenes estadísticos</span></span>
 <span id="cb9-13"><a href=""></a>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="recodificar-variables-con-dplyr" class="slide level2" data-background-color="#f8f9fa">
+<h2>Recodificar variables con <code>dplyr</code></h2>
+<div style="font-size:25px">
+<p><strong>Recodificar</strong> significa cambiar los valores de una variable: renombrar categorías, colapsar grupos o crear nuevas etiquetas.</p>
+</div>
+<div style="font-size:25px">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Nota</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>¿Cuándo usar <code>recode()</code>?</strong></p>
+<ul>
+<li>Renombrar categorías de texto</li>
+<li>Cambiar valores por etiquetas</li>
+<li>Corregir errores de entrada</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="co"># Primero cargamos dplyr</span></span>
+<span id="cb10-2"><a href=""></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb10-3"><a href=""></a></span>
+<span id="cb10-4"><a href=""></a><span class="co"># recode() cambia valores específicos</span></span>
+<span id="cb10-5"><a href=""></a>estudiantes <span class="ot">&lt;-</span> estudiantes <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-7"><a href=""></a>    <span class="at">nivel =</span> <span class="fu">recode</span>(nota,</span>
+<span id="cb10-8"><a href=""></a>      <span class="st">"6.5"</span> <span class="ot">=</span> <span class="st">"Bueno"</span>,</span>
+<span id="cb10-9"><a href=""></a>      <span class="st">"5.8"</span> <span class="ot">=</span> <span class="st">"Regular"</span>,</span>
+<span id="cb10-10"><a href=""></a>      <span class="st">"6.9"</span> <span class="ot">=</span> <span class="st">"Excelente"</span>,</span>
+<span id="cb10-11"><a href=""></a>      <span class="st">"6.1"</span> <span class="ot">=</span> <span class="st">"Bueno"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="recodificar-con-condiciones-case_when" class="slide level2" data-background-color="#f8f9fa">
+<h2>Recodificar con condiciones: <code>case_when()</code></h2>
+<div style="font-size:30px">
+<p>Cuando la recodificación depende de <strong>condiciones lógicas</strong>, <code>case_when()</code> es más flexible que <code>recode()</code>.</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>estudiantes </span>
+<span id="cb11-2"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-3"><a href=""></a>    <span class="at">categoria =</span> <span class="fu">case_when</span>(</span>
+<span id="cb11-4"><a href=""></a>      nota <span class="sc">&gt;=</span> <span class="fl">6.5</span>              <span class="sc">~</span> <span class="st">"Distinción"</span>,</span>
+<span id="cb11-5"><a href=""></a>      nota <span class="sc">&gt;=</span> <span class="fl">5.0</span> <span class="sc">&amp;</span> nota <span class="sc">&lt;</span> <span class="fl">6.5</span> <span class="sc">~</span> <span class="st">"Aprobado"</span>,</span>
+<span id="cb11-6"><a href=""></a>      nota <span class="sc">&lt;</span> <span class="fl">5.0</span>               <span class="sc">~</span> <span class="st">"Reprobado"</span></span>
+<span id="cb11-7"><a href=""></a>    )</span>
+<span id="cb11-8"><a href=""></a>  )</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size:30px">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><code>case_when()</code> trabaja con <strong>rangos y condiciones</strong>, no solo valores exactos. Ideal para variables numéricas continuas.</p>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="section" class="title-slide slide level1 center" data-background-color="#53AFDA">
 <h1></h1>

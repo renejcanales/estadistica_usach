@@ -200,7 +200,11 @@ Todo lo que va después de `#` es un **comentario** y R lo ignora. ¡Úsalos par
 
 ## Objetos en R {background-color="#f8f9fa"}
 
+:::{style="font-size:25px"}
+
 En R, todo es un **objeto**. Los objetos almacenan información y tienen un tipo.
+
+:::
 
 ```r
 # Crear un objeto numérico
@@ -218,7 +222,7 @@ class(nombre)       # "character"
 class(es_estudiante) # "logical"
 ```
 
-::: {.callout-important}
+::: {.callout-important style="font-size:40px"}
 El operador `<-` se usa para **asignar valores** a objetos (también puedes usar `=`).
 :::
 
@@ -246,7 +250,11 @@ is.logical(FALSE)     # TRUE
 
 ## Variables en R {background-color="#f8f9fa"}
 
+::: {style="font-size:25px"}
+
 Una **variable** es un nombre que apunta a un objeto almacenado en memoria.
+
+:::
 
 ```r
 # Asignación de variables
@@ -265,7 +273,7 @@ ls()
 rm(x)
 ```
 
-::: {.callout-tip}
+::: {.callout-tip style="font-size:25px"}
 Usa nombres **descriptivos**: `edad_promedio` es mejor que `ep` o `var1`.
 :::
 
@@ -342,8 +350,9 @@ summary(estudiantes)     # Resumen estadístico
 
 ## Importar datos externos {background-color="#f8f9fa"}
 
+:::{style="font-size:30px"}
 En la práctica, cargaremos datos desde archivos externos:
-
+:::
 ```r
 # CSV (comma-separated values)
 datos <- read.csv("mi_archivo.csv")
@@ -386,6 +395,64 @@ install.packages(c(
   "skimr"        # Resúmenes estadísticos
 ))
 ```
+
+## Recodificar variables con `dplyr` {background-color="#f8f9fa"}
+
+::: {style="font-size:25px"}
+
+**Recodificar** significa cambiar los valores de una variable: renombrar categorías, colapsar grupos o crear nuevas etiquetas.
+
+:::
+
+::: {.callout-note style="font-size:25px"}
+
+**¿Cuándo usar `recode()`?**
+
+- Renombrar categorías de texto
+- Cambiar valores por etiquetas
+- Corregir errores de entrada
+
+:::
+
+```r
+# Primero cargamos dplyr
+library(dplyr)
+
+# recode() cambia valores específicos
+estudiantes <- estudiantes |>
+  mutate(
+    nivel = recode(nota,
+      "6.5" = "Bueno",
+      "5.8" = "Regular",
+      "6.9" = "Excelente",
+      "6.1" = "Bueno"))
+```
+
+## Recodificar con condiciones: `case_when()` {background-color="#f8f9fa"}
+
+::: {style="font-size:30px"}
+
+Cuando la recodificación depende de **condiciones lógicas**, `case_when()` es más flexible que `recode()`.
+
+:::
+
+```r
+estudiantes 
+  mutate(
+    categoria = case_when(
+      nota >= 6.5              ~ "Distinción",
+      nota >= 5.0 & nota < 6.5 ~ "Aprobado",
+      nota < 5.0               ~ "Reprobado"
+    )
+  )
+```
+
+::: {.callout-tip style="font-size:30px"}
+
+`case_when()` trabaja con **rangos y condiciones**, no solo valores exactos. Ideal para variables numéricas continuas.
+
+:::
+
 
 # {background-color="#53AFDA"}
 
