@@ -1,0 +1,173 @@
+/* ========================================
+   Estilos para Taller de Estadística
+   Intro a R y RStudio - René Canales
+   ======================================== */
+
+/* ---- Variables de color ---- */
+:root {
+  --azul-principal: #53AFDA;
+  --azul-oscuro: #2a7fa8;
+  --gris-fondo: #f8f9fa;
+  --texto-oscuro: #1a1a2e;
+  --texto-medio: #444;
+  --blanco: #ffffff;
+}
+
+/* ---- Diapositiva de título ---- */
+.title-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 3rem;
+  color: white;
+  height: 100%;
+}
+
+.title-main {
+  font-size: 2.4em;
+  font-weight: 800;
+  color: white !important;
+  margin: 0 0 0.2em 0;
+  line-height: 1.1;
+}
+
+.title-sub {
+  font-size: 1.4em;
+  font-weight: 400;
+  color: rgba(255,255,255,0.92) !important;
+  margin: 0 0 1em 0;
+}
+
+.title-hr {
+  border: none;
+  border-top: 2px solid rgba(255,255,255,0.5);
+  width: 100%;
+  margin: 0.8em 0;
+}
+
+.title-author {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: white;
+  margin: 0.3em 0 0.1em 0;
+}
+
+.title-inst {
+  font-size: 0.85em;
+  color: rgba(255,255,255,0.85);
+  margin: 0.1em 0;
+  line-height: 1.4;
+}
+
+.title-date {
+  font-size: 0.85em;
+  color: rgba(255,255,255,0.75);
+  margin-top: 0.6em;
+  font-style: italic;
+}
+
+/* ---- Encabezados de slides ---- */
+.reveal h2 {
+  color: var(--azul-oscuro);
+  font-size: 1.3em;
+  font-weight: 700;
+  border-bottom: 3px solid var(--azul-principal);
+  padding-bottom: 0.3em;
+  margin-bottom: 0.6em;
+}
+
+.reveal h3 {
+  color: var(--azul-oscuro);
+  font-size: 1em;
+  font-weight: 600;
+}
+
+/* ---- Fondo gris claro para slides de contenido ---- */
+.reveal section[data-background-color="#f8f9fa"] {
+  background-color: #f8f9fa;
+}
+
+/* ---- Código ---- */
+.reveal pre {
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  font-size: 0.7em;
+}
+
+.reveal code {
+  color: #c0392b;
+  background: rgba(0,0,0,0.05);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* ---- Callouts ---- */
+.callout {
+  border-radius: 6px;
+  font-size: 0.85em;
+}
+
+/* ---- Tablas ---- */
+.reveal table {
+  font-size: 0.8em;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reveal table th {
+  background-color: var(--azul-principal);
+  color: white;
+  padding: 0.4em 0.6em;
+}
+
+.reveal table td {
+  padding: 0.3em 0.6em;
+  border-bottom: 1px solid #ddd;
+}
+
+.reveal table tr:nth-child(even) td {
+  background-color: rgba(83, 175, 218, 0.08);
+}
+
+/* ---- Columnas ---- */
+.reveal .columns {
+  gap: 1.5rem;
+}
+
+/* ---- Slide de resumen (fondo azul) ---- */
+.reveal section[data-background-color="#53AFDA"] h2,
+.reveal section[data-background-color="#53AFDA"] h3,
+.reveal section[data-background-color="#53AFDA"] p,
+.reveal section[data-background-color="#53AFDA"] li {
+  color: white !important;
+}
+
+/* ---- Números de slide ---- */
+.reveal .slide-number {
+  background-color: var(--azul-principal);
+  color: white;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.7em;
+}
+
+/* ---- Barra de progreso ---- */
+.reveal .progress {
+  background: rgba(83, 175, 218, 0.3);
+}
+
+.reveal .progress span {
+  background: var(--azul-principal);
+}
+
+/* ---- Blockquotes ---- */
+.reveal blockquote {
+  border-left: 4px solid var(--azul-principal);
+  background: rgba(83, 175, 218, 0.08);
+  padding: 0.5em 1em;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.9em;
+  color: var(--texto-medio);
+}
