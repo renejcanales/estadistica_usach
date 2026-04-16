@@ -1,0 +1,543 @@
+---
+title: "Taller de Estadística II"
+subtitle: "Descriptivos y Bivariados"
+author: "Prof.René Canales"
+date: today
+lang: es
+fontsize: 12pt
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 2
+    toc-expand: 2
+    toc-title: Contents
+    number-sections: true
+    number-depth: 3
+    code-link: true
+    title-block-banner: true
+  pdf:
+    number-sections: true
+    number-depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+En este taller practicaremos el cálculo e interpretación de estadísticos descriptivos utilizando datos reales de la **Encuesta CEP** (Centro de Estudios Públicos), una de las encuestas de opinión pública más relevantes de Chile. Trabajaremos con variables categóricas y continuas, y aprenderemos a representarlas gráficamente con `ggplot2`.
+
+## Objetivos del taller
+
+- Construir tablas de frecuencia para variables categóricas
+- Calcular estadísticos de tendencia central, dispersión y posición para variables continuas
+- Elaborar gráficos descriptivos univariados (barras, histograma, boxplot)
+- Interpretar los resultados obtenidos
+
+---
+
+# Preparación
+
+## Cargar paquetes
+
+```{r}
+#| label: directorio
+#| warning: false
+#| include: false
+
+# Fijamos el directorio para cargar la base de datos
+
+##  setwd("C:/Users/camil/Dropbox/PC/Documents/DOCENCIA/2026/Estadística USACH 2026/Clases/Clase 3")
+##  getwd()
+
+#Instalar paquetes que no tengan con:
+## install.packages("fBasics")
+```
+
+```{r}
+#| label: paquetes
+#| warning: false
+
+
+# Cargar paquetes necesarios
+library(dplyr)    # manipulación
+library(ggplot2)  # gráficos
+library(readr)    # importar
+library(car)      # recodificar
+library(fBasics)  # descriptivos
+library(DT)       # tablas interactivas
+library(tidyr)    # limpieza adicional
+library(here)
+
+# Configuración de visualización
+theme_set(theme_bw())
+options(scipen = 999) # Evita notación científica
+```
+
+## Cargar datos
+
+```{r}
+#| label: datos
+#| warning: false
+
+# Cargar la base de datos
+
+cep <- read.csv(file = here ("bases", "raw", "cep95.csv"), # fijamos la ubicación del archivo
+                          sep = ",", # importante para que R reconozca las columnas correctamente
+                          encoding = "UTF-8",
+                          stringsAsFactors = FALSE)
+
+# Limpieza rápida: Convertir variables clave a factores para mejores gráficos
+# Esto evita que variables como 'región' se traten como números
+cep <- cep %>%
+  mutate(zona_u_r = as.factor(zona_u_r),
+         iden_pol_2 = as.factor(iden_pol_2))
+
+# Ver las primeras filas
+head(cep)
+
+# Revisar los nombres de las variables disponibles
+names(cep)
+```
+
+## Exploración inicial
+
+```{r}
+#| label: exploracion
+
+# Dimensiones de la base (filas = casos, columnas = variables)
+dim(cep)
+
+# Resumen rápido de todas las variables
+glimpse(cep)
+```
+
+> **Antes de continuar:** Revisa el output anterior.
+> ¿Cuántas personas fueron encuestadas? ¿Cuántas variables tiene la base?
+
+---
+
+# Descriptivos para variables categóricas
+
+Las variables categóricas se describen principalmente con **tablas de frecuencia**. Para construirlas usaremos `dplyr`.
+
+## Variable dicotómica: Zona urbana/rural (`ump.zona_u_r`)
+
+```{r}
+#| label: tabla-zona
+
+# Revisión inicial de la variable
+table(cep$zona_u_r)
+
+# Tabla de frecuencias completa
+data_zona <- select(cep, zona_u_r) %>% na.omit()
+
+tabla_zona <- data_zona %>%
+  group_by(zona_u_r) %>%
+  summarise(Frec_abs = n()) %>%
+  mutate(
+    Frec_rel       = prop.table(Frec_abs),
+    Frec_porc      = prop.table(Frec_abs) * 100,
+    Frec_acum      = cumsum(Frec_abs),
+    Frec_acum_rel  = cumsum(Frec_rel),
+    Frec_acum_porc = cumsum(Frec_porc)
+  )
+
+tabla_zona
+```
+
+```{r}
+#| label: recodif-zona
+
+# Recodificamos la variable a formato numérico (1 = Urbano, 0 = Rural)
+cep$zona_num <- as.numeric(car::recode(as.character(cep$zona_u_r),
+                                       "'Urbano'=1; 'Rural'=0"))
+
+# Calculamos la media (= proporción de encuestados urbanos)
+mean(cep$zona_num, na.rm = TRUE)
+```
+
+> **Pregunta de interpretación:**
+> ¿Qué porcentaje de los encuestados/as reside en zona urbana?
+> ¿Qué representa la media de la variable recodificada?
+
+---
+
+## Variable politómica: Identificación política (`iden_pol_2`)
+
+```{r}
+#| label: tabla-idenpol
+
+# Revisión inicial
+table(cep$iden_pol_2)
+
+# Tabla de frecuencias
+data_idenpol <- select(cep, iden_pol_2) %>% na.omit()
+
+tabla_idenpol <- data_idenpol %>%
+  group_by(iden_pol_2) %>%
+  summarise(Frec_abs = n()) %>%
+  mutate(
+    Frec_rel       = prop.table(Frec_abs),
+    Frec_porc      = prop.table(Frec_abs) * 100,
+    Frec_acum      = cumsum(Frec_abs),
+    Frec_acum_rel  = cumsum(Frec_rel),
+    Frec_acum_porc = cumsum(Frec_porc)
+  ) %>%
+  arrange(desc(Frec_abs))
+
+tabla_idenpol
+```
+
+> **Pregunta de interpretación:**
+> ¿Cuál es la identificación política más frecuente en la muestra?
+> ¿Qué porcentaje acumulado representan las dos categorías más frecuentes?
+
+---
+
+# Gráficos para variables categóricas
+
+## Gráfico de barras: Identificación política
+
+```{r}
+#| label: grafico-barras-idenpol
+
+theme_set(theme_bw())
+
+# Gráfico básico
+g1a <- ggplot(cep, aes(x = iden_pol_2)) +
+  geom_bar()
+g1a
+```
+
+```{r}
+#| label: grafico-barras-idenpol-personalizado
+
+# Gráfico con porcentajes y personalización
+theme_set(theme_bw())
+
+g1b <- ggplot(cep, aes(x = iden_pol_2)) +
+  geom_bar(aes(y = (after_stat(count)) / sum(after_stat(count)) * 100),
+           color = "black", fill = "steelblue") +
+  labs(
+    y       = "Porcentaje",
+    x       = "Identificación política",
+    title   = "Distribución de encuestados/as según identificación política",
+    caption = "Fuente: Encuesta CEP N°95"
+  ) +
+  coord_flip()
+g1b
+```
+
+> **Pregunta de interpretación:**
+> ¿Qué ventaja tiene mostrar el gráfico con porcentajes en vez de frecuencias absolutas?
+> ¿En qué situaciones es preferible usar `coord_flip()`?
+
+---
+
+## Ejercicio 1
+
+Construye una tabla de frecuencias y un gráfico de barras para la variable `region`. Personaliza el gráfico usando un color distinto a los ejemplos anteriores.
+
+```{r}
+#| label: ejercicio-1
+
+# Tabla de frecuencias
+data_region <- select(cep, region_3) %>% na.omit()
+
+tabla_region <- data_region %>%
+  group_by(region_3) %>%
+  summarise(Frec_abs = n()) %>%
+  mutate(
+    Frec_porc = prop.table(Frec_abs) * 100
+  ) %>%
+  arrange(desc(Frec_abs))
+
+tabla_region
+
+# Gráfico de barras
+theme_set(theme_bw())
+
+g_ej1 <- ggplot(cep, aes(x = region_3)) +
+  geom_bar(color = "red", fill = "lightblue") +
+  labs(y = "Frecuencia", x = "Región", title = "Distribución de encuestados/as según región") +
+  coord_flip()
+
+g_ej1
+```
+
+> **Pregunta:** ¿Cuál es la región con mayor representación en la muestra?
+
+---
+
+# Descriptivos para variables continuas
+
+Las variables continuas se describen con estadísticos de **tendencia central**, **dispersión** y **posición**.
+
+## Variable continua: Edad
+
+```{r}
+#| label: desc-edad
+
+library(fBasics)
+
+# Medidas de tendencia central y dispersión
+mean(cep$edad,   na.rm = TRUE)   # media
+median(cep$edad, na.rm = TRUE)   # mediana
+min(cep$edad,    na.rm = TRUE)   # mínimo
+max(cep$edad,    na.rm = TRUE)   # máximo
+sd(cep$edad,     na.rm = TRUE)   # desviación estándar
+
+# Cuartiles
+quantile(cep$edad, prob = c(0, 0.25, 0.5, 0.75, 1), na.rm = TRUE)
+
+# Quintiles
+quantile(cep$edad, prob = c(0, 0.2, 0.4, 0.6, 0.8, 1), na.rm = TRUE)
+
+# Deciles
+quantile(cep$edad, prob = seq(0, 1, length = 11), na.rm = TRUE)
+```
+
+```{r}
+#| label: tabla-desc-edad
+
+# Tabla resumen con basicStats()
+tab_edad <- select(cep, edad) %>% na.omit()
+
+tab_edad <- basicStats(tab_edad)[c("Minimum", "Maximum", "Mean",
+                                  "Median", "Stdev",
+                                  "1. Quartile", "3. Quartile",
+                                  "Skewness", "Kurtosis", "NAs"), ]
+
+# Convertir y transponer ANTES de nombrar
+tab_edad <- as.data.frame(t(as.matrix(tab_edad)))
+
+# Ahora sí: nombres de columnas
+colnames(tab_edad) <- c("Mínimo", "Máximo", "Media", "Mediana",
+                        "DS", "Q1", "Q3", "Asimetría", "Curtosis", "NAs")
+
+# Nombre de fila
+rownames(tab_edad) <- "Edad"
+
+# Redondeo
+tab_edad[, 1:9] <- round(tab_edad[, 1:9], digits = 1)
+
+# Tabla interactiva con botón para exportar a Excel
+DT::datatable(tab_edad,
+  caption    = "Tabla 1: Estadísticos descriptivos — Edad",
+  extensions = "Buttons",
+  options    = list(dom = "Bfrtip", buttons = c("excel"))
+)
+```
+
+> **Pregunta de interpretación:**
+> ¿Cuál es la edad promedio de los encuestados/as?
+> ¿Por qué es importante comparar la media con la mediana?
+> ¿Qué nos dice el valor de Q1 y Q3 sobre la distribución de edades?
+
+---
+
+# Gráficos para variables continuas
+
+## Histograma: Edad
+
+```{r}
+#| label: histograma-basico
+
+theme_set(theme_bw())
+
+g2a <- ggplot(cep, aes(x = edad)) +
+  geom_histogram() +
+  labs(y = "Frecuencia", x = "Edad",
+       title = "Distribución de la variable Edad")
+g2a
+```
+
+```{r}
+#| label: histograma-personalizado
+
+theme_set(theme_bw())
+
+g2b <- ggplot(cep, aes(x = edad)) +
+  geom_histogram(binwidth = 5, color = "black", fill = "steelblue") +
+  labs(
+    y       = "Frecuencia",
+    x       = "Edad (años)",
+    title   = "Distribución de la variable Edad",
+    caption = "Fuente: Encuesta CEP N°95"
+  )
+g2b
+```
+
+## Boxplot: Edad
+
+```{r}
+#| label: boxplot-edad
+
+theme_set(theme_bw())
+
+g3a <- ggplot(cep, aes(x = "", y = edad)) +
+  geom_boxplot(fill = "steelblue", outliers = TRUE) +
+  labs(
+    x       = "",
+    y       = "Edad (años)",
+    title   = "Distribución de la variable Edad",
+    caption = "Fuente: Encuesta CEP N°95"
+  )
+g3a
+```
+
+```{r}
+#| label: boxplot-horizontal
+
+theme_set(theme_bw())
+
+g3b <- ggplot(cep, aes(x = "", y = edad)) +
+  geom_boxplot(fill = "steelblue", outliers = TRUE) +
+  labs(
+    x       = "",
+    y       = "Edad (años)",
+    title   = "Distribución de la variable Edad",
+    caption = "Fuente: Encuesta CEP N°95"
+  ) +
+  coord_flip()
+g3b
+```
+
+> **Pregunta de interpretación:**
+> Describe la forma de la distribución: ¿es simétrica o asimétrica?
+> ¿Qué indica la línea central del boxplot? ¿Hay valores atípicos?
+
+---
+
+## Ejercicio 2
+
+Calcule los estadísticos descriptivos y elabore un histograma y un boxplot para la variable `edad` según la variable `zona_u_r`.
+
+```{r}
+#| label: ejercicio-2
+
+# 1. Preparamos un subconjunto de datos limpio
+datos_boxplot <- cep %>%
+  filter(!is.na(zona_u_r), !is.na(edad)) %>% # Quitamos los casos sin respuesta
+  mutate(zona_categoria = as.factor(zona_u_r)) # Convertimos a factor (1=Urbano, 2=Rural)
+
+# 2. Creamos el gráfico
+g_box <- ggplot(datos_boxplot, aes(x = zona_categoria, y = edad, fill = zona_categoria)) +
+  geom_boxplot(
+    alpha = 0.7,               # Hace los colores un poco más suaves
+    outlier.color = "red",     # Resalta los valores atípicos en rojo
+    outlier.size = 2           # Hace los valores atípicos más visibles
+  ) +
+  labs(
+    title = "Distribución de la Edad según Zona de Residencia",
+    subtitle = "Los puntos rojos representan edades atípicas (outliers)",
+    x = "Zona (1 = Urbano, 2 = Rural)",
+    y = "Edad (años)",
+    fill = "Zona"
+  ) +
+  theme_bw() +
+  theme(legend.position = "none") # Quitamos la leyenda porque el eje X ya lo explica
+
+g_box
+```
+
+> **Preguntas de interpretación:**
+>
+> 1. Observa la línea gruesa horizontal en el centro de cada caja (la mediana): ¿Qué grupo tiene una población ligeramente más envejecida?
+> 2. Observando el tamaño de las cajas (Rango Intercuartílico), ¿en qué zona las edades están más concentradas?
+> 3. ¿Qué grupo tiene una mayor variabilidad en la edad?
+---
+
+# Análisis bivariado simple
+
+En esta sección exploraremos la relación entre dos variables: una continua comparada por grupos (boxplot) y dos variables continuas (dispersión).
+
+---
+
+## Gráfico de dispersión: Edad e Interés en la política
+
+```{r}
+#| label: scatter-edad-evalg
+
+theme_set(theme_bw())
+
+g5a_jitter <- ggplot(cep %>% filter(!is.na(interes_pol_1_b), !is.na(edad)), 
+                     aes(x = as.factor(interes_pol_1_b), y = edad)) +
+  # Usamos jitter en vez de point. 'width' controla cuánto se dispersan horizontalmente
+  geom_jitter(alpha = 0.3, width = 0.2, color = "steelblue") + 
+  labs(
+    x       = "Interés en la política",
+    y       = "Edad (años)",
+    title   = "Relación entre edad e interés en la política",
+    caption = "Fuente: Encuesta CEP N°95"
+  )
+
+g5a_jitter
+```
+
+```{r}
+#| label: scatter-tendencia
+
+# Con línea de tendencia lineal
+theme_set(theme_bw())
+
+g5b_jitter <- ggplot(cep, aes(x = edad, y = interes_pol_1_b)) +
+  geom_smooth(method = "lm", color = "firebrick") +
+  geom_jitter(alpha = 0.3, width = 0.2, color = "steelblue") + 
+  labs(
+    x       = "Interés en la política",
+    y       = "Edad (años)",
+    title   = "Relación entre edad e interés en la política",
+    caption = "Fuente: Encuesta CEP N°95")
+    
+g5b_jitter
+```
+
+> **Pregunta de interpretación:**
+> ¿Existe una relación entre edad y interés en la política?
+> ¿La relación es positiva o negativa? ¿Es fuerte o débil?
+
+---
+
+## Ejercicio 3
+
+En este ejercicio analizaremos si la edad influye en el interés por la política. Para ello, construiremos un boxplot comparativo. 
+
+**Instrucciones:**
+1. Filtra los valores perdidos (`NA`) de ambas variables.
+2. Asegúrate de que la variable `interes_pol_1_b` sea leída como una categoría usando `as.factor()`.
+3. Completa el código `ggplot` (¡recuerda NO usar comillas para los nombres de las variables dentro del `aes`!).
+4. Añade un color para resaltar los valores atípicos (outliers).
+
+```{r}
+#| label: ejercicio-3
+
+# 1. Preparar los datos (filtrar NAs y crear el factor)
+datos_ej3 <- cep %>%
+  filter(!is.na(interes_pol_1_b), !is.na(edad)) %>%
+  mutate(interes_cat = as.factor(interes_pol_1_b))
+
+# 2. Construir el gráfico
+theme_set(theme_bw())
+
+g_ej3 <- ggplot(datos_ej3, aes(x = interes_cat, y = edad, fill = interes_cat)) +
+  geom_boxplot(outlier.color = "red", alpha = 0.7) +
+  labs(
+    x       = "Interés en la política (1=Mucho, 4=Ninguno)",
+    y       = "Edad (años)",
+    title   = "Distribución de edad según interés en la política",
+    caption = "Fuente: Encuesta CEP N°95"
+  ) +
+  theme(legend.position = "none") # Quitamos la leyenda porque el eje X ya lo explica
+
+g_ej3
+```
+
+> **Preguntas de interpretación:**
+>
+> 1. ¿La distribución de edad es similar entre zona urbana y rural, o hay diferencias notables?
+> 2. ¿Hay alguna zona con mayor variabilidad en la edad de sus encuestados/as?
+> 3. ¿Qué limitaciones tiene este tipo de gráfico para interpretar diferencias entre grupos?
+
+---

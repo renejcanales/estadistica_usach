@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.23">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Prof.René Canales">
+
+<title>Taller de Estadística II</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="taller_16-04_files/libs/clipboard/clipboard.min.js"></script>
+<script src="taller_16-04_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="taller_16-04_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="taller_16-04_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="taller_16-04_files/libs/quarto-html/popper.min.js"></script>
+<script src="taller_16-04_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="taller_16-04_files/libs/quarto-html/anchor.min.js"></script>
+<link href="taller_16-04_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="taller_16-04_files/libs/quarto-html/quarto-syntax-highlighting-1fe81d0376b2c50856e68e651e390326.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="taller_16-04_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="taller_16-04_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="taller_16-04_files/libs/bootstrap/bootstrap-93216f84ad7ccfb553c7e13a3406b94b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="taller_16-04_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="taller_16-04_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<link href="taller_16-04_files/libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+
+<script src="taller_16-04_files/libs/datatables-binding-0.34.0/datatables.js"></script>
+
+<script src="taller_16-04_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="taller_16-04_files/libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<link href="taller_16-04_files/libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+
+<script src="taller_16-04_files/libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script src="taller_16-04_files/libs/jszip-1.13.6/jszip.min.js"></script>
+
+<link href="taller_16-04_files/libs/dt-ext-buttons-1.13.6/css/buttons.dataTables.min.css" rel="stylesheet">
+
+<script src="taller_16-04_files/libs/dt-ext-buttons-1.13.6/js/dataTables.buttons.min.js"></script>
+
+<script src="taller_16-04_files/libs/dt-ext-buttons-1.13.6/js/buttons.html5.min.js"></script>
+
+<script src="taller_16-04_files/libs/dt-ext-buttons-1.13.6/js/buttons.colVis.min.js"></script>
+
+<script src="taller_16-04_files/libs/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script>
+
+<link href="taller_16-04_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="taller_16-04_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+
+
+</head>
+
+<body class="quarto-light">
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Taller de Estadística II</h1>
+            <p class="subtitle lead">Descriptivos y Bivariados</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Autor/a</div>
+      <div class="quarto-title-meta-contents">
+               <p>Prof.René Canales </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Fecha de publicación</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">16 de abril de 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">1</span> Introducción</a>
+  <ul class="collapse">
+  <li><a href="#objetivos-del-taller" id="toc-objetivos-del-taller" class="nav-link" data-scroll-target="#objetivos-del-taller"><span class="header-section-number">1.1</span> Objetivos del taller</a></li>
+  </ul></li>
+  <li><a href="#preparación" id="toc-preparación" class="nav-link" data-scroll-target="#preparación"><span class="header-section-number">2</span> Preparación</a>
+  <ul class="collapse">
+  <li><a href="#cargar-paquetes" id="toc-cargar-paquetes" class="nav-link" data-scroll-target="#cargar-paquetes"><span class="header-section-number">2.1</span> Cargar paquetes</a></li>
+  <li><a href="#cargar-datos" id="toc-cargar-datos" class="nav-link" data-scroll-target="#cargar-datos"><span class="header-section-number">2.2</span> Cargar datos</a></li>
+  <li><a href="#exploración-inicial" id="toc-exploración-inicial" class="nav-link" data-scroll-target="#exploración-inicial"><span class="header-section-number">2.3</span> Exploración inicial</a></li>
+  </ul></li>
+  <li><a href="#descriptivos-para-variables-categóricas" id="toc-descriptivos-para-variables-categóricas" class="nav-link" data-scroll-target="#descriptivos-para-variables-categóricas"><span class="header-section-number">3</span> Descriptivos para variables categóricas</a>
+  <ul class="collapse">
+  <li><a href="#variable-dicotómica-zona-urbanarural-ump.zona_u_r" id="toc-variable-dicotómica-zona-urbanarural-ump.zona_u_r" class="nav-link" data-scroll-target="#variable-dicotómica-zona-urbanarural-ump.zona_u_r"><span class="header-section-number">3.1</span> Variable dicotómica: Zona urbana/rural (<code>ump.zona_u_r</code>)</a></li>
+  <li><a href="#variable-politómica-identificación-política-iden_pol_2" id="toc-variable-politómica-identificación-política-iden_pol_2" class="nav-link" data-scroll-target="#variable-politómica-identificación-política-iden_pol_2"><span class="header-section-number">3.2</span> Variable politómica: Identificación política (<code>iden_pol_2</code>)</a></li>
+  </ul></li>
+  <li><a href="#gráficos-para-variables-categóricas" id="toc-gráficos-para-variables-categóricas" class="nav-link" data-scroll-target="#gráficos-para-variables-categóricas"><span class="header-section-number">4</span> Gráficos para variables categóricas</a>
+  <ul class="collapse">
+  <li><a href="#gráfico-de-barras-identificación-política" id="toc-gráfico-de-barras-identificación-política" class="nav-link" data-scroll-target="#gráfico-de-barras-identificación-política"><span class="header-section-number">4.1</span> Gráfico de barras: Identificación política</a></li>
+  <li><a href="#ejercicio-1" id="toc-ejercicio-1" class="nav-link" data-scroll-target="#ejercicio-1"><span class="header-section-number">4.2</span> Ejercicio 1</a></li>
+  </ul></li>
+  <li><a href="#descriptivos-para-variables-continuas" id="toc-descriptivos-para-variables-continuas" class="nav-link" data-scroll-target="#descriptivos-para-variables-continuas"><span class="header-section-number">5</span> Descriptivos para variables continuas</a>
+  <ul class="collapse">
+  <li><a href="#variable-continua-edad" id="toc-variable-continua-edad" class="nav-link" data-scroll-target="#variable-continua-edad"><span class="header-section-number">5.1</span> Variable continua: Edad</a></li>
+  </ul></li>
+  <li><a href="#gráficos-para-variables-continuas" id="toc-gráficos-para-variables-continuas" class="nav-link" data-scroll-target="#gráficos-para-variables-continuas"><span class="header-section-number">6</span> Gráficos para variables continuas</a>
+  <ul class="collapse">
+  <li><a href="#histograma-edad" id="toc-histograma-edad" class="nav-link" data-scroll-target="#histograma-edad"><span class="header-section-number">6.1</span> Histograma: Edad</a></li>
+  <li><a href="#boxplot-edad" id="toc-boxplot-edad" class="nav-link" data-scroll-target="#boxplot-edad"><span class="header-section-number">6.2</span> Boxplot: Edad</a></li>
+  <li><a href="#ejercicio-2" id="toc-ejercicio-2" class="nav-link" data-scroll-target="#ejercicio-2"><span class="header-section-number">6.3</span> Ejercicio 2</a></li>
+  </ul></li>
+  <li><a href="#análisis-bivariado-simple" id="toc-análisis-bivariado-simple" class="nav-link" data-scroll-target="#análisis-bivariado-simple"><span class="header-section-number">7</span> Análisis bivariado simple</a>
+  <ul class="collapse">
+  <li><a href="#gráfico-de-dispersión-edad-e-interés-en-la-política" id="toc-gráfico-de-dispersión-edad-e-interés-en-la-política" class="nav-link" data-scroll-target="#gráfico-de-dispersión-edad-e-interés-en-la-política"><span class="header-section-number">7.1</span> Gráfico de dispersión: Edad e Interés en la política</a></li>
+  <li><a href="#ejercicio-3" id="toc-ejercicio-3" class="nav-link" data-scroll-target="#ejercicio-3"><span class="header-section-number">7.2</span> Ejercicio 3</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Otros formatos</h2><ul><li><a href="..\taller_16-04.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="introducción" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introducción</h1>
+<p>En este taller practicaremos el cálculo e interpretación de estadísticos descriptivos utilizando datos reales de la <strong>Encuesta CEP</strong> (Centro de Estudios Públicos), una de las encuestas de opinión pública más relevantes de Chile. Trabajaremos con variables categóricas y continuas, y aprenderemos a representarlas gráficamente con <code>ggplot2</code>.</p>
+<section id="objetivos-del-taller" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="objetivos-del-taller"><span class="header-section-number">1.1</span> Objetivos del taller</h2>
+<ul>
+<li>Construir tablas de frecuencia para variables categóricas</li>
+<li>Calcular estadísticos de tendencia central, dispersión y posición para variables continuas</li>
+<li>Elaborar gráficos descriptivos univariados (barras, histograma, boxplot)</li>
+<li>Interpretar los resultados obtenidos</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="preparación" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Preparación</h1>
+<section id="cargar-paquetes" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="cargar-paquetes"><span class="header-section-number">2.1</span> Cargar paquetes</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar paquetes necesarios</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)    <span class="co"># manipulación</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  <span class="co"># gráficos</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)    <span class="co"># importar</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)      <span class="co"># recodificar</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fBasics)  <span class="co"># descriptivos</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)       <span class="co"># tablas interactivas</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)    <span class="co"># limpieza adicional</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuración de visualización</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">999</span>) <span class="co"># Evita notación científica</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="cargar-datos" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="cargar-datos"><span class="header-section-number">2.2</span> Cargar datos</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar la base de datos</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cep <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">here</span> (<span class="st">"bases"</span>, <span class="st">"raw"</span>, <span class="st">"cep95.csv"</span>), <span class="co"># fijamos la ubicación del archivo</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sep =</span> <span class="st">","</span>, <span class="co"># importante para que R reconozca las columnas correctamente</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">encoding =</span> <span class="st">"UTF-8"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Limpieza rápida: Convertir variables clave a factores para mejores gráficos</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Esto evita que variables como 'región' se traten como números</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>cep <span class="ot">&lt;-</span> cep <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">zona_u_r =</span> <span class="fu">as.factor</span>(zona_u_r),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">iden_pol_2 =</span> <span class="fu">as.factor</span>(iden_pol_2))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver las primeras filas</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cep)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  ump zona_u_r region_3 elec_pres_urna_30 elec_pres_urna_31 elec_pres_urna_32
+1  96        1        8                 5                 2                 1
+2 197        1       13                11                 5                 5
+3 197        1       13                 4                 2                 1
+4  12        1        2                 4                 2                 2
+5 198        1       13                 3                 1                 5
+6 192        1       13                10                 4                 4
+  elec_pres_urna_33 bienestar_2 bienestar_3 percepcion_2 percepcion_3
+1                 2          10           5            2            1
+2                 5           5           5            2            2
+3                 2           5           5            3            3
+4                 2           3           1            1            2
+5                 1           8           5            3            3
+6                 4          10           6            3            2
+  percepcion_5 percepcion_6 percepcion_38 percepcion_4 eval_gob_1 iden_pol_2
+1            3            1             4            3          2          3
+2            3            3             3            2          1         -9
+3            2            2             4            2          2         10
+4            3            3             5            3          2          8
+5            3            2             3            2          1          3
+6            2            1             4            2         -8         -8
+  eval_act_pol_1_fh eval_act_pol_1_ae eval_act_pol_1_el eval_act_pol_1_dv
+1                 1                 6                 3                 5
+2                 5                 2                 3                 1
+3                 2                 3                 2                 5
+4                 1                 3                 1                 3
+5                 4                 2                 4                 2
+6                 2                 6                 6                 6
+  eval_act_pol_1_em eval_act_pol_1_hb eval_act_pol_1_ft eval_act_pol_1_gq
+1                 6                 6                 3                 3
+2                 2                 2                 1                 2
+3                 3                 2                 4                 4
+4                 1                 1                 3                 1
+5                 2                 6                 6                 2
+6                 6                 6                 6                 6
+  eval_act_pol_1_gw eval_act_pol_1_hd eval_act_pol_1_x eval_act_pol_1_gt
+1                 6                 5                5                 3
+2                 1                 1                1                 5
+3                 2                 5                4                 1
+4                 2                 5                1                 1
+5                 6                 2                3                 4
+6                 6                 6                6                 6
+  eval_act_pol_1_fa eval_act_pol_1_hc eval_act_pol_1_gx confianza_6_a
+1                 6                 6                 6             3
+2                 2                 3                 1             2
+3                 3                 2                 3             2
+4                 3                 2                 6             3
+5                 2                 2                 6             3
+6                 6                 6                 6             1
+  confianza_6_b confianza_6_c confianza_6_j confianza_6_d confianza_6_e
+1             2             2             3             3             1
+2             3             2             2             3             2
+3             3             1             4             4             2
+4             2             2             4             4             3
+5             3             2             3             3             3
+6             1             3             3             3             3
+  confianza_6_f confianza_6_n confianza_6_x confianza_6_g confianza_6_h
+1             4             2             3             2             2
+2             3             2             3             2             3
+3             2             4             3             2             2
+4             4             2             3             4             2
+5             3             2             3             3             2
+6             2             2             3             3             3
+  confianza_6_i confianza_6_k confianza_6_s confianza_6_o confianza_6_p
+1             4             4             2             2             3
+2             2             3             3             3             3
+3             4             2             3             2             3
+4             4             4             2             2             4
+5             2             3             2             3             2
+6             3             3             3             3             3
+  confianza_6_r confianza_6_m confianza_6_ab confianza_6_ac democracia_38
+1             2             2              2              3             8
+2             2             2              3              3             5
+3             2             1              2              3             2
+4             2             3              3              3            10
+5             2             2              3              3             7
+6             3             1              2              2            10
+  pobreza_63 pobreza_62 religion_14 religion_64 democracia_21 democracia_37_a
+1          5          5           2           2             2               1
+2          4          3           2           2             2               2
+3          5          3           2           2             3               1
+4         10         10           2           3             1               1
+5          7          6           2           2             1               1
+6         10         10           2           2             3               1
+  democracia_37_b democracia_37_c democracia_37_d pp_congreso_61_b
+1               1               3               2                1
+2               3               3               3                2
+3               1               4               4                2
+4               2               3               1                2
+5               1               3               3                2
+6               1               1               1                2
+  polarizacion_1_a polarizacion_1_b polarizacion_6_a polarizacion_6_b
+1                4                5                5                5
+2                2                5               10                1
+3               10                1                1               10
+4               10                0                0                2
+5                3                6                9                5
+6                5                0               -8               -8
+  polarizacion_6_c polarizacion_6_d polarizacion_6_e confianza_17
+1                5                5                5            3
+2                2                2                1            4
+3               10                8                8            3
+4               10                2                0            3
+5                4                5                5            1
+6               -8               -8               -8           -8
+  interes_pol_1_b interes_pol_2_a interes_pol_2_b interes_pol_2_c
+1               4               3               2               3
+2               5               2               2               2
+3               3               2               2               3
+4               2               1               2               1
+5               3               2               3               2
+6               5               3               3               3
+  interes_pol_2_d interes_pol_2_e interes_pol_2_f iden_pol_3 iden_pol_3_a
+1               2               2               3          9           NA
+2               3               2               3         15           15
+3               2               2               3         27           NA
+4               2               1               1         27           NA
+5               2               2               3         15           15
+6               3               3               3         15           15
+  elec_part_37 elec_pres_144_a elec_pres_144_b2 elec_pres_125 elec_part_4
+1            1               2               NA             3           1
+2            1               1               NA             2           1
+3            1               2               NA             2           1
+4            1               2               NA             2           1
+5            1               1               NA             2           1
+6            2              NA                5             4           4
+  elec_pres_1_responde elec_pres_2_responde elec_pres_148 elec_pres_149_a
+1                    1                    1             5               3
+2                    1                    1             3               3
+3                    1                    1             4               2
+4                    1                    1             4               3
+5                    1                    1             3               3
+6                    8                    8            -8               3
+  elec_pres_149_b elec_pres_149_c elec_pres_149_d elec_pres_149_e
+1               3               2               2               2
+2               3               1               3               3
+3               3               3               1               2
+4               3               3               1               3
+5               2               1               3               3
+6               3               3               3               3
+  elec_pres_149_f elec_pres_149_g elec_pres_149_h elec_pres_150_a
+1               3               3               2               2
+2               3               3               3               1
+3               2               2               2               2
+4               3               3               3               2
+5               3               3               3               1
+6               3               3               3               3
+  elec_pres_150_b elec_pres_150_c elec_pres_151_a elec_pres_151_b
+1               1               2               5               5
+2               3               1               2               3
+3               1               2               0               3
+4               1               2               0               0
+5               2               1               0               6
+6               3               3              -8              -8
+  elec_pres_151_c elec_pres_151_d elec_pres_151_e elec_pres_151_f
+1               1              10              10               5
+2               1               8               8               7
+3               1              10              10               8
+4               0              10               7               4
+5               2               7              10               7
+6              -8              -8              -8              -8
+  elec_pres_151_g elec_pres_151_h elec_pres_152_a elec_pres_152_b
+1               5               5               8               8
+2               5               5               3               3
+3               5              10               4               4
+4               5               3               4               4
+5               5               6               3               3
+6              -8              -8              -8              -8
+  elec_pres_152_c elec_pres_152_d elec_pres_152_e elec_pres_152_f
+1               3               5               8               5
+2               3               3               3               3
+3               4               4               6               4
+4               4               4               4               4
+5               3               3               3               3
+6              -8              -8              -8              -8
+  elec_pres_153_a elec_pres_153_b elec_pres_153_c elec_pres_153_d
+1               8               5               5               5
+2               3               3               3               3
+3               4               4               4               4
+4               4               4               4               4
+5               3               5               3               3
+6              -8              -8              -8              -8
+  elec_pres_153_e elec_pres_153_f elec_pres_153_g elec_pres_153_h
+1               5               5               5               5
+2               3               3               3               3
+3               4               4               4               4
+4               4               4               4               4
+5               3               5               5               3
+6              -8              -8              -8              -8
+  elec_pres_145_a elec_pres_145_b democracia_12 anomia_4_a bienestar_19_c
+1               7               6             3          3              3
+2               4               1             2          3              4
+3              12               7             2          3              4
+4               4               3             3          4              2
+5               2               1             3          2              4
+6               2               7             3          2              3
+  bienestar_19_d bienestar_19_e rol_gobierno_16 ciudadania_16 ciudadania_34
+1              4              4               3             4             3
+2              4              4               4             3             7
+3              4              4               3             4             2
+4             -8             -8               3             5             1
+5              4              4               1             4             1
+6              4              1               4             4             2
+  sexo edad nac_dia nac_mes nac_ano info_enc_59_2_otro info_enc_58
+1    2   25       2       6    2000                 NA           1
+2    2   63      18      11    1961                 NA           2
+3    1   61       8       3    1963                 NA           2
+4    1   62      14      12    1962                 NA           2
+5    2   86       1       1    1939                 NA           2
+6    2   34      17      12    1990                 NA           2
+  info_enc_30_b info_enc_30_b_otro mtf_60_aux mtf_60 info_enc_50_a_aux
+1             5                 NA          1      0                NA
+2            NA                 NA          1      3                 1
+3            NA                 NA          1      0                NA
+4            NA                 NA          1      3                 1
+5            NA                 NA          1      2                 1
+6            NA                 NA          1      1                 1
+  info_enc_50_a estado_civil_g educacion_104_a info_enc_61 info_enc_57
+1            NA              5               4           2           1
+2             1              1               4           2           2
+3            NA              8               4           2           1
+4             3              6               6           2           1
+5             2              7               3           2           1
+6             1              8               1           2           1
+  info_hogar_28_c info_enc_12_c info_enc_12_c_otro info_enc_35 info_enc_20_c
+1              NA             2                 NA           1             8
+2               5             1                 NA           3             3
+3              NA             1                 NA           1             4
+4              NA             2                 NA           1             4
+5              NA             7                 NA           3             5
+6              NA             1                 NA           1             3
+  info_hogar_3_c gse      pond encuesta encuesta_a encuesta_m id_bu_encuesta
+1              8   4 0.5854936       95       2025          9              1
+2              4   3 0.5274519       95       2025          9              2
+3              4   4 0.2664923       95       2025          9              3
+4              4   3 0.4739814       95       2025          9              4
+5              5   3 0.4242343       95       2025          9              5
+6              3   3 0.4141876       95       2025          9              6
+  id_bu percepcion_1_a percepcion_1_b percepcion_1_c democracia_20
+1  1-95              1             13              4             3
+2  2-95             16             10              1             2
+3  3-95              6              3             14             4
+4  4-95              3              2              4             5
+5  5-95              3              1             10             4
+6  6-95              2             14              6             2
+  elec_pres_147 elec_parla_36_a elec_parla_36_b elec_parla_36_c elec_parla_36_d
+1             3               2               2               1               1
+2            -9               1               1               1               2
+3             5               2               2               2               1
+4             5               2               2               2               2
+5             1               1               1               1               2
+6            NA              -8              -8              -8              -8
+  elec_parla_36_e elec_parla_36_f esc_nivel_1_c info_enc_59_2 estrato  secu
+1               1               1             8             1      12 95096
+2               2               1             4             1      20 95197
+3               1               2             4             1      20 95197
+4               1               2             4             1       2 95012
+5               2               2             8             1      20 95198
+6              -8              -8             4             2      20 95192</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Revisar los nombres de las variables disponibles</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cep)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "ump"                  "zona_u_r"             "region_3"            
+  [4] "elec_pres_urna_30"    "elec_pres_urna_31"    "elec_pres_urna_32"   
+  [7] "elec_pres_urna_33"    "bienestar_2"          "bienestar_3"         
+ [10] "percepcion_2"         "percepcion_3"         "percepcion_5"        
+ [13] "percepcion_6"         "percepcion_38"        "percepcion_4"        
+ [16] "eval_gob_1"           "iden_pol_2"           "eval_act_pol_1_fh"   
+ [19] "eval_act_pol_1_ae"    "eval_act_pol_1_el"    "eval_act_pol_1_dv"   
+ [22] "eval_act_pol_1_em"    "eval_act_pol_1_hb"    "eval_act_pol_1_ft"   
+ [25] "eval_act_pol_1_gq"    "eval_act_pol_1_gw"    "eval_act_pol_1_hd"   
+ [28] "eval_act_pol_1_x"     "eval_act_pol_1_gt"    "eval_act_pol_1_fa"   
+ [31] "eval_act_pol_1_hc"    "eval_act_pol_1_gx"    "confianza_6_a"       
+ [34] "confianza_6_b"        "confianza_6_c"        "confianza_6_j"       
+ [37] "confianza_6_d"        "confianza_6_e"        "confianza_6_f"       
+ [40] "confianza_6_n"        "confianza_6_x"        "confianza_6_g"       
+ [43] "confianza_6_h"        "confianza_6_i"        "confianza_6_k"       
+ [46] "confianza_6_s"        "confianza_6_o"        "confianza_6_p"       
+ [49] "confianza_6_r"        "confianza_6_m"        "confianza_6_ab"      
+ [52] "confianza_6_ac"       "democracia_38"        "pobreza_63"          
+ [55] "pobreza_62"           "religion_14"          "religion_64"         
+ [58] "democracia_21"        "democracia_37_a"      "democracia_37_b"     
+ [61] "democracia_37_c"      "democracia_37_d"      "pp_congreso_61_b"    
+ [64] "polarizacion_1_a"     "polarizacion_1_b"     "polarizacion_6_a"    
+ [67] "polarizacion_6_b"     "polarizacion_6_c"     "polarizacion_6_d"    
+ [70] "polarizacion_6_e"     "confianza_17"         "interes_pol_1_b"     
+ [73] "interes_pol_2_a"      "interes_pol_2_b"      "interes_pol_2_c"     
+ [76] "interes_pol_2_d"      "interes_pol_2_e"      "interes_pol_2_f"     
+ [79] "iden_pol_3"           "iden_pol_3_a"         "elec_part_37"        
+ [82] "elec_pres_144_a"      "elec_pres_144_b2"     "elec_pres_125"       
+ [85] "elec_part_4"          "elec_pres_1_responde" "elec_pres_2_responde"
+ [88] "elec_pres_148"        "elec_pres_149_a"      "elec_pres_149_b"     
+ [91] "elec_pres_149_c"      "elec_pres_149_d"      "elec_pres_149_e"     
+ [94] "elec_pres_149_f"      "elec_pres_149_g"      "elec_pres_149_h"     
+ [97] "elec_pres_150_a"      "elec_pres_150_b"      "elec_pres_150_c"     
+[100] "elec_pres_151_a"      "elec_pres_151_b"      "elec_pres_151_c"     
+[103] "elec_pres_151_d"      "elec_pres_151_e"      "elec_pres_151_f"     
+[106] "elec_pres_151_g"      "elec_pres_151_h"      "elec_pres_152_a"     
+[109] "elec_pres_152_b"      "elec_pres_152_c"      "elec_pres_152_d"     
+[112] "elec_pres_152_e"      "elec_pres_152_f"      "elec_pres_153_a"     
+[115] "elec_pres_153_b"      "elec_pres_153_c"      "elec_pres_153_d"     
+[118] "elec_pres_153_e"      "elec_pres_153_f"      "elec_pres_153_g"     
+[121] "elec_pres_153_h"      "elec_pres_145_a"      "elec_pres_145_b"     
+[124] "democracia_12"        "anomia_4_a"           "bienestar_19_c"      
+[127] "bienestar_19_d"       "bienestar_19_e"       "rol_gobierno_16"     
+[130] "ciudadania_16"        "ciudadania_34"        "sexo"                
+[133] "edad"                 "nac_dia"              "nac_mes"             
+[136] "nac_ano"              "info_enc_59_2_otro"   "info_enc_58"         
+[139] "info_enc_30_b"        "info_enc_30_b_otro"   "mtf_60_aux"          
+[142] "mtf_60"               "info_enc_50_a_aux"    "info_enc_50_a"       
+[145] "estado_civil_g"       "educacion_104_a"      "info_enc_61"         
+[148] "info_enc_57"          "info_hogar_28_c"      "info_enc_12_c"       
+[151] "info_enc_12_c_otro"   "info_enc_35"          "info_enc_20_c"       
+[154] "info_hogar_3_c"       "gse"                  "pond"                
+[157] "encuesta"             "encuesta_a"           "encuesta_m"          
+[160] "id_bu_encuesta"       "id_bu"                "percepcion_1_a"      
+[163] "percepcion_1_b"       "percepcion_1_c"       "democracia_20"       
+[166] "elec_pres_147"        "elec_parla_36_a"      "elec_parla_36_b"     
+[169] "elec_parla_36_c"      "elec_parla_36_d"      "elec_parla_36_e"     
+[172] "elec_parla_36_f"      "esc_nivel_1_c"        "info_enc_59_2"       
+[175] "estrato"              "secu"                </code></pre>
+</div>
+</div>
+</section>
+<section id="exploración-inicial" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="exploración-inicial"><span class="header-section-number">2.3</span> Exploración inicial</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dimensiones de la base (filas = casos, columnas = variables)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(cep)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1217  176</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen rápido de todas las variables</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(cep)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,217
+Columns: 176
+$ ump                  &lt;int&gt; 96, 197, 197, 12, 198, 192, 198, 80, 142, 188, 18…
+$ zona_u_r             &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ region_3             &lt;int&gt; 8, 13, 13, 2, 13, 13, 13, 7, 13, 13, 13, 13, 13, …
+$ elec_pres_urna_30    &lt;int&gt; 5, 11, 4, 4, 3, 10, 5, 8, 3, 11, 3, 3, 3, 9, 6, 4…
+$ elec_pres_urna_31    &lt;int&gt; 2, 5, 2, 2, 1, 4, 4, 2, 1, 5, 1, 1, 1, 3, 2, 2, 2…
+$ elec_pres_urna_32    &lt;int&gt; 1, 5, 1, 2, 5, 4, 3, 2, 3, 5, 2, 5, 5, 3, 2, 2, 1…
+$ elec_pres_urna_33    &lt;int&gt; 2, 5, 2, 2, 1, 4, 2, 5, 1, 5, 1, 1, 1, 3, 3, 2, 2…
+$ bienestar_2          &lt;int&gt; 10, 5, 5, 3, 8, 10, 3, 7, 7, 10, 8, 6, 6, 1, 10, …
+$ bienestar_3          &lt;int&gt; 5, 5, 5, 1, 5, 6, 5, 5, 5, 7, 7, 5, 4, 10, 5, 1, …
+$ percepcion_2         &lt;int&gt; 2, 2, 3, 1, 3, 3, 1, 3, 4, 1, 4, 4, 2, 3, 2, 2, 2…
+$ percepcion_3         &lt;int&gt; 1, 2, 3, 2, 3, 2, 3, 2, 2, 1, 2, 1, 2, 2, 2, 1, 2…
+$ percepcion_5         &lt;int&gt; 3, 3, 2, 3, 3, 2, 2, 3, 4, 3, 4, 3, 3, 3, 3, 4, 3…
+$ percepcion_6         &lt;int&gt; 1, 3, 2, 3, 2, 1, 3, 2, 3, 2, 3, 3, 2, 2, 4, 3, 3…
+$ percepcion_38        &lt;int&gt; 4, 3, 4, 5, 3, 4, 4, 4, 3, 5, 2, 4, 3, 5, 5, 4, 5…
+$ percepcion_4         &lt;int&gt; 3, 2, 2, 3, 2, 2, 3, 2, 1, 3, 1, 1, 2, 1, 2, 3, 2…
+$ eval_gob_1           &lt;int&gt; 2, 1, 2, 2, 1, -8, 1, 2, 1, 2, 1, 1, 1, 2, 2, 2, …
+$ iden_pol_2           &lt;fct&gt; 3, -9, 10, 8, 3, -8, 10, 6, 5, 7, 2, 1, 5, 2, 6, …
+$ eval_act_pol_1_fh    &lt;int&gt; 1, 5, 2, 1, 4, 2, 3, 3, 5, 2, 5, 4, 4, 3, 2, 1, 2…
+$ eval_act_pol_1_ae    &lt;int&gt; 6, 2, 3, 3, 2, 6, 4, 3, 3, 3, 2, 2, 1, -8, 3, 3, …
+$ eval_act_pol_1_el    &lt;int&gt; 3, 3, 2, 1, 4, 6, 3, 1, 3, 2, 5, 4, 2, 6, 2, 2, 2…
+$ eval_act_pol_1_dv    &lt;int&gt; 5, 1, 5, 3, 2, 6, 5, 2, 1, 4, 1, 1, 2, -8, 2, 4, …
+$ eval_act_pol_1_em    &lt;int&gt; 6, 2, 3, 1, 2, 6, 3, 6, 2, 3, 3, 3, 4, 6, 3, 2, 6…
+$ eval_act_pol_1_hb    &lt;int&gt; 6, 2, 2, 1, 6, 6, 6, 6, 4, 2, 5, 4, 6, 6, 3, 2, 2…
+$ eval_act_pol_1_ft    &lt;int&gt; 3, 1, 4, 3, 6, 6, 6, 6, 2, 6, 3, 3, 6, 6, 6, 4, 4…
+$ eval_act_pol_1_gq    &lt;int&gt; 3, 2, 4, 1, 2, 6, 6, 3, 4, 6, 6, 6, 6, 6, 6, 6, 6…
+$ eval_act_pol_1_gw    &lt;int&gt; 6, 1, 2, 2, 6, 6, 6, 6, 6, 6, 6, 6, 2, 6, 2, 6, 6…
+$ eval_act_pol_1_hd    &lt;int&gt; 5, 1, 5, 5, 2, 6, 5, 6, 1, 6, 1, 2, 2, 6, 2, 4, 6…
+$ eval_act_pol_1_x     &lt;int&gt; 5, 1, 4, 1, 3, 6, 3, 4, 1, 6, 2, 1, 1, 6, 2, 2, 4…
+$ eval_act_pol_1_gt    &lt;int&gt; 3, 5, 1, 1, 4, 6, 1, 2, 5, 3, 4, 5, 3, -8, 2, 2, …
+$ eval_act_pol_1_fa    &lt;int&gt; 6, 2, 3, 3, 2, 6, 3, 6, 2, 6, 3, 3, 3, 6, 2, 2, 6…
+$ eval_act_pol_1_hc    &lt;int&gt; 6, 3, 2, 2, 2, 6, 3, 3, 6, 6, 6, 5, 6, 6, 6, 6, 6…
+$ eval_act_pol_1_gx    &lt;int&gt; 6, 1, 3, 6, 6, 6, 6, 6, 6, 6, 6, 6, 3, 6, 6, 6, 6…
+$ confianza_6_a        &lt;int&gt; 3, 2, 2, 3, 3, 1, 2, 3, 2, 2, 4, 4, 4, -9, 2, 1, …
+$ confianza_6_b        &lt;int&gt; 2, 3, 3, 2, 3, 1, 2, 3, 2, 4, 4, 3, 4, 4, 4, 4, 1…
+$ confianza_6_c        &lt;int&gt; 2, 2, 1, 2, 2, 3, 3, 3, 3, 1, 4, 4, 2, 4, 4, 3, 1…
+$ confianza_6_j        &lt;int&gt; 3, 2, 4, 4, 3, 3, 3, 4, 4, 3, 3, 3, 4, 4, 4, 4, 4…
+$ confianza_6_d        &lt;int&gt; 3, 3, 4, 4, 3, 3, 4, 4, 3, 3, 3, 2, 4, 4, 4, 4, 2…
+$ confianza_6_e        &lt;int&gt; 1, 2, 2, 3, 3, 3, 3, 3, 2, 3, 4, 3, 3, 4, 4, 4, -…
+$ confianza_6_f        &lt;int&gt; 4, 3, 2, 4, 3, 2, 2, 4, 3, 2, 4, 4, 4, 4, 4, 4, 3…
+$ confianza_6_n        &lt;int&gt; 2, 2, 4, 2, 2, 2, 2, 3, 2, 2, 3, 3, 1, 4, 3, 4, -…
+$ confianza_6_x        &lt;int&gt; 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 4, 3, 4, 4, 4, 4…
+$ confianza_6_g        &lt;int&gt; 2, 2, 2, 4, 3, 3, 3, 3, 3, 3, 3, 3, 2, 4, 3, 3, 4…
+$ confianza_6_h        &lt;int&gt; 2, 3, 2, 2, 2, 3, 2, 4, 2, 2, 4, 4, 3, 4, 3, 3, 1…
+$ confianza_6_i        &lt;int&gt; 4, 2, 4, 4, 2, 3, 4, 4, 1, 3, 2, 3, 4, 3, 4, 4, 4…
+$ confianza_6_k        &lt;int&gt; 4, 3, 2, 4, 3, 3, 4, 4, 3, 1, 3, 3, 4, 4, 4, 4, 3…
+$ confianza_6_s        &lt;int&gt; 2, 3, 3, 2, 2, 3, 4, 3, 2, 2, 4, 3, 2, 4, 3, 3, 2…
+$ confianza_6_o        &lt;int&gt; 2, 3, 2, 2, 3, 3, 2, 3, 2, 3, 2, 2, 3, 4, 3, 3, 3…
+$ confianza_6_p        &lt;int&gt; 3, 3, 3, 4, 2, 3, 3, 3, 2, -8, 3, 3, 3, 4, 4, 3, …
+$ confianza_6_r        &lt;int&gt; 2, 2, 2, 2, 2, 3, 2, 2, 3, 2, 4, 3, 3, 4, 3, 2, 1…
+$ confianza_6_m        &lt;int&gt; 2, 2, 1, 3, 2, 1, 2, 1, 2, 2, 3, 2, 2, 4, 3, 3, 2…
+$ confianza_6_ab       &lt;int&gt; 2, 3, 2, 3, 3, 2, 4, 3, 3, 4, 2, 3, 3, 4, 4, 4, 3…
+$ confianza_6_ac       &lt;int&gt; 3, 3, 3, 3, 3, 2, 3, 4, 2, 2, 4, 3, 3, 4, 4, 4, 3…
+$ democracia_38        &lt;int&gt; 8, 5, 2, 10, 7, 10, 2, 7, -8, 6, 4, 7, 6, 0, 8, 1…
+$ pobreza_63           &lt;int&gt; 5, 4, 5, 10, 7, 10, 1, 1, -8, 10, 6, 2, 5, 1, 7, …
+$ pobreza_62           &lt;int&gt; 5, 3, 3, 10, 6, 10, 5, 6, -8, 10, 4, 3, 7, 6, 7, …
+$ religion_14          &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, -8, 3, 3, 3, 2, 1, 2, 1, …
+$ religion_64          &lt;int&gt; 2, 2, 2, 3, 2, 2, 2, 2, -8, 2, 1, 1, 2, 2, 1, 3, …
+$ democracia_21        &lt;int&gt; 2, 2, 3, 1, 1, 3, 3, 2, -8, 1, 1, 1, 2, 2, 1, 2, …
+$ democracia_37_a      &lt;int&gt; 1, 2, 1, 1, 1, 1, 2, 1, -8, 1, 1, 1, 2, 2, 1, 2, …
+$ democracia_37_b      &lt;int&gt; 1, 3, 1, 2, 1, 1, 2, 1, -8, 2, 2, 1, 2, 1, 1, 2, …
+$ democracia_37_c      &lt;int&gt; 3, 3, 4, 3, 3, 1, 3, 2, -8, 3, 4, 4, 2, 4, 4, 2, …
+$ democracia_37_d      &lt;int&gt; 2, 3, 4, 1, 3, 1, 2, 1, -8, 2, 2, 2, 3, 1, 1, 2, …
+$ pp_congreso_61_b     &lt;int&gt; 1, 2, 2, 2, 2, 2, 2, 1, -8, 1, 1, 1, 1, 1, 2, 2, …
+$ polarizacion_1_a     &lt;int&gt; 4, 2, 10, 10, 3, 5, 8, 7, -8, 5, 0, 5, 0, 7, 5, 5…
+$ polarizacion_1_b     &lt;int&gt; 5, 5, 1, 0, 6, 0, 3, 4, -8, 5, 5, 5, 0, 5, 3, 0, …
+$ polarizacion_6_a     &lt;int&gt; 5, 10, 1, 0, 9, -8, 3, 3, -8, 5, 7, 5, 5, -8, 2, …
+$ polarizacion_6_b     &lt;int&gt; 5, 1, 10, 2, 5, -8, 9, 3, -8, 5, 0, 0, 0, -8, 1, …
+$ polarizacion_6_c     &lt;int&gt; 5, 2, 10, 10, 4, -8, 5, 5, -8, 5, 0, 5, 3, -8, 0,…
+$ polarizacion_6_d     &lt;int&gt; 5, 2, 8, 2, 5, -8, 8, 5, -8, 5, 3, 1, 0, -8, 6, 5…
+$ polarizacion_6_e     &lt;int&gt; 5, 1, 8, 0, 5, -8, 8, 8, -8, 5, 3, 4, 0, -8, 5, 5…
+$ confianza_17         &lt;int&gt; 3, 4, 3, 3, 1, -8, 3, 3, -8, 2, 2, 1, 3, 4, 2, 3,…
+$ interes_pol_1_b      &lt;int&gt; 4, 5, 3, 2, 3, 5, 3, 4, -8, 4, 3, 3, 3, 5, 2, 3, …
+$ interes_pol_2_a      &lt;int&gt; 3, 2, 2, 1, 2, 3, 3, 2, -8, 3, 2, 2, 3, 3, 2, 2, …
+$ interes_pol_2_b      &lt;int&gt; 2, 2, 2, 2, 3, 3, 2, 2, -8, 3, 2, 2, 2, 3, 1, 2, …
+$ interes_pol_2_c      &lt;int&gt; 3, 2, 3, 1, 2, 3, 2, 2, -8, 3, 1, 1, 3, 3, 2, 2, …
+$ interes_pol_2_d      &lt;int&gt; 2, 3, 2, 2, 2, 3, 3, 2, -8, 3, 1, 2, 1, 3, 2, 2, …
+$ interes_pol_2_e      &lt;int&gt; 2, 2, 2, 1, 2, 3, 3, 3, -8, 3, 2, 1, 1, 3, 2, 2, …
+$ interes_pol_2_f      &lt;int&gt; 3, 3, 3, 1, 3, 3, 3, 3, -8, 3, 2, 3, 1, 3, 3, 2, …
+$ iden_pol_3           &lt;int&gt; 9, 15, 27, 27, 15, 15, 18, 20, -8, 18, 25, 3, 20,…
+$ iden_pol_3_a         &lt;int&gt; NA, 15, NA, NA, 15, 15, NA, NA, -8, NA, NA, NA, N…
+$ elec_part_37         &lt;int&gt; 1, 1, 1, 1, 1, 2, 1, 1, 8, 1, 1, 1, 1, 2, 1, 1, 1…
+$ elec_pres_144_a      &lt;int&gt; 2, 1, 2, 2, 1, NA, 2, 1, NA, 2, 1, 1, 1, NA, 1, 2…
+$ elec_pres_144_b2     &lt;int&gt; NA, NA, NA, NA, NA, 5, NA, NA, -8, NA, NA, NA, NA…
+$ elec_pres_125        &lt;int&gt; 3, 2, 2, 2, 2, 4, 2, 3, -8, 2, 2, 2, 4, 4, 2, 2, …
+$ elec_part_4          &lt;int&gt; 1, 1, 1, 1, 1, 4, 1, 1, -8, 2, 1, 1, 1, 3, 1, 1, …
+$ elec_pres_1_responde &lt;int&gt; 1, 1, 1, 1, 1, 8, 1, 1, 8, 1, 1, 1, 1, 1, 1, 1, 1…
+$ elec_pres_2_responde &lt;int&gt; 1, 1, 1, 1, 1, 8, 1, 1, 8, 1, 1, 1, 1, 8, 1, 1, 1…
+$ elec_pres_148        &lt;int&gt; 5, 3, 4, 4, 3, -8, 5, 8, -8, 5, 3, 3, 3, 1, 6, 6,…
+$ elec_pres_149_a      &lt;int&gt; 3, 3, 2, 3, 3, 3, 3, 3, -8, 3, 2, 3, 2, 3, 3, 3, …
+$ elec_pres_149_b      &lt;int&gt; 3, 3, 3, 3, 2, 3, 2, 2, -8, 3, 3, 3, 3, 3, 3, 3, …
+$ elec_pres_149_c      &lt;int&gt; 2, 1, 3, 3, 1, 3, 3, 3, -8, 3, 1, 1, 1, 2, 3, 3, …
+$ elec_pres_149_d      &lt;int&gt; 2, 3, 1, 1, 3, 3, 2, 3, -8, 3, 3, 3, 2, 3, 3, 1, …
+$ elec_pres_149_e      &lt;int&gt; 2, 3, 2, 3, 3, 3, 1, 3, -8, 1, 3, 3, 3, 3, 3, 2, …
+$ elec_pres_149_f      &lt;int&gt; 3, 3, 2, 3, 3, 3, 2, 3, -8, 2, 2, 3, 3, 2, 1, 3, …
+$ elec_pres_149_g      &lt;int&gt; 3, 3, 2, 3, 3, 3, 3, 3, -8, 3, 2, 2, 3, 3, 3, 3, …
+$ elec_pres_149_h      &lt;int&gt; 2, 3, 2, 3, 3, 3, 1, 1, -8, 3, 3, 3, 3, 3, 3, 3, …
+$ elec_pres_150_a      &lt;int&gt; 2, 1, 2, 2, 1, 3, 2, 2, -8, 2, 1, 1, 1, 1, 2, 2, …
+$ elec_pres_150_b      &lt;int&gt; 1, 3, 1, 1, 2, 3, 1, 1, -8, 1, 2, 2, 2, -8, 2, 2,…
+$ elec_pres_150_c      &lt;int&gt; 2, 1, 2, 2, 1, 3, 2, 2, -8, 2, 1, 1, 1, -9, 2, 2,…
+$ elec_pres_151_a      &lt;int&gt; 5, 2, 0, 0, 0, -8, 5, 5, -8, 5, 2, 0, 2, 8, 3, 0,…
+$ elec_pres_151_b      &lt;int&gt; 5, 3, 3, 0, 6, -8, 7, 7, -8, 6, 7, 5, 6, 5, 5, 0,…
+$ elec_pres_151_c      &lt;int&gt; 1, 1, 1, 0, 2, -8, 3, 1, -8, 1, 1, 3, 0, 1, 3, 0,…
+$ elec_pres_151_d      &lt;int&gt; 10, 8, 10, 10, 7, -8, 9, 5, -8, 8, 10, 7, 7, 7, 1…
+$ elec_pres_151_e      &lt;int&gt; 10, 8, 10, 7, 10, -8, 10, 0, -8, 8, 10, 10, 10, 0…
+$ elec_pres_151_f      &lt;int&gt; 5, 7, 8, 4, 7, -8, 10, 6, -8, 7, 8, 10, 8, 5, 7, …
+$ elec_pres_151_g      &lt;int&gt; 5, 5, 5, 5, 5, -8, 7, 5, -8, 5, 5, 5, 5, 0, 5, 0,…
+$ elec_pres_151_h      &lt;int&gt; 5, 5, 10, 3, 6, -8, 8, 8, -8, 6, 8, 6, 5, 4, 5, 1…
+$ elec_pres_152_a      &lt;int&gt; 8, 3, 4, 4, 3, -8, 5, 8, -8, 5, 3, 3, 8, 8, 6, 4,…
+$ elec_pres_152_b      &lt;int&gt; 8, 3, 4, 4, 3, -8, 5, 8, -8, 5, 1, 3, 3, 5, 6, 4,…
+$ elec_pres_152_c      &lt;int&gt; 3, 3, 4, 4, 3, -8, 5, 8, -8, 5, 3, 3, 8, 8, 6, 4,…
+$ elec_pres_152_d      &lt;int&gt; 5, 3, 4, 4, 3, -8, 5, 5, -8, 5, 5, 3, 5, 6, 6, 4,…
+$ elec_pres_152_e      &lt;int&gt; 8, 3, 6, 4, 3, -8, 5, 5, -8, 5, 3, 3, 3, 5, 6, 4,…
+$ elec_pres_152_f      &lt;int&gt; 5, 3, 4, 4, 3, -8, 5, 8, -8, 5, 6, 3, 3, 2, 6, 4,…
+$ elec_pres_153_a      &lt;int&gt; 8, 3, 4, 4, 3, -8, 5, 8, -8, 5, 1, 3, 3, 7, 6, 4,…
+$ elec_pres_153_b      &lt;int&gt; 5, 3, 4, 4, 5, -8, 5, 8, -8, 5, 3, 3, 3, 1, 6, 4,…
+$ elec_pres_153_c      &lt;int&gt; 5, 3, 4, 4, 3, -8, 5, 8, -8, 5, 3, 3, 8, 8, 6, 4,…
+$ elec_pres_153_d      &lt;int&gt; 5, 3, 4, 4, 3, -8, 5, 5, -8, 5, 3, 3, 9, 7, 6, 4,…
+$ elec_pres_153_e      &lt;int&gt; 5, 3, 4, 4, 3, -8, 5, 8, -8, 5, 1, 3, 9, 3, 6, 4,…
+$ elec_pres_153_f      &lt;int&gt; 5, 3, 4, 4, 5, -8, 5, 8, -8, 5, 3, 3, 5, 6, 6, 4,…
+$ elec_pres_153_g      &lt;int&gt; 5, 3, 4, 4, 5, -8, 5, 8, -8, 5, 3, 3, 3, 4, 6, 4,…
+$ elec_pres_153_h      &lt;int&gt; 5, 3, 4, 4, 3, -8, 5, 8, -8, 5, 1, 3, 3, 1, 6, 4,…
+$ elec_pres_145_a      &lt;int&gt; 7, 4, 12, 4, 2, 2, 2, 8, -8, 6, 13, 6, 2, 11, 5, …
+$ elec_pres_145_b      &lt;int&gt; 6, 1, 7, 3, 1, 7, 5, 9, NA, 9, 8, 1, 9, 13, 4, 4,…
+$ democracia_12        &lt;int&gt; 3, 2, 2, 3, 3, 3, 3, 3, -8, 2, 3, 3, 3, 3, 3, 3, …
+$ anomia_4_a           &lt;int&gt; 3, 3, 3, 4, 2, 2, 2, 4, -8, 3, 2, 2, 5, 5, 5, 4, …
+$ bienestar_19_c       &lt;int&gt; 3, 4, 4, 2, 4, 3, 4, 4, -8, 4, 4, 4, 2, 4, 4, 4, …
+$ bienestar_19_d       &lt;int&gt; 4, 4, 4, -8, 4, 4, 4, 4, -8, 4, 4, 4, 3, 4, 4, 4,…
+$ bienestar_19_e       &lt;int&gt; 4, 4, 4, -8, 4, 1, 4, 4, -8, 4, 4, 3, 3, 4, 4, 4,…
+$ rol_gobierno_16      &lt;int&gt; 3, 4, 3, 3, 1, 4, 3, 1, -8, 3, 3, 3, 4, 3, 5, 2, …
+$ ciudadania_16        &lt;int&gt; 4, 3, 4, 5, 4, 4, 4, 5, -8, 2, 4, 4, 4, -9, 5, 5,…
+$ ciudadania_34        &lt;int&gt; 3, 7, 2, 1, 1, 2, 5, 1, 8, 1, 1, 4, 1, 5, 3, 1, 1…
+$ sexo                 &lt;int&gt; 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1…
+$ edad                 &lt;int&gt; 25, 63, 61, 62, 86, 34, 39, 24, 62, 36, 28, 36, 2…
+$ nac_dia              &lt;int&gt; 2, 18, 8, 14, 1, 17, 17, 5, 1, 3, 16, 12, 21, 30,…
+$ nac_mes              &lt;int&gt; 6, 11, 3, 12, 1, 12, 11, 5, 1, 9, 11, 8, 8, 10, 4…
+$ nac_ano              &lt;int&gt; 2000, 1961, 1963, 1962, 1939, 1990, 1985, 2002, 1…
+$ info_enc_59_2_otro   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ info_enc_58          &lt;int&gt; 1, 2, 2, 2, 2, 2, 2, 2, -8, 2, 1, 2, 2, 2, 2, 2, …
+$ info_enc_30_b        &lt;int&gt; 5, NA, NA, NA, NA, NA, NA, NA, NA, NA, 5, NA, NA,…
+$ info_enc_30_b_otro   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ mtf_60_aux           &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 9, 1, 1, 1, 1, 1, 1, 1, 9…
+$ mtf_60               &lt;int&gt; 0, 3, 0, 3, 2, 1, 0, 1, NA, 0, 0, 0, 0, 3, 2, 0, …
+$ info_enc_50_a_aux    &lt;int&gt; NA, 1, NA, 1, 1, 1, NA, 1, NA, NA, NA, NA, NA, 1,…
+$ info_enc_50_a        &lt;int&gt; NA, 1, NA, 3, 2, 1, NA, 1, NA, NA, NA, NA, NA, 1,…
+$ estado_civil_g       &lt;int&gt; 5, 1, 8, 6, 7, 8, 8, 2, -8, 1, 8, 8, 8, 8, 1, 8, …
+$ educacion_104_a      &lt;int&gt; 4, 4, 4, 6, 3, 1, 5, 5, -8, 5, 4, 5, 5, 2, 5, 3, …
+$ info_enc_61          &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, -8, 2, 1, 2, 2, 2, 2, 2, …
+$ info_enc_57          &lt;int&gt; 1, 2, 1, 1, 1, 1, 1, 1, -8, 1, 2, 1, 2, 2, 1, 1, …
+$ info_hogar_28_c      &lt;int&gt; NA, 5, NA, NA, NA, NA, NA, NA, NA, NA, 7, NA, 5, …
+$ info_enc_12_c        &lt;int&gt; 2, 1, 1, 2, 7, 1, 1, 8, -8, 3, 4, 1, 1, 3, 1, 2, …
+$ info_enc_12_c_otro   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ info_enc_35          &lt;int&gt; 1, 3, 1, 1, 3, 1, 1, 3, 8, 2, 2, 1, 1, 2, 1, 1, 1…
+$ info_enc_20_c        &lt;int&gt; 8, 3, 4, 4, 5, 3, 4, 1, -8, 2, 1, 7, 5, 1, 6, 3, …
+$ info_hogar_3_c       &lt;int&gt; 8, 4, 4, 4, 5, 3, 4, 4, -8, 2, 3, 8, 6, 3, 6, 3, …
+$ gse                  &lt;int&gt; 4, 3, 4, 3, 3, 3, 4, 4, 2, 3, 3, 3, 3, 4, 3, 2, 3…
+$ pond                 &lt;dbl&gt; 0.5854936, 0.5274519, 0.2664923, 0.4739814, 0.424…
+$ encuesta             &lt;int&gt; 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 9…
+$ encuesta_a           &lt;int&gt; 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2…
+$ encuesta_m           &lt;int&gt; 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9…
+$ id_bu_encuesta       &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15…
+$ id_bu                &lt;chr&gt; "1-95", "2-95", "3-95", "4-95", "5-95", "6-95", "…
+$ percepcion_1_a       &lt;int&gt; 1, 16, 6, 3, 3, 2, 14, 1, 3, 3, 2, 13, 17, 26, 10…
+$ percepcion_1_b       &lt;int&gt; 13, 10, 3, 2, 1, 14, 1, 11, 10, 14, 16, 6, 13, 12…
+$ percepcion_1_c       &lt;int&gt; 4, 1, 14, 4, 10, 6, 3, 10, 26, 6, 11, 1, 11, 1, 6…
+$ democracia_20        &lt;int&gt; 3, 2, 4, 5, 4, 2, 3, 3, -8, 2, 3, 3, 4, 5, 1, 4, …
+$ elec_pres_147        &lt;int&gt; 3, -9, 5, 5, 1, NA, 5, 4, NA, 5, 1, 2, 6, NA, 5, …
+$ elec_parla_36_a      &lt;int&gt; 2, 1, 2, 2, 1, -8, 2, 2, -8, 2, 1, 1, 2, 1, 2, 2,…
+$ elec_parla_36_b      &lt;int&gt; 2, 1, 2, 2, 1, -8, 2, 2, -8, 2, 1, 1, 2, 1, 2, 2,…
+$ elec_parla_36_c      &lt;int&gt; 1, 1, 2, 2, 1, -8, 2, 1, -8, 2, 1, 1, 2, 1, 2, 2,…
+$ elec_parla_36_d      &lt;int&gt; 1, 2, 1, 2, 2, -8, 1, 1, -8, 1, 2, 2, 2, 1, 1, 1,…
+$ elec_parla_36_e      &lt;int&gt; 1, 2, 1, 1, 2, -8, 1, 1, -8, 1, 2, 2, 2, 1, 1, 1,…
+$ elec_parla_36_f      &lt;int&gt; 1, 1, 2, 2, 2, -8, 2, 1, -8, 1, 1, 1, 1, 1, 2, 1,…
+$ esc_nivel_1_c        &lt;int&gt; 8, 4, 4, 4, 8, 4, 3, 4, NA, 4, 7, 8, 8, 1, 7, 4, …
+$ info_enc_59_2        &lt;int&gt; 1, 1, 1, 1, 1, 2, 1, 1, -8, 1, 1, 1, 1, 5, 1, 1, …
+$ estrato              &lt;int&gt; 12, 20, 20, 2, 20, 20, 20, 10, 20, 20, 20, 20, 20…
+$ secu                 &lt;int&gt; 95096, 95197, 95197, 95012, 95198, 95192, 95198, …</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Antes de continuar:</strong> Revisa el output anterior. ¿Cuántas personas fueron encuestadas? ¿Cuántas variables tiene la base?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="descriptivos-para-variables-categóricas" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Descriptivos para variables categóricas</h1>
+<p>Las variables categóricas se describen principalmente con <strong>tablas de frecuencia</strong>. Para construirlas usaremos <code>dplyr</code>.</p>
+<section id="variable-dicotómica-zona-urbanarural-ump.zona_u_r" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="variable-dicotómica-zona-urbanarural-ump.zona_u_r"><span class="header-section-number">3.1</span> Variable dicotómica: Zona urbana/rural (<code>ump.zona_u_r</code>)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Revisión inicial de la variable</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cep<span class="sc">$</span>zona_u_r)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   1    2 
+1057  160 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla de frecuencias completa</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>data_zona <span class="ot">&lt;-</span> <span class="fu">select</span>(cep, zona_u_r) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>tabla_zona <span class="ot">&lt;-</span> data_zona <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(zona_u_r) <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Frec_abs =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frec_rel       =</span> <span class="fu">prop.table</span>(Frec_abs),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frec_porc      =</span> <span class="fu">prop.table</span>(Frec_abs) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frec_acum      =</span> <span class="fu">cumsum</span>(Frec_abs),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frec_acum_rel  =</span> <span class="fu">cumsum</span>(Frec_rel),</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frec_acum_porc =</span> <span class="fu">cumsum</span>(Frec_porc)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>tabla_zona</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  zona_u_r Frec_abs Frec_rel Frec_porc Frec_acum Frec_acum_rel Frec_acum_porc
+  &lt;fct&gt;       &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;int&gt;         &lt;dbl&gt;          &lt;dbl&gt;
+1 1            1057    0.869      86.9      1057         0.869           86.9
+2 2             160    0.131      13.1      1217         1              100  </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recodificamos la variable a formato numérico (1 = Urbano, 0 = Rural)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cep<span class="sc">$</span>zona_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(car<span class="sc">::</span><span class="fu">recode</span>(<span class="fu">as.character</span>(cep<span class="sc">$</span>zona_u_r),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"'Urbano'=1; 'Rural'=0"</span>))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculamos la media (= proporción de encuestados urbanos)</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(cep<span class="sc">$</span>zona_num, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.131471</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta de interpretación:</strong> ¿Qué porcentaje de los encuestados/as reside en zona urbana? ¿Qué representa la media de la variable recodificada?</p>
+</blockquote>
+<hr>
+</section>
+<section id="variable-politómica-identificación-política-iden_pol_2" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="variable-politómica-identificación-política-iden_pol_2"><span class="header-section-number">3.2</span> Variable politómica: Identificación política (<code>iden_pol_2</code>)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Revisión inicial</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cep<span class="sc">$</span>iden_pol_2)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ -9  -8   1   2   3   4   5   6   7   8   9  10 
+107 158  94  23  49  61 358  77  83  46  27 134 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla de frecuencias</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>data_idenpol <span class="ot">&lt;-</span> <span class="fu">select</span>(cep, iden_pol_2) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>tabla_idenpol <span class="ot">&lt;-</span> data_idenpol <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(iden_pol_2) <span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Frec_abs =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frec_rel       =</span> <span class="fu">prop.table</span>(Frec_abs),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frec_porc      =</span> <span class="fu">prop.table</span>(Frec_abs) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frec_acum      =</span> <span class="fu">cumsum</span>(Frec_abs),</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frec_acum_rel  =</span> <span class="fu">cumsum</span>(Frec_rel),</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frec_acum_porc =</span> <span class="fu">cumsum</span>(Frec_porc)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Frec_abs))</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>tabla_idenpol</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 7
+   iden_pol_2 Frec_abs Frec_rel Frec_porc Frec_acum Frec_acum_rel Frec_acum_porc
+   &lt;fct&gt;         &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;int&gt;         &lt;dbl&gt;          &lt;dbl&gt;
+ 1 5               358   0.294      29.4        850        0.698           69.8 
+ 2 -8              158   0.130      13.0        265        0.218           21.8 
+ 3 10              134   0.110      11.0       1217        1              100   
+ 4 -9              107   0.0879      8.79       107        0.0879           8.79
+ 5 1                94   0.0772      7.72       359        0.295           29.5 
+ 6 7                83   0.0682      6.82      1010        0.830           83.0 
+ 7 6                77   0.0633      6.33       927        0.762           76.2 
+ 8 4                61   0.0501      5.01       492        0.404           40.4 
+ 9 3                49   0.0403      4.03       431        0.354           35.4 
+10 8                46   0.0378      3.78      1056        0.868           86.8 
+11 9                27   0.0222      2.22      1083        0.890           89.0 
+12 2                23   0.0189      1.89       382        0.314           31.4 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta de interpretación:</strong> ¿Cuál es la identificación política más frecuente en la muestra? ¿Qué porcentaje acumulado representan las dos categorías más frecuentes?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="gráficos-para-variables-categóricas" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Gráficos para variables categóricas</h1>
+<section id="gráfico-de-barras-identificación-política" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="gráfico-de-barras-identificación-política"><span class="header-section-number">4.1</span> Gráfico de barras: Identificación política</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico básico</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>g1a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cep, <span class="fu">aes</span>(<span class="at">x =</span> iden_pol_2)) <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>g1a</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_16-04_files/figure-html/grafico-barras-idenpol-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico con porcentajes y personalización</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>g1b <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cep, <span class="fu">aes</span>(<span class="at">x =</span> iden_pol_2)) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (<span class="fu">after_stat</span>(count)) <span class="sc">/</span> <span class="fu">sum</span>(<span class="fu">after_stat</span>(count)) <span class="sc">*</span> <span class="dv">100</span>),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y       =</span> <span class="st">"Porcentaje"</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x       =</span> <span class="st">"Identificación política"</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title   =</span> <span class="st">"Distribución de encuestados/as según identificación política"</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Fuente: Encuesta CEP N°95"</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>g1b</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_16-04_files/figure-html/grafico-barras-idenpol-personalizado-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta de interpretación:</strong> ¿Qué ventaja tiene mostrar el gráfico con porcentajes en vez de frecuencias absolutas? ¿En qué situaciones es preferible usar <code>coord_flip()</code>?</p>
+</blockquote>
+<hr>
+</section>
+<section id="ejercicio-1" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="ejercicio-1"><span class="header-section-number">4.2</span> Ejercicio 1</h2>
+<p>Construye una tabla de frecuencias y un gráfico de barras para la variable <code>region</code>. Personaliza el gráfico usando un color distinto a los ejemplos anteriores.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla de frecuencias</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>data_region <span class="ot">&lt;-</span> <span class="fu">select</span>(cep, region_3) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>tabla_region <span class="ot">&lt;-</span> data_region <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region_3) <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Frec_abs =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frec_porc =</span> <span class="fu">prop.table</span>(Frec_abs) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Frec_abs))</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>tabla_region</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 3
+   region_3 Frec_abs Frec_porc
+      &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;
+ 1       13      519    42.6  
+ 2        5      122    10.0  
+ 3        8       98     8.05 
+ 4        7       65     5.34 
+ 5        4       58     4.77 
+ 6        6       58     4.77 
+ 7       10       50     4.11 
+ 8        9       49     4.03 
+ 9        2       42     3.45 
+10       16       34     2.79 
+11       14       32     2.63 
+12        1       27     2.22 
+13        3       19     1.56 
+14       12       17     1.40 
+15       15       15     1.23 
+16       11       12     0.986</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de barras</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>g_ej1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cep, <span class="fu">aes</span>(<span class="at">x =</span> region_3)) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">color =</span> <span class="st">"red"</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Frecuencia"</span>, <span class="at">x =</span> <span class="st">"Región"</span>, <span class="at">title =</span> <span class="st">"Distribución de encuestados/as según región"</span>) <span class="sc">+</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>g_ej1</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_16-04_files/figure-html/ejercicio-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta:</strong> ¿Cuál es la región con mayor representación en la muestra?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="descriptivos-para-variables-continuas" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Descriptivos para variables continuas</h1>
+<p>Las variables continuas se describen con estadísticos de <strong>tendencia central</strong>, <strong>dispersión</strong> y <strong>posición</strong>.</p>
+<section id="variable-continua-edad" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="variable-continua-edad"><span class="header-section-number">5.1</span> Variable continua: Edad</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fBasics)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Medidas de tendencia central y dispersión</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(cep<span class="sc">$</span>edad,   <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># media</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 50.06984</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(cep<span class="sc">$</span>edad, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># mediana</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 51</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(cep<span class="sc">$</span>edad,    <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># mínimo</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(cep<span class="sc">$</span>edad,    <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># máximo</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 91</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(cep<span class="sc">$</span>edad,     <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># desviación estándar</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18.1895</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuartiles</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(cep<span class="sc">$</span>edad, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="dv">1</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  0%  25%  50%  75% 100% 
+  18   35   51   64   91 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Quintiles</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(cep<span class="sc">$</span>edad, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="dv">1</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  0%  20%  40%  60%  80% 100% 
+  18   31   45   56   66   91 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Deciles</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(cep<span class="sc">$</span>edad, <span class="at">prob =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length =</span> <span class="dv">11</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  0%  10%  20%  30%  40%  50%  60%  70%  80%  90% 100% 
+  18   25   31   37   45   51   56   62   66   75   91 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla resumen con basicStats()</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>tab_edad <span class="ot">&lt;-</span> <span class="fu">select</span>(cep, edad) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>tab_edad <span class="ot">&lt;-</span> <span class="fu">basicStats</span>(tab_edad)[<span class="fu">c</span>(<span class="st">"Minimum"</span>, <span class="st">"Maximum"</span>, <span class="st">"Mean"</span>,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Median"</span>, <span class="st">"Stdev"</span>,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"1. Quartile"</span>, <span class="st">"3. Quartile"</span>,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Skewness"</span>, <span class="st">"Kurtosis"</span>, <span class="st">"NAs"</span>), ]</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir y transponer ANTES de nombrar</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>tab_edad <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(<span class="fu">as.matrix</span>(tab_edad)))</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Ahora sí: nombres de columnas</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tab_edad) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Mínimo"</span>, <span class="st">"Máximo"</span>, <span class="st">"Media"</span>, <span class="st">"Mediana"</span>,</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"DS"</span>, <span class="st">"Q1"</span>, <span class="st">"Q3"</span>, <span class="st">"Asimetría"</span>, <span class="st">"Curtosis"</span>, <span class="st">"NAs"</span>)</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombre de fila</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(tab_edad) <span class="ot">&lt;-</span> <span class="st">"Edad"</span></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Redondeo</span></span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>tab_edad[, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="ot">&lt;-</span> <span class="fu">round</span>(tab_edad[, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla interactiva con botón para exportar a Excel</span></span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(tab_edad,</span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption    =</span> <span class="st">"Tabla 1: Estadísticos descriptivos — Edad"</span>,</span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">extensions =</span> <span class="st">"Buttons"</span>,</span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">options    =</span> <span class="fu">list</span>(<span class="at">dom =</span> <span class="st">"Bfrtip"</span>, <span class="at">buttons =</span> <span class="fu">c</span>(<span class="st">"excel"</span>))</span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-0b327f9160985cc187c9" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-0b327f9160985cc187c9">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"caption":"<caption>Tabla 1: Estadísticos descriptivos — Edad<\/caption>","data":[["Edad"],[18],[91],[50.1],[51],[18.2],[35],[64],[0.1],[-1],[0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Mínimo<\/th>\n      <th>Máximo<\/th>\n      <th>Media<\/th>\n      <th>Mediana<\/th>\n      <th>DS<\/th>\n      <th>Q1<\/th>\n      <th>Q3<\/th>\n      <th>Asimetría<\/th>\n      <th>Curtosis<\/th>\n      <th>NAs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Bfrtip","buttons":["excel"],"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Mínimo","targets":1},{"name":"Máximo","targets":2},{"name":"Media","targets":3},{"name":"Mediana","targets":4},{"name":"DS","targets":5},{"name":"Q1","targets":6},{"name":"Q3","targets":7},{"name":"Asimetría","targets":8},{"name":"Curtosis","targets":9},{"name":"NAs","targets":10}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta de interpretación:</strong> ¿Cuál es la edad promedio de los encuestados/as? ¿Por qué es importante comparar la media con la mediana? ¿Qué nos dice el valor de Q1 y Q3 sobre la distribución de edades?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="gráficos-para-variables-continuas" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Gráficos para variables continuas</h1>
+<section id="histograma-edad" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="histograma-edad"><span class="header-section-number">6.1</span> Histograma: Edad</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>g2a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cep, <span class="fu">aes</span>(<span class="at">x =</span> edad)) <span class="sc">+</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Frecuencia"</span>, <span class="at">x =</span> <span class="st">"Edad"</span>,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Distribución de la variable Edad"</span>)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>g2a</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_16-04_files/figure-html/histograma-basico-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>g2b <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cep, <span class="fu">aes</span>(<span class="at">x =</span> edad)) <span class="sc">+</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y       =</span> <span class="st">"Frecuencia"</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x       =</span> <span class="st">"Edad (años)"</span>,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title   =</span> <span class="st">"Distribución de la variable Edad"</span>,</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Fuente: Encuesta CEP N°95"</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>g2b</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_16-04_files/figure-html/histograma-personalizado-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="boxplot-edad" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="boxplot-edad"><span class="header-section-number">6.2</span> Boxplot: Edad</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>g3a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cep, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> edad)) <span class="sc">+</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">outliers =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x       =</span> <span class="st">""</span>,</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y       =</span> <span class="st">"Edad (años)"</span>,</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title   =</span> <span class="st">"Distribución de la variable Edad"</span>,</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Fuente: Encuesta CEP N°95"</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>g3a</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_16-04_files/figure-html/boxplot-edad-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>g3b <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cep, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> edad)) <span class="sc">+</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">outliers =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x       =</span> <span class="st">""</span>,</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y       =</span> <span class="st">"Edad (años)"</span>,</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title   =</span> <span class="st">"Distribución de la variable Edad"</span>,</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Fuente: Encuesta CEP N°95"</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>g3b</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_16-04_files/figure-html/boxplot-horizontal-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta de interpretación:</strong> Describe la forma de la distribución: ¿es simétrica o asimétrica? ¿Qué indica la línea central del boxplot? ¿Hay valores atípicos?</p>
+</blockquote>
+<hr>
+</section>
+<section id="ejercicio-2" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="ejercicio-2"><span class="header-section-number">6.3</span> Ejercicio 2</h2>
+<p>Calcule los estadísticos descriptivos y elabore un histograma y un boxplot para la variable <code>edad</code> según la variable <code>zona_u_r</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Preparamos un subconjunto de datos limpio</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>datos_boxplot <span class="ot">&lt;-</span> cep <span class="sc">%&gt;%</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(zona_u_r), <span class="sc">!</span><span class="fu">is.na</span>(edad)) <span class="sc">%&gt;%</span> <span class="co"># Quitamos los casos sin respuesta</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">zona_categoria =</span> <span class="fu">as.factor</span>(zona_u_r)) <span class="co"># Convertimos a factor (1=Urbano, 2=Rural)</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Creamos el gráfico</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>g_box <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(datos_boxplot, <span class="fu">aes</span>(<span class="at">x =</span> zona_categoria, <span class="at">y =</span> edad, <span class="at">fill =</span> zona_categoria)) <span class="sc">+</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.7</span>,               <span class="co"># Hace los colores un poco más suaves</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">outlier.color =</span> <span class="st">"red"</span>,     <span class="co"># Resalta los valores atípicos en rojo</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">outlier.size =</span> <span class="dv">2</span>           <span class="co"># Hace los valores atípicos más visibles</span></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribución de la Edad según Zona de Residencia"</span>,</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Los puntos rojos representan edades atípicas (outliers)"</span>,</span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Zona (1 = Urbano, 2 = Rural)"</span>,</span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Edad (años)"</span>,</span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Zona"</span></span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="co"># Quitamos la leyenda porque el eje X ya lo explica</span></span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a>g_box</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_16-04_files/figure-html/ejercicio-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Preguntas de interpretación:</strong></p>
+<ol type="1">
+<li>Observa la línea gruesa horizontal en el centro de cada caja (la mediana): ¿Qué grupo tiene una población ligeramente más envejecida?</li>
+<li>Observando el tamaño de las cajas (Rango Intercuartílico), ¿en qué zona las edades están más concentradas?</li>
+<li><h2 id="qué-grupo-tiene-una-mayor-variabilidad-en-la-edad" data-number="6.4" class="anchored"><span class="header-section-number">6.4</span> ¿Qué grupo tiene una mayor variabilidad en la edad?</h2></li>
+</ol>
+</blockquote>
+</section>
+</section>
+<section id="análisis-bivariado-simple" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Análisis bivariado simple</h1>
+<p>En esta sección exploraremos la relación entre dos variables: una continua comparada por grupos (boxplot) y dos variables continuas (dispersión).</p>
+<hr>
+<section id="gráfico-de-dispersión-edad-e-interés-en-la-política" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="gráfico-de-dispersión-edad-e-interés-en-la-política"><span class="header-section-number">7.1</span> Gráfico de dispersión: Edad e Interés en la política</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>g5a_jitter <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cep <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(interes_pol_1_b), <span class="sc">!</span><span class="fu">is.na</span>(edad)), </span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(interes_pol_1_b), <span class="at">y =</span> edad)) <span class="sc">+</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Usamos jitter en vez de point. 'width' controla cuánto se dispersan horizontalmente</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span> </span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x       =</span> <span class="st">"Interés en la política"</span>,</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y       =</span> <span class="st">"Edad (años)"</span>,</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title   =</span> <span class="st">"Relación entre edad e interés en la política"</span>,</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Fuente: Encuesta CEP N°95"</span></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>g5a_jitter</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_16-04_files/figure-html/scatter-edad-evalg-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Con línea de tendencia lineal</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>g5b_jitter <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cep, <span class="fu">aes</span>(<span class="at">x =</span> edad, <span class="at">y =</span> interes_pol_1_b)) <span class="sc">+</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"firebrick"</span>) <span class="sc">+</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span> </span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x       =</span> <span class="st">"Interés en la política"</span>,</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y       =</span> <span class="st">"Edad (años)"</span>,</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title   =</span> <span class="st">"Relación entre edad e interés en la política"</span>,</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Fuente: Encuesta CEP N°95"</span>)</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>g5b_jitter</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_16-04_files/figure-html/scatter-tendencia-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta de interpretación:</strong> ¿Existe una relación entre edad y interés en la política? ¿La relación es positiva o negativa? ¿Es fuerte o débil?</p>
+</blockquote>
+<hr>
+</section>
+<section id="ejercicio-3" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="ejercicio-3"><span class="header-section-number">7.2</span> Ejercicio 3</h2>
+<p>En este ejercicio analizaremos si la edad influye en el interés por la política. Para ello, construiremos un boxplot comparativo.</p>
+<p><strong>Instrucciones:</strong> 1. Filtra los valores perdidos (<code>NA</code>) de ambas variables. 2. Asegúrate de que la variable <code>interes_pol_1_b</code> sea leída como una categoría usando <code>as.factor()</code>. 3. Completa el código <code>ggplot</code> (¡recuerda NO usar comillas para los nombres de las variables dentro del <code>aes</code>!). 4. Añade un color para resaltar los valores atípicos (outliers).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Preparar los datos (filtrar NAs y crear el factor)</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>datos_ej3 <span class="ot">&lt;-</span> cep <span class="sc">%&gt;%</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(interes_pol_1_b), <span class="sc">!</span><span class="fu">is.na</span>(edad)) <span class="sc">%&gt;%</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">interes_cat =</span> <span class="fu">as.factor</span>(interes_pol_1_b))</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Construir el gráfico</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>g_ej3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(datos_ej3, <span class="fu">aes</span>(<span class="at">x =</span> interes_cat, <span class="at">y =</span> edad, <span class="at">fill =</span> interes_cat)) <span class="sc">+</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.color =</span> <span class="st">"red"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x       =</span> <span class="st">"Interés en la política (1=Mucho, 4=Ninguno)"</span>,</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y       =</span> <span class="st">"Edad (años)"</span>,</span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title   =</span> <span class="st">"Distribución de edad según interés en la política"</span>,</span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Fuente: Encuesta CEP N°95"</span></span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="co"># Quitamos la leyenda porque el eje X ya lo explica</span></span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a>g_ej3</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="taller_16-04_files/figure-html/ejercicio-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Preguntas de interpretación:</strong></p>
+<ol type="1">
+<li>¿La distribución de edad es similar entre zona urbana y rural, o hay diferencias notables?</li>
+<li>¿Hay alguna zona con mayor variabilidad en la edad de sus encuestados/as?</li>
+<li>¿Qué limitaciones tiene este tipo de gráfico para interpretar diferencias entre grupos?</li>
+</ol>
+</blockquote>
+<hr>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
