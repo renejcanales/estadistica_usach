@@ -1,0 +1,458 @@
+---
+title: "Taller de Estadística III"
+subtitle: "Intervalos de Confianza para Medias y Puntajes Z"
+author: "Prof.René Canales"
+date: today
+lang: es
+fontsize: 12pt
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 2
+    toc-expand: 2
+    toc-title: Contents
+    number-sections: true
+    number-depth: 3
+    code-link: true
+    title-block-banner: true
+  pdf:
+    number-sections: true
+    number-depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+# Preparación
+
+## Cargar paquetes
+
+```{r}
+#| label: paquetes
+#| warning: false
+#| message: false
+
+library(dplyr)   # manipulación de datos
+library(readr)   # importar datos
+library(here)    # rutas relativas
+library(car)     # recodificación de variables
+```
+
+## Cargar datos
+
+Trabajaremos con la base de datos de la **Encuesta CEP N°95**, la misma que hemos utilizado en clases anteriores.
+
+```{r}
+#| label: datos
+#| warning: false
+
+cep <- read.csv(file = here("bases", "raw", "cep95.csv"),
+                sep = ",",
+                encoding = "UTF-8",
+                stringsAsFactors = FALSE)
+
+# Ver las primeras filas
+head(cep)
+
+# Revisar los nombres de variables disponibles
+names(cep)
+```
+
+---
+
+# Repaso: carga y recodificación de variables
+
+Antes de entrar en materia nueva, repasemos los pasos de preparación de datos que hemos practicado en clases anteriores. Trabajaremos con las mismas variables de la Encuesta CEP N°95.
+
+## Exploración inicial
+
+```{r}
+#| label: exploracion
+
+# Dimensiones de la base (filas = casos, columnas = variables)
+dim(cep)
+
+# Resumen rápido de todas las variables
+glimpse(cep)
+```
+
+> **Antes de continuar:** ¿Cuántas personas fueron encuestadas? ¿Cuántas variables tiene la base?
+
+## Variable dicotómica: Zona urbana/rural (`zona_u_r`)
+
+```{r}
+#| label: tabla-zona
+
+# Revisión inicial de la variable
+table(cep$zona_u_r)
+
+# Tabla de frecuencias completa
+data_zona <- select(cep, zona_u_r) %>% na.omit()
+
+tabla_zona <- data_zona %>%
+  group_by(zona_u_r) %>%
+  summarise(Frec_abs = n()) %>%
+  mutate(
+    Frec_rel       = prop.table(Frec_abs),
+    Frec_porc      = prop.table(Frec_abs) * 100,
+    Frec_acum      = cumsum(Frec_abs),
+    Frec_acum_rel  = cumsum(Frec_rel),
+    Frec_acum_porc = cumsum(Frec_porc)
+  )
+
+tabla_zona
+```
+
+```{r}
+#| label: recodif-zona
+
+# Recodificamos la variable a formato numérico (1 = Urbano, 0 = Rural)
+# Esto nos permite calcular la proporción de encuestados urbanos directamente con la media
+cep$zona_num <- as.numeric(car::recode(as.character(cep$zona_u_r),
+                                       "'1'=1; '2'=0"))
+
+# Verificamos la recodificación
+table(cep$zona_num)
+
+# La media de una variable dummy equivale a la proporción de la categoría = 1
+mean(cep$zona_num, na.rm = TRUE)
+```
+
+> **Pregunta:** ¿Qué porcentaje de los encuestados/as reside en zona urbana? ¿Qué representa la media de la variable recodificada?
+
+---
+
+## Variable politómica: Identificación política (`iden_pol_2`)
+
+```{r}
+#| label: tabla-idenpol
+
+# Revisión inicial
+table(cep$iden_pol_2)
+
+# Convertimos a factor para trabajar correctamente con la variable
+cep <- cep %>%
+  mutate(iden_pol_2 = as.factor(iden_pol_2))
+
+# Tabla de frecuencias
+data_idenpol <- select(cep, iden_pol_2) %>% na.omit()
+
+tabla_idenpol <- data_idenpol %>%
+  group_by(iden_pol_2) %>%
+  summarise(Frec_abs = n()) %>%
+  mutate(
+    Frec_rel       = prop.table(Frec_abs),
+    Frec_porc      = prop.table(Frec_abs) * 100,
+    Frec_acum      = cumsum(Frec_abs),
+    Frec_acum_rel  = cumsum(Frec_rel),
+    Frec_acum_porc = cumsum(Frec_porc)
+  ) %>%
+  arrange(desc(Frec_abs))
+
+tabla_idenpol
+```
+
+> **Pregunta:** ¿Cuál es la identificación política más frecuente en la muestra? ¿Qué porcentaje acumulado representan las dos categorías más frecuentes?
+
+---
+
+## Variable continua: Edad
+
+```{r}
+#| label: desc-edad
+
+# Medidas de tendencia central y dispersión
+mean(cep$edad,   na.rm = TRUE)
+median(cep$edad, na.rm = TRUE)
+min(cep$edad,    na.rm = TRUE)
+max(cep$edad,    na.rm = TRUE)
+sd(cep$edad,     na.rm = TRUE)
+
+# Cuartiles
+quantile(cep$edad, prob = c(0, 0.25, 0.5, 0.75, 1), na.rm = TRUE)
+```
+
+> **Pregunta:** ¿Cuál es la edad promedio? ¿Por qué es importante comparar la media con la mediana?
+
+---
+
+## Ejercicio de repaso
+
+Construye una tabla de frecuencias para la variable `region_3` y recodifica la variable `zona_u_r` usando `car::recode()`, pero esta vez asignando `2` a Urbano y `1` a Rural. Verifica que la recodificación sea correcta con `table()`.
+
+```{r}
+#| label: ejercicio-repaso
+
+# Tabla de frecuencias para region_3
+data_region <- select(cep, region_3) %>% na.omit()
+
+tabla_region <- data_region %>%
+  group_by(region_3) %>%
+  summarise(Frec_abs = n()) %>%
+  mutate(Frec_porc = prop.table(Frec_abs) * 100) %>%
+  arrange(desc(Frec_abs))
+
+tabla_region
+
+# Recodificación alternativa de zona_u_r
+# Complete el código:
+# cep$zona_num2 <- as.numeric(car::recode(as.character(cep$zona_u_r),
+#                                         "'1'=1; '2'=0"))
+# table(cep$zona_num2)
+```
+
+---
+
+# Recapitulando: distribución muestral y TLC
+
+Antes de calcular intervalos de confianza, recordemos los conceptos clave:
+
+- La **distribución muestral** describe cómo varía un estadístico (por ejemplo, la media) entre distintas muestras extraídas de una misma población.
+- El **Teorema del Límite Central** establece que, para muestras suficientemente grandes (n > 120), la distribución muestral de la media es aproximadamente normal, independientemente de la distribución original de la variable.
+- Esto nos permite usar las propiedades de la distribución normal para hacer **inferencia estadística**.
+
+---
+
+# Puntaje Z
+
+El puntaje Z expresa cuán lejos se encuentra una observación respecto de la media, medido en unidades de desviación estándar:
+
+$$z = \frac{x - \bar{x}}{s}$$
+
+## Ejercicios con puntaje Z
+
+Antes de calcular en R, practiquemos manualmente.
+
+### Ejercicio 1
+
+Una encuesta del Ministerio de Salud encontró que el promedio de horas de ejercicio físico semanal de una muestra de jóvenes chilenos/as es **1.5**, con una desviación estándar de **1**. ¿Qué porcentaje de jóvenes practica **menos de una hora** de ejercicio a la semana?
+
+```{r}
+#| label: ejercicio-z1
+
+# Calculamos el puntaje Z
+media  <- 1.5
+sd     <- 1
+valor  <- 1
+
+z <- (valor - media) / sd
+z
+
+# Probabilidad asociada (área a la izquierda del valor)
+pnorm(z)
+```
+
+> **Interpretación:** Un puntaje z de `r round(z, 2)` corresponde a una probabilidad de `r round(pnorm(z)*100, 1)`%. Es decir, aproximadamente el `r round(pnorm(z)*100, 1)`% de los jóvenes practica menos de una hora de ejercicio a la semana.
+
+---
+
+### Ejercicio 2
+
+El gobierno entregará un bono de navidad a las personas que se encuentren dentro del **10% de las familias con mayor puntaje** en una ficha social. Si esta variable se distribuye de forma normal, con media = 250 y desviación estándar = 48, ¿desde qué puntaje hacia arriba obtendrían el bono?
+
+```{r}
+#| label: ejercicio-z2
+
+media <- 250
+sd    <- 48
+
+# Buscamos el valor que deja el 10% en la cola superior
+puntaje_corte <- qnorm(0.90, mean = media, sd = sd)
+puntaje_corte
+```
+
+> **Interpretación:** Las familias con un puntaje de **`r round(puntaje_corte, 1)`** o más recibirían el bono de navidad.
+
+---
+
+### Ejercicio 3
+
+Los puntajes en un examen de historia tienen un promedio de **80** con una desviación estándar de **6**. ¿Cuál es el puntaje z para un estudiante que obtuvo un **75** en el examen?
+
+```{r}
+#| label: ejercicio-z3
+
+media <- 80
+sd    <- 6
+valor <- 75
+
+z <- (valor - media) / sd
+z
+```
+
+> **Interpretación:** El estudiante que obtuvo 75 puntos se encuentra `r abs(round(z, 2))` desviaciones estándar **por debajo** de la media del curso.
+
+---
+
+# Intervalos de confianza para medias
+
+## Fórmula general
+
+$$IC = \bar{x} \pm t_{\alpha/2} \cdot \frac{s}{\sqrt{n}}$$
+
+Donde:
+
+- $\bar{x}$ es la media muestral (estimador puntual)
+- $t_{\alpha/2}$ es el valor crítico de la distribución t asociado al nivel de confianza
+- $s$ es la desviación estándar muestral
+- $n$ es el tamaño de la muestra (sin valores perdidos)
+
+## Niveles de confianza más comunes
+
+Para muestras grandes (n > 120), los valores t más usados son:
+
+| Nivel de confianza | α    | $t_{\alpha/2}$ |
+|--------------------|------|----------------|
+| 90%                | 0.10 | 1.645          |
+| 95%                | 0.05 | 1.96           |
+| 99%                | 0.01 | 2.58           |
+
+---
+
+## Variable: Edad
+
+### Estimador puntual
+
+```{r}
+#| label: ic-edad-descriptivos
+
+# Estadísticos descriptivos de edad
+summary(cep$edad)
+sd(cep$edad, na.rm = TRUE)
+
+# Calculamos n (sin casos perdidos)
+n_edad <- sum(!is.na(cep$edad))
+n_edad
+```
+
+### Cálculo paso a paso (95% de confianza)
+
+```{r}
+#| label: ic-edad-manual
+
+# Datos necesarios
+media_edad <- mean(cep$edad, na.rm = TRUE)
+sd_edad    <- sd(cep$edad, na.rm = TRUE)
+n_edad     <- sum(!is.na(cep$edad))
+
+# Error estándar
+se_edad <- sd_edad / sqrt(n_edad)
+se_edad
+
+# Valor crítico al 95% de confianza
+t_critico <- 1.96
+
+# Margen de error
+me_edad <- t_critico * se_edad
+me_edad
+
+# Límites del intervalo
+li_edad <- media_edad - me_edad
+ls_edad <- media_edad + me_edad
+
+cat("Intervalo de confianza al 95%: [", round(li_edad, 2), ",", round(ls_edad, 2), "]")
+```
+
+### Cálculo automático con `t.test()`
+
+```{r}
+#| label: ic-edad-ttest-95
+
+# Al 95% de confianza
+t.test(x = cep$edad, conf.level = 0.95)
+```
+
+```{r}
+#| label: ic-edad-ttest-99
+
+# Al 99% de confianza
+t.test(x = cep$edad, conf.level = 0.99)
+```
+
+> **Interpretación:** Con un 95% de confianza, la edad promedio de los chilenos/as (parámetro poblacional) se encuentra entre `r round(li_edad, 1)` y `r round(ls_edad, 1)` años.
+
+---
+
+## Ejercicios: Intervalos de Confianza con datos CEP
+
+### Ejercicio 4
+
+Calcule e interprete el intervalo de confianza al **90%** y al **99%** para la variable `edad`. ¿Qué ocurre con la amplitud del intervalo a medida que aumenta el nivel de confianza?
+
+```{r}
+#| label: ejercicio-ic1
+
+# Al 90% de confianza
+t.test(x = cep$edad, conf.level = 0.90)
+
+# Al 99% de confianza
+t.test(x = cep$edad, conf.level = 0.99)
+```
+
+> **Pregunta:** ¿Cuál intervalo es más amplio? ¿Por qué ocurre esto?
+
+---
+
+### Ejercicio 5
+
+Calcule el intervalo de confianza al **95%** para otra variable continua disponible en la base CEP. Reporte:
+
+1. El estimador puntual (media muestral)
+2. El error estándar
+3. El margen de error
+4. El intervalo de confianza
+5. Una interpretación sustantiva del resultado
+
+```{r}
+#| label: ejercicio-ic2
+
+# Escriba aquí su código
+# Recuerde explorar primero la variable con summary() y sd()
+
+# summary(cep$_____)
+# sd(cep$_____, na.rm = TRUE)
+# t.test(x = cep$_____, conf.level = 0.95)
+```
+
+---
+
+### Ejercicio 6 (Desafío)
+
+Usando la función `t.test()`, calcule el intervalo de confianza al 95% para la variable `edad` **separado por zona urbana y rural** (`zona_u_r`). ¿Los intervalos se solapan? ¿Qué conclusión podemos extraer?
+
+```{r}
+#| label: ejercicio-ic3
+
+# Filtramos por zona (usamos zona_num: 1 = Urbano, 0 = Rural)
+edad_urbana <- cep %>% filter(zona_num == 1) %>% pull(edad)
+edad_rural  <- cep %>% filter(zona_num == 0) %>% pull(edad)
+
+# IC para zona urbana
+t.test(x = edad_urbana, conf.level = 0.95)
+
+# IC para zona rural
+t.test(x = edad_rural, conf.level = 0.95)
+```
+
+> **Preguntas de interpretación:**
+>
+> 1. ¿Cuál es la edad promedio en zona urbana y en zona rural?
+> 2. ¿Los intervalos se solapan? ¿Qué nos dice eso sobre las diferencias entre grupos?
+> 3. ¿Qué limitaciones tiene este análisis?
+
+---
+
+# Síntesis
+
+| Concepto | Definición |
+|---|---|
+| **Puntaje Z** | Distancia de una observación respecto a la media, en unidades de desviación estándar |
+| **Distribución normal** | Distribución teórica simétrica con media 0 y SD 1; base para la inferencia |
+| **Intervalo de confianza** | Rango de valores dentro del cual se estima que está el parámetro poblacional |
+| **Nivel de confianza** | Probabilidad de que el intervalo contenga al parámetro (ej. 95%) |
+| **Error estándar** | Dispersión de la distribución muestral: $se = s / \sqrt{n}$ |
+| **Margen de error** | $t_{\alpha/2} \cdot se$ — qué tan amplio es el intervalo |
+
+> **Regla general:** A mayor nivel de confianza → mayor margen de error → intervalo más amplio. A mayor tamaño muestral → menor error estándar → intervalo más preciso.
+
+---
