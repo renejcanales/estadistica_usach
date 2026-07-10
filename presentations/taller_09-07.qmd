@@ -1,0 +1,437 @@
+---
+title: "Taller de Estadística IV"
+subtitle: "Intervalos de Confianza para Proporciones y Tests de Hipótesis"
+author: "Prof. René Canales"
+date: today
+lang: es
+fontsize: 12pt
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 2
+    toc-expand: 2
+    toc-title: Contents
+    number-sections: true
+    number-depth: 3
+    code-link: true
+    title-block-banner: true
+  pdf:
+    number-sections: true
+    number-depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+# Preparación
+
+## Cargar paquetes
+
+```{r}
+#| label: paquetes
+#| warning: false
+#| message: false
+
+library(dplyr)   # manipulación de datos
+library(readr)   # importar datos
+library(here)    # rutas relativas
+library(car)     # recodificación de variables
+```
+
+## Cargar datos
+
+Seguiremos trabajando con la base de datos de la **Encuesta CEP N°95**, la misma que hemos utilizado en talleres anteriores.
+
+```{r}
+#| label: datos
+#| warning: false
+
+cep <- read.csv(file = here("bases", "raw", "cep95.csv"),
+                sep = ",",
+                encoding = "UTF-8",
+                stringsAsFactors = FALSE)
+
+# Ver las primeras filas
+head(cep)
+
+# Revisar los nombres de variables disponibles
+names(cep)
+```
+
+## Ojo: casos perdidos en la base CEP
+
+En esta base, los valores **-8 ("No sabe") y -9 ("No contesta")** son códigos de casos perdidos. Si no los recodificamos a `NA` antes de calcular, cualquier media, proporción o intervalo de confianza quedará **sesgado** por esos valores negativos.
+
+Veamos el caso de `iden_pol_2`, la escala de identificación ideológica (1 = izquierda, 10 = derecha):
+
+```{r}
+#| label: missing-ideologia
+
+# Revisión inicial: aparecen los códigos -9 y -8
+table(cep$iden_pol_2)
+
+# Recodificamos los códigos de perdidos a NA
+cep$ideologia <- car::recode(cep$iden_pol_2, "-8=NA; -9=NA")
+
+# Verificamos
+table(cep$ideologia)
+summary(cep$ideologia)
+```
+
+> **Pregunta:** Compare la media de `iden_pol_2` (sin limpiar) con la de `ideologia` (limpia). ¿En qué dirección sesgan la media los códigos -8 y -9? Usaremos `ideologia` más adelante en este taller.
+
+---
+
+# Repaso: puntaje Z e intervalos de confianza para medias
+
+En el taller anterior aprendimos que:
+
+- El **puntaje Z** expresa cuán lejos está una observación de la media, en unidades de desviación estándar: $z = \frac{x - \bar{x}}{s}$
+- Un **intervalo de confianza** es un rango de valores alrededor del estimador puntual dentro del cual asumimos, con cierto grado de confianza, que se encuentra el parámetro poblacional:
+
+$$IC = \bar{x} \pm t_{\alpha/2} \cdot \frac{s}{\sqrt{n}}$$
+
+## Ejercicio de repaso 1: puntaje Z
+
+Los puntajes de una prueba de comprensión lectora tienen media **500** y desviación estándar **100**. ¿Qué porcentaje de estudiantes obtiene **más de 650 puntos**?
+
+```{r}
+#| label: repaso-z
+
+media <- 500
+sd    <- 100
+valor <- 650
+
+z <- (valor - media) / sd
+z
+
+# Probabilidad de obtener MÁS que ese valor (cola superior)
+1 - pnorm(z)
+```
+
+> **Interpretación:** Complete: un puntaje z de `r round(z, 2)` implica que aproximadamente el ____% de los estudiantes obtiene más de 650 puntos.
+
+## Ejercicio de repaso 2: IC para la media de edad
+
+```{r}
+#| label: repaso-ic-media
+
+# Cálculo automático con t.test() al 95%
+t.test(x = cep$edad, conf.level = 0.95)
+```
+
+> **Pregunta:** ¿Entre qué valores se encuentra, con un 95% de confianza, la edad promedio de la población? ¿Qué pasaría con la amplitud del intervalo si usáramos un 99% de confianza?
+
+---
+
+# Intervalos de confianza para proporciones
+
+Hasta ahora hemos calculado intervalos de confianza para **medias** de variables continuas (como la edad). Pero muchas de las variables que nos interesan en ciencias sociales son **categóricas**: ser víctima de la delincuencia, residir en zona urbana, identificarse políticamente, aprobar al gobierno, etc.
+
+Para estas variables el estimador puntual es la **proporción** ($\hat{p}$), y también podemos construir un intervalo de confianza a su alrededor.
+
+## Fórmula general
+
+$$IC = \hat{p} \pm t_{\alpha/2} \cdot se$$
+
+Donde el **error estándar de una proporción** se calcula como:
+
+$$se = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+
+- $\hat{p}$ es la proporción muestral (estimador puntual)
+- $n$ es el tamaño de la muestra (sin valores perdidos)
+- $t_{\alpha/2}$ es el valor crítico asociado al nivel de confianza (1.96 al 95%, con muestras grandes)
+
+::: {.callout-tip}
+**Truco que ya conocemos:** si recodificamos una variable dicotómica como 0/1, la **media** de esa variable equivale a la **proporción** de la categoría codificada como 1.
+:::
+
+---
+
+## Ejemplo paso a paso: proporción de población urbana
+
+### Estimador puntual
+
+```{r}
+#| label: prop-zona-puntual
+
+# Revisión inicial de la variable
+table(cep$zona_u_r)
+
+# Recodificamos a dummy (1 = Urbano, 0 = Rural)
+cep$zona_num <- as.numeric(car::recode(as.character(cep$zona_u_r),
+                                       "'1'=1; '2'=0"))
+table(cep$zona_num)
+
+# Estimador puntual: proporción de encuestados/as en zona urbana
+p_urbano <- mean(cep$zona_num, na.rm = TRUE)
+p_urbano
+```
+
+### Cálculo manual del intervalo (95% de confianza)
+
+```{r}
+#| label: prop-zona-manual
+
+# Tamaño muestral sin casos perdidos
+n_zona <- sum(!is.na(cep$zona_num))
+n_zona
+
+# Error estándar de la proporción
+se_zona <- sqrt((p_urbano * (1 - p_urbano)) / n_zona)
+se_zona
+
+# Valor crítico al 95% de confianza
+# (con muestras grandes, t se aproxima a 1.96; verifiquemos con qt())
+qt(p = 0.975, df = n_zona - 1)
+
+t_critico <- 1.96
+
+# Margen de error
+me_zona <- t_critico * se_zona
+me_zona
+
+# Límites del intervalo
+li_zona <- p_urbano - me_zona
+ls_zona <- p_urbano + me_zona
+
+cat("IC al 95%: [", round(li_zona, 3), ",", round(ls_zona, 3), "]")
+```
+
+### Cálculo automático con `binom.test()`
+
+```{r}
+#| label: prop-zona-binom
+
+# Necesitamos el número de "éxitos" (casos = 1) y el n total
+x_urbano <- sum(cep$zona_num == 1, na.rm = TRUE)
+x_urbano
+
+binom.test(x = x_urbano, n = n_zona, conf.level = 0.95)
+```
+
+> **Interpretación:** Con un 95% de confianza, la proporción de personas que reside en zona urbana en la población se encuentra entre `r round(li_zona*100, 1)`% y `r round(ls_zona*100, 1)`%.
+
+> **Pregunta:** Compare el intervalo manual con el de `binom.test()`. ¿Son idénticos? ¿Por qué podrían diferir levemente? (Pista: `binom.test()` usa un método exacto, no la aproximación normal).
+
+---
+
+## Ejercicios: IC para proporciones con datos CEP
+
+### Ejercicio 1
+
+Recodifique la variable `sexo` (en esta base: 1 = Hombre, 2 = Mujer) para crear una dummy donde **1 = Mujer** y **0 = Hombre**. Luego:
+
+1. Reporte el estimador puntual (proporción de mujeres en la muestra)
+2. Calcule el error estándar **a mano**
+3. Calcule el intervalo de confianza al **95%** e interprete
+
+```{r}
+#| label: ejercicio-prop1
+
+# Revise primero las categorías de la variable
+table(cep$sexo)
+
+# Complete el código:
+# cep$mujer <- as.numeric(car::recode(as.character(cep$sexo),
+#                                     "'2'=1; '1'=0"))
+# table(cep$mujer)
+
+# p_hat <- mean(cep$mujer, na.rm = TRUE)
+# n     <- sum(!is.na(cep$mujer))
+# se    <- sqrt((p_hat * (1 - p_hat)) / n)
+# 
+# p_hat - 1.96 * se
+# p_hat + 1.96 * se
+```
+
+> **Pregunta:** Según el Censo, las mujeres son aproximadamente el 51% de la población adulta en Chile. ¿Ese valor cae dentro de su intervalo de confianza? ¿Qué sugiere eso sobre la muestra?
+
+---
+
+### Ejercicio 2
+
+Usando la misma variable dummy del ejercicio anterior, calcule el intervalo de confianza al **99%** y al **99.9%** con `binom.test()`. ¿Qué ocurre con la amplitud del intervalo a medida que aumenta el nivel de confianza?
+
+```{r}
+#| label: ejercicio-prop2
+
+# Recuerde los valores críticos: 99% -> 2.58 ; 99.9% -> 3.29
+
+# Complete el código:
+# x <- sum(cep$mujer == 1, na.rm = TRUE)
+# n <- sum(!is.na(cep$mujer))
+# 
+# binom.test(x = x, n = n, conf.level = 0.99)
+# binom.test(x = x, n = n, conf.level = 0.999)
+```
+
+> **Pregunta:** Si quisiéramos un intervalo más **preciso** (más angosto) manteniendo el mismo nivel de confianza, ¿qué tendría que ocurrir con el tamaño muestral?
+
+---
+
+# Tests de hipótesis para medias
+
+Los intervalos de confianza nos entregan un **rango** plausible para el parámetro. Los **tests de hipótesis** nos permiten responder una pregunta más directa: ¿es compatible nuestro dato muestral con un determinado valor del parámetro poblacional?
+
+## La lógica del test
+
+1. Planteamos una **hipótesis nula** ($H_0$): el parámetro poblacional es igual a cierto valor ($\mu = \mu_0$).
+2. Planteamos una **hipótesis alternativa** ($H_a$): el parámetro es distinto de ese valor ($\mu \neq \mu_0$).
+3. Calculamos un **estadístico t**, que indica a cuántos errores estándar se encuentra nuestra media muestral del valor propuesto en $H_0$:
+
+$$t = \frac{\bar{x} - \mu_0}{se} \quad \text{donde} \quad se = \frac{s}{\sqrt{n}}$$
+
+4. Obtenemos el **valor-p**: la probabilidad de observar una media como la nuestra (o más extrema) si $H_0$ fuera verdadera.
+5. Decidimos: si el valor-p es menor que $\alpha$ (usualmente 0.05), **rechazamos** $H_0$.
+
+::: {.callout-note}
+El estadístico t funciona igual que un puntaje Z: mide distancias en unidades de error estándar. La diferencia es que usa la distribución t, que es más conservadora con muestras pequeñas.
+:::
+
+---
+
+## Ejemplo paso a paso: ¿la edad promedio de la población es 45 años?
+
+Supongamos que queremos evaluar la hipótesis de que la edad promedio de la población adulta chilena es de **45 años**.
+
+- $H_0$: $\mu = 45$
+- $H_a$: $\mu \neq 45$
+
+### Exploración de la variable
+
+```{r}
+#| label: test-edad-explora
+
+summary(cep$edad)
+sd(cep$edad, na.rm = TRUE)
+
+# Tamaño muestral sin casos perdidos
+n_edad <- sum(!is.na(cep$edad))
+n_edad
+```
+
+### Cálculo manual del test
+
+```{r}
+#| label: test-edad-manual
+
+media_edad <- mean(cep$edad, na.rm = TRUE)
+sd_edad    <- sd(cep$edad, na.rm = TRUE)
+
+# Error estándar
+se_edad <- sd_edad / sqrt(n_edad)
+se_edad
+
+# Estadístico t
+t_edad <- (media_edad - 45) / se_edad
+t_edad
+
+# Valor-p (test de dos colas)
+2 * pt(abs(t_edad), df = n_edad - 1, lower.tail = FALSE)
+```
+
+### Cálculo automático con `t.test()`
+
+```{r}
+#| label: test-edad-ttest
+
+t.test(cep$edad, mu = 45)
+```
+
+> **Interpretación:** Con un valor-p < 0.001, **rechazamos** $H_0$ y concluimos que la edad promedio de la población es **distinta de 45 años**. La media muestral (50.07) se encuentra a casi 10 errores estándar del valor propuesto: un resultado así sería extremadamente improbable si $H_0$ fuera verdadera.
+
+> **Pregunta:** Observe el intervalo de confianza que reporta `t.test()`. ¿El valor 45 está dentro o fuera del intervalo? ¿Qué relación existe entre el intervalo de confianza al 95% y el test de hipótesis con $\alpha = 0.05$?
+
+---
+
+## Ejercicios: tests de hipótesis con datos CEP
+
+### Ejercicio 3
+
+Ponga a prueba la hipótesis de que la edad promedio de la población es de **50 años**:
+
+1. Escriba $H_0$ y $H_a$
+2. Calcule el estadístico t **a mano** (error estándar incluido)
+3. Obtenga el valor-p con `pt()`
+4. Verifique con `t.test()`
+5. Redacte una conclusión sustantiva
+
+```{r}
+#| label: ejercicio-test1
+
+# Escriba aquí su código
+# H0: mu = 50
+# Ha: mu != 50
+
+# media <- mean(cep$edad, na.rm = TRUE)
+# se    <- sd(cep$edad, na.rm = TRUE) / sqrt(sum(!is.na(cep$edad)))
+# t     <- (media - 50) / se
+# 2 * pt(abs(t), df = sum(!is.na(cep$edad)) - 1, lower.tail = FALSE)
+# 
+# t.test(cep$edad, mu = 50)
+```
+
+---
+
+### Ejercicio 4
+
+En clases vimos el ejemplo de la ideología política con datos LAPOP. Repliquemos ese análisis con la CEP: usando la variable `ideologia` que creamos al inicio del taller (escala 1 = izquierda a 10 = derecha, ya sin códigos de perdidos), ponga a prueba la hipótesis de que la población se ubica, en promedio, **en el punto medio de la escala** (μ = 5.5):
+
+1. Escriba $H_0$ y $H_a$
+2. Calcule además el intervalo de confianza al 95%
+3. Interprete sustantivamente: ¿la población se inclina hacia la izquierda, hacia la derecha, o es ideológicamente "neutral"?
+
+```{r}
+#| label: ejercicio-test2
+
+# Explore primero la variable
+summary(cep$ideologia)
+sd(cep$ideologia, na.rm = TRUE)
+
+# Complete el código:
+# t.test(cep$ideologia, mu = 5.5)
+```
+
+> **Pregunta:** ¿Por qué el punto medio de una escala es un valor de referencia interesante para $H_0$? ¿Qué significa sustantivamente rechazar esa hipótesis nula? ¿Qué limitación tiene este análisis considerando cuántos casos perdidos tiene la variable?
+
+---
+
+### Ejercicio 5 (Desafío)
+
+Combine lo aprendido en ambos talleres: calcule el intervalo de confianza al 95% para la **edad**, separado por **zona urbana y rural**, y luego responda:
+
+1. ¿Los intervalos se solapan?
+2. Ejecute `t.test(edad ~ zona_num, data = cep)`. Este es un test para **diferencia de medias entre dos grupos** (lo veremos en detalle la próxima clase). ¿El resultado es coherente con lo que observó al comparar los intervalos?
+
+```{r}
+#| label: ejercicio-test3
+
+# IC por grupo
+edad_urbana <- cep %>% filter(zona_num == 1) %>% pull(edad)
+edad_rural  <- cep %>% filter(zona_num == 0) %>% pull(edad)
+
+t.test(x = edad_urbana, conf.level = 0.95)
+t.test(x = edad_rural,  conf.level = 0.95)
+
+# Adelanto de la próxima clase: test de diferencia de medias
+# t.test(edad ~ zona_num, data = cep)
+```
+
+---
+
+# Síntesis
+
+| Concepto | Definición |
+|---|---|
+| **Proporción muestral** ($\hat{p}$) | Estimador puntual para variables dicotómicas; equivale a la media de una dummy 0/1 |
+| **Error estándar de la proporción** | $se = \sqrt{\hat{p}(1-\hat{p})/n}$ |
+| **IC para proporciones** | $\hat{p} \pm t_{\alpha/2} \cdot se$; en R, `binom.test()` |
+| **Hipótesis nula** ($H_0$) | Afirmación sobre el parámetro que ponemos a prueba (ej. $\mu = 45$) |
+| **Hipótesis alternativa** ($H_a$) | Afirmación que aceptamos si rechazamos $H_0$ (ej. $\mu \neq 45$) |
+| **Estadístico t** | Distancia entre la media muestral y $\mu_0$, en unidades de error estándar |
+| **Valor-p** | Probabilidad de observar un resultado como el nuestro (o más extremo) si $H_0$ fuera verdadera |
+
+> **Regla general:** valor-p < $\alpha$ → rechazamos $H_0$. Además, si el valor propuesto en $H_0$ queda **fuera** del intervalo de confianza al $(1-\alpha)$%, el test rechazará $H_0$ a ese mismo nivel: intervalos y tests son dos caras de la misma moneda.
+
+---

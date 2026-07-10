@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Prof.&nbsp;René Canales">
+
+<title>Taller de Estadística IV</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="taller_09-07_files/libs/clipboard/clipboard.min.js"></script>
+<script src="taller_09-07_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="taller_09-07_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="taller_09-07_files/libs/quarto-html/popper.min.js"></script>
+<script src="taller_09-07_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="taller_09-07_files/libs/quarto-html/anchor.min.js"></script>
+<link href="taller_09-07_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="taller_09-07_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="taller_09-07_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="taller_09-07_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="taller_09-07_files/libs/bootstrap/bootstrap-45c8b106d82b6caeba2ba56229f1a62e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Taller de Estadística IV</h1>
+            <p class="subtitle lead">Intervalos de Confianza para Proporciones y Tests de Hipótesis</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Autor/a</div>
+      <div class="quarto-title-meta-contents">
+               <p>Prof.&nbsp;René Canales </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Fecha de publicación</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">9 de julio de 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#preparación" id="toc-preparación" class="nav-link active" data-scroll-target="#preparación"><span class="header-section-number">1</span> Preparación</a>
+  <ul class="collapse">
+  <li><a href="#cargar-paquetes" id="toc-cargar-paquetes" class="nav-link" data-scroll-target="#cargar-paquetes"><span class="header-section-number">1.1</span> Cargar paquetes</a></li>
+  <li><a href="#cargar-datos" id="toc-cargar-datos" class="nav-link" data-scroll-target="#cargar-datos"><span class="header-section-number">1.2</span> Cargar datos</a></li>
+  <li><a href="#ojo-casos-perdidos-en-la-base-cep" id="toc-ojo-casos-perdidos-en-la-base-cep" class="nav-link" data-scroll-target="#ojo-casos-perdidos-en-la-base-cep"><span class="header-section-number">1.3</span> Ojo: casos perdidos en la base CEP</a></li>
+  </ul></li>
+  <li><a href="#repaso-puntaje-z-e-intervalos-de-confianza-para-medias" id="toc-repaso-puntaje-z-e-intervalos-de-confianza-para-medias" class="nav-link" data-scroll-target="#repaso-puntaje-z-e-intervalos-de-confianza-para-medias"><span class="header-section-number">2</span> Repaso: puntaje Z e intervalos de confianza para medias</a>
+  <ul class="collapse">
+  <li><a href="#ejercicio-de-repaso-1-puntaje-z" id="toc-ejercicio-de-repaso-1-puntaje-z" class="nav-link" data-scroll-target="#ejercicio-de-repaso-1-puntaje-z"><span class="header-section-number">2.1</span> Ejercicio de repaso 1: puntaje Z</a></li>
+  <li><a href="#ejercicio-de-repaso-2-ic-para-la-media-de-edad" id="toc-ejercicio-de-repaso-2-ic-para-la-media-de-edad" class="nav-link" data-scroll-target="#ejercicio-de-repaso-2-ic-para-la-media-de-edad"><span class="header-section-number">2.2</span> Ejercicio de repaso 2: IC para la media de edad</a></li>
+  </ul></li>
+  <li><a href="#intervalos-de-confianza-para-proporciones" id="toc-intervalos-de-confianza-para-proporciones" class="nav-link" data-scroll-target="#intervalos-de-confianza-para-proporciones"><span class="header-section-number">3</span> Intervalos de confianza para proporciones</a>
+  <ul class="collapse">
+  <li><a href="#fórmula-general" id="toc-fórmula-general" class="nav-link" data-scroll-target="#fórmula-general"><span class="header-section-number">3.1</span> Fórmula general</a></li>
+  <li><a href="#ejemplo-paso-a-paso-proporción-de-población-urbana" id="toc-ejemplo-paso-a-paso-proporción-de-población-urbana" class="nav-link" data-scroll-target="#ejemplo-paso-a-paso-proporción-de-población-urbana"><span class="header-section-number">3.2</span> Ejemplo paso a paso: proporción de población urbana</a></li>
+  <li><a href="#ejercicios-ic-para-proporciones-con-datos-cep" id="toc-ejercicios-ic-para-proporciones-con-datos-cep" class="nav-link" data-scroll-target="#ejercicios-ic-para-proporciones-con-datos-cep"><span class="header-section-number">3.3</span> Ejercicios: IC para proporciones con datos CEP</a></li>
+  </ul></li>
+  <li><a href="#tests-de-hipótesis-para-medias" id="toc-tests-de-hipótesis-para-medias" class="nav-link" data-scroll-target="#tests-de-hipótesis-para-medias"><span class="header-section-number">4</span> Tests de hipótesis para medias</a>
+  <ul class="collapse">
+  <li><a href="#la-lógica-del-test" id="toc-la-lógica-del-test" class="nav-link" data-scroll-target="#la-lógica-del-test"><span class="header-section-number">4.1</span> La lógica del test</a></li>
+  <li><a href="#ejemplo-paso-a-paso-la-edad-promedio-de-la-población-es-45-años" id="toc-ejemplo-paso-a-paso-la-edad-promedio-de-la-población-es-45-años" class="nav-link" data-scroll-target="#ejemplo-paso-a-paso-la-edad-promedio-de-la-población-es-45-años"><span class="header-section-number">4.2</span> Ejemplo paso a paso: ¿la edad promedio de la población es 45 años?</a></li>
+  <li><a href="#ejercicios-tests-de-hipótesis-con-datos-cep" id="toc-ejercicios-tests-de-hipótesis-con-datos-cep" class="nav-link" data-scroll-target="#ejercicios-tests-de-hipótesis-con-datos-cep"><span class="header-section-number">4.3</span> Ejercicios: tests de hipótesis con datos CEP</a></li>
+  </ul></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis"><span class="header-section-number">5</span> Síntesis</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Otros formatos</h2><ul><li><a href="../taller_09-07.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="preparación" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Preparación</h1>
+<section id="cargar-paquetes" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="cargar-paquetes"><span class="header-section-number">1.1</span> Cargar paquetes</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)   <span class="co"># manipulación de datos</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)   <span class="co"># importar datos</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)    <span class="co"># rutas relativas</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)     <span class="co"># recodificación de variables</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="cargar-datos" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="cargar-datos"><span class="header-section-number">1.2</span> Cargar datos</h2>
+<p>Seguiremos trabajando con la base de datos de la <strong>Encuesta CEP N°95</strong>, la misma que hemos utilizado en talleres anteriores.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cep <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"bases"</span>, <span class="st">"raw"</span>, <span class="st">"cep95.csv"</span>),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">sep =</span> <span class="st">","</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">encoding =</span> <span class="st">"UTF-8"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver las primeras filas</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cep)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  ump zona_u_r region_3 elec_pres_urna_30 elec_pres_urna_31 elec_pres_urna_32
+1  96        1        8                 5                 2                 1
+2 197        1       13                11                 5                 5
+3 197        1       13                 4                 2                 1
+4  12        1        2                 4                 2                 2
+5 198        1       13                 3                 1                 5
+6 192        1       13                10                 4                 4
+  elec_pres_urna_33 bienestar_2 bienestar_3 percepcion_2 percepcion_3
+1                 2          10           5            2            1
+2                 5           5           5            2            2
+3                 2           5           5            3            3
+4                 2           3           1            1            2
+5                 1           8           5            3            3
+6                 4          10           6            3            2
+  percepcion_5 percepcion_6 percepcion_38 percepcion_4 eval_gob_1 iden_pol_2
+1            3            1             4            3          2          3
+2            3            3             3            2          1         -9
+3            2            2             4            2          2         10
+4            3            3             5            3          2          8
+5            3            2             3            2          1          3
+6            2            1             4            2         -8         -8
+  eval_act_pol_1_fh eval_act_pol_1_ae eval_act_pol_1_el eval_act_pol_1_dv
+1                 1                 6                 3                 5
+2                 5                 2                 3                 1
+3                 2                 3                 2                 5
+4                 1                 3                 1                 3
+5                 4                 2                 4                 2
+6                 2                 6                 6                 6
+  eval_act_pol_1_em eval_act_pol_1_hb eval_act_pol_1_ft eval_act_pol_1_gq
+1                 6                 6                 3                 3
+2                 2                 2                 1                 2
+3                 3                 2                 4                 4
+4                 1                 1                 3                 1
+5                 2                 6                 6                 2
+6                 6                 6                 6                 6
+  eval_act_pol_1_gw eval_act_pol_1_hd eval_act_pol_1_x eval_act_pol_1_gt
+1                 6                 5                5                 3
+2                 1                 1                1                 5
+3                 2                 5                4                 1
+4                 2                 5                1                 1
+5                 6                 2                3                 4
+6                 6                 6                6                 6
+  eval_act_pol_1_fa eval_act_pol_1_hc eval_act_pol_1_gx confianza_6_a
+1                 6                 6                 6             3
+2                 2                 3                 1             2
+3                 3                 2                 3             2
+4                 3                 2                 6             3
+5                 2                 2                 6             3
+6                 6                 6                 6             1
+  confianza_6_b confianza_6_c confianza_6_j confianza_6_d confianza_6_e
+1             2             2             3             3             1
+2             3             2             2             3             2
+3             3             1             4             4             2
+4             2             2             4             4             3
+5             3             2             3             3             3
+6             1             3             3             3             3
+  confianza_6_f confianza_6_n confianza_6_x confianza_6_g confianza_6_h
+1             4             2             3             2             2
+2             3             2             3             2             3
+3             2             4             3             2             2
+4             4             2             3             4             2
+5             3             2             3             3             2
+6             2             2             3             3             3
+  confianza_6_i confianza_6_k confianza_6_s confianza_6_o confianza_6_p
+1             4             4             2             2             3
+2             2             3             3             3             3
+3             4             2             3             2             3
+4             4             4             2             2             4
+5             2             3             2             3             2
+6             3             3             3             3             3
+  confianza_6_r confianza_6_m confianza_6_ab confianza_6_ac democracia_38
+1             2             2              2              3             8
+2             2             2              3              3             5
+3             2             1              2              3             2
+4             2             3              3              3            10
+5             2             2              3              3             7
+6             3             1              2              2            10
+  pobreza_63 pobreza_62 religion_14 religion_64 democracia_21 democracia_37_a
+1          5          5           2           2             2               1
+2          4          3           2           2             2               2
+3          5          3           2           2             3               1
+4         10         10           2           3             1               1
+5          7          6           2           2             1               1
+6         10         10           2           2             3               1
+  democracia_37_b democracia_37_c democracia_37_d pp_congreso_61_b
+1               1               3               2                1
+2               3               3               3                2
+3               1               4               4                2
+4               2               3               1                2
+5               1               3               3                2
+6               1               1               1                2
+  polarizacion_1_a polarizacion_1_b polarizacion_6_a polarizacion_6_b
+1                4                5                5                5
+2                2                5               10                1
+3               10                1                1               10
+4               10                0                0                2
+5                3                6                9                5
+6                5                0               -8               -8
+  polarizacion_6_c polarizacion_6_d polarizacion_6_e confianza_17
+1                5                5                5            3
+2                2                2                1            4
+3               10                8                8            3
+4               10                2                0            3
+5                4                5                5            1
+6               -8               -8               -8           -8
+  interes_pol_1_b interes_pol_2_a interes_pol_2_b interes_pol_2_c
+1               4               3               2               3
+2               5               2               2               2
+3               3               2               2               3
+4               2               1               2               1
+5               3               2               3               2
+6               5               3               3               3
+  interes_pol_2_d interes_pol_2_e interes_pol_2_f iden_pol_3 iden_pol_3_a
+1               2               2               3          9           NA
+2               3               2               3         15           15
+3               2               2               3         27           NA
+4               2               1               1         27           NA
+5               2               2               3         15           15
+6               3               3               3         15           15
+  elec_part_37 elec_pres_144_a elec_pres_144_b2 elec_pres_125 elec_part_4
+1            1               2               NA             3           1
+2            1               1               NA             2           1
+3            1               2               NA             2           1
+4            1               2               NA             2           1
+5            1               1               NA             2           1
+6            2              NA                5             4           4
+  elec_pres_1_responde elec_pres_2_responde elec_pres_148 elec_pres_149_a
+1                    1                    1             5               3
+2                    1                    1             3               3
+3                    1                    1             4               2
+4                    1                    1             4               3
+5                    1                    1             3               3
+6                    8                    8            -8               3
+  elec_pres_149_b elec_pres_149_c elec_pres_149_d elec_pres_149_e
+1               3               2               2               2
+2               3               1               3               3
+3               3               3               1               2
+4               3               3               1               3
+5               2               1               3               3
+6               3               3               3               3
+  elec_pres_149_f elec_pres_149_g elec_pres_149_h elec_pres_150_a
+1               3               3               2               2
+2               3               3               3               1
+3               2               2               2               2
+4               3               3               3               2
+5               3               3               3               1
+6               3               3               3               3
+  elec_pres_150_b elec_pres_150_c elec_pres_151_a elec_pres_151_b
+1               1               2               5               5
+2               3               1               2               3
+3               1               2               0               3
+4               1               2               0               0
+5               2               1               0               6
+6               3               3              -8              -8
+  elec_pres_151_c elec_pres_151_d elec_pres_151_e elec_pres_151_f
+1               1              10              10               5
+2               1               8               8               7
+3               1              10              10               8
+4               0              10               7               4
+5               2               7              10               7
+6              -8              -8              -8              -8
+  elec_pres_151_g elec_pres_151_h elec_pres_152_a elec_pres_152_b
+1               5               5               8               8
+2               5               5               3               3
+3               5              10               4               4
+4               5               3               4               4
+5               5               6               3               3
+6              -8              -8              -8              -8
+  elec_pres_152_c elec_pres_152_d elec_pres_152_e elec_pres_152_f
+1               3               5               8               5
+2               3               3               3               3
+3               4               4               6               4
+4               4               4               4               4
+5               3               3               3               3
+6              -8              -8              -8              -8
+  elec_pres_153_a elec_pres_153_b elec_pres_153_c elec_pres_153_d
+1               8               5               5               5
+2               3               3               3               3
+3               4               4               4               4
+4               4               4               4               4
+5               3               5               3               3
+6              -8              -8              -8              -8
+  elec_pres_153_e elec_pres_153_f elec_pres_153_g elec_pres_153_h
+1               5               5               5               5
+2               3               3               3               3
+3               4               4               4               4
+4               4               4               4               4
+5               3               5               5               3
+6              -8              -8              -8              -8
+  elec_pres_145_a elec_pres_145_b democracia_12 anomia_4_a bienestar_19_c
+1               7               6             3          3              3
+2               4               1             2          3              4
+3              12               7             2          3              4
+4               4               3             3          4              2
+5               2               1             3          2              4
+6               2               7             3          2              3
+  bienestar_19_d bienestar_19_e rol_gobierno_16 ciudadania_16 ciudadania_34
+1              4              4               3             4             3
+2              4              4               4             3             7
+3              4              4               3             4             2
+4             -8             -8               3             5             1
+5              4              4               1             4             1
+6              4              1               4             4             2
+  sexo edad nac_dia nac_mes nac_ano info_enc_59_2_otro info_enc_58
+1    2   25       2       6    2000                 NA           1
+2    2   63      18      11    1961                 NA           2
+3    1   61       8       3    1963                 NA           2
+4    1   62      14      12    1962                 NA           2
+5    2   86       1       1    1939                 NA           2
+6    2   34      17      12    1990                 NA           2
+  info_enc_30_b info_enc_30_b_otro mtf_60_aux mtf_60 info_enc_50_a_aux
+1             5                 NA          1      0                NA
+2            NA                 NA          1      3                 1
+3            NA                 NA          1      0                NA
+4            NA                 NA          1      3                 1
+5            NA                 NA          1      2                 1
+6            NA                 NA          1      1                 1
+  info_enc_50_a estado_civil_g educacion_104_a info_enc_61 info_enc_57
+1            NA              5               4           2           1
+2             1              1               4           2           2
+3            NA              8               4           2           1
+4             3              6               6           2           1
+5             2              7               3           2           1
+6             1              8               1           2           1
+  info_hogar_28_c info_enc_12_c info_enc_12_c_otro info_enc_35 info_enc_20_c
+1              NA             2                 NA           1             8
+2               5             1                 NA           3             3
+3              NA             1                 NA           1             4
+4              NA             2                 NA           1             4
+5              NA             7                 NA           3             5
+6              NA             1                 NA           1             3
+  info_hogar_3_c gse      pond encuesta encuesta_a encuesta_m id_bu_encuesta
+1              8   4 0.5854936       95       2025          9              1
+2              4   3 0.5274519       95       2025          9              2
+3              4   4 0.2664923       95       2025          9              3
+4              4   3 0.4739814       95       2025          9              4
+5              5   3 0.4242343       95       2025          9              5
+6              3   3 0.4141876       95       2025          9              6
+  id_bu percepcion_1_a percepcion_1_b percepcion_1_c democracia_20
+1  1-95              1             13              4             3
+2  2-95             16             10              1             2
+3  3-95              6              3             14             4
+4  4-95              3              2              4             5
+5  5-95              3              1             10             4
+6  6-95              2             14              6             2
+  elec_pres_147 elec_parla_36_a elec_parla_36_b elec_parla_36_c elec_parla_36_d
+1             3               2               2               1               1
+2            -9               1               1               1               2
+3             5               2               2               2               1
+4             5               2               2               2               2
+5             1               1               1               1               2
+6            NA              -8              -8              -8              -8
+  elec_parla_36_e elec_parla_36_f esc_nivel_1_c info_enc_59_2 estrato  secu
+1               1               1             8             1      12 95096
+2               2               1             4             1      20 95197
+3               1               2             4             1      20 95197
+4               1               2             4             1       2 95012
+5               2               2             8             1      20 95198
+6              -8              -8             4             2      20 95192</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Revisar los nombres de variables disponibles</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cep)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "ump"                  "zona_u_r"             "region_3"            
+  [4] "elec_pres_urna_30"    "elec_pres_urna_31"    "elec_pres_urna_32"   
+  [7] "elec_pres_urna_33"    "bienestar_2"          "bienestar_3"         
+ [10] "percepcion_2"         "percepcion_3"         "percepcion_5"        
+ [13] "percepcion_6"         "percepcion_38"        "percepcion_4"        
+ [16] "eval_gob_1"           "iden_pol_2"           "eval_act_pol_1_fh"   
+ [19] "eval_act_pol_1_ae"    "eval_act_pol_1_el"    "eval_act_pol_1_dv"   
+ [22] "eval_act_pol_1_em"    "eval_act_pol_1_hb"    "eval_act_pol_1_ft"   
+ [25] "eval_act_pol_1_gq"    "eval_act_pol_1_gw"    "eval_act_pol_1_hd"   
+ [28] "eval_act_pol_1_x"     "eval_act_pol_1_gt"    "eval_act_pol_1_fa"   
+ [31] "eval_act_pol_1_hc"    "eval_act_pol_1_gx"    "confianza_6_a"       
+ [34] "confianza_6_b"        "confianza_6_c"        "confianza_6_j"       
+ [37] "confianza_6_d"        "confianza_6_e"        "confianza_6_f"       
+ [40] "confianza_6_n"        "confianza_6_x"        "confianza_6_g"       
+ [43] "confianza_6_h"        "confianza_6_i"        "confianza_6_k"       
+ [46] "confianza_6_s"        "confianza_6_o"        "confianza_6_p"       
+ [49] "confianza_6_r"        "confianza_6_m"        "confianza_6_ab"      
+ [52] "confianza_6_ac"       "democracia_38"        "pobreza_63"          
+ [55] "pobreza_62"           "religion_14"          "religion_64"         
+ [58] "democracia_21"        "democracia_37_a"      "democracia_37_b"     
+ [61] "democracia_37_c"      "democracia_37_d"      "pp_congreso_61_b"    
+ [64] "polarizacion_1_a"     "polarizacion_1_b"     "polarizacion_6_a"    
+ [67] "polarizacion_6_b"     "polarizacion_6_c"     "polarizacion_6_d"    
+ [70] "polarizacion_6_e"     "confianza_17"         "interes_pol_1_b"     
+ [73] "interes_pol_2_a"      "interes_pol_2_b"      "interes_pol_2_c"     
+ [76] "interes_pol_2_d"      "interes_pol_2_e"      "interes_pol_2_f"     
+ [79] "iden_pol_3"           "iden_pol_3_a"         "elec_part_37"        
+ [82] "elec_pres_144_a"      "elec_pres_144_b2"     "elec_pres_125"       
+ [85] "elec_part_4"          "elec_pres_1_responde" "elec_pres_2_responde"
+ [88] "elec_pres_148"        "elec_pres_149_a"      "elec_pres_149_b"     
+ [91] "elec_pres_149_c"      "elec_pres_149_d"      "elec_pres_149_e"     
+ [94] "elec_pres_149_f"      "elec_pres_149_g"      "elec_pres_149_h"     
+ [97] "elec_pres_150_a"      "elec_pres_150_b"      "elec_pres_150_c"     
+[100] "elec_pres_151_a"      "elec_pres_151_b"      "elec_pres_151_c"     
+[103] "elec_pres_151_d"      "elec_pres_151_e"      "elec_pres_151_f"     
+[106] "elec_pres_151_g"      "elec_pres_151_h"      "elec_pres_152_a"     
+[109] "elec_pres_152_b"      "elec_pres_152_c"      "elec_pres_152_d"     
+[112] "elec_pres_152_e"      "elec_pres_152_f"      "elec_pres_153_a"     
+[115] "elec_pres_153_b"      "elec_pres_153_c"      "elec_pres_153_d"     
+[118] "elec_pres_153_e"      "elec_pres_153_f"      "elec_pres_153_g"     
+[121] "elec_pres_153_h"      "elec_pres_145_a"      "elec_pres_145_b"     
+[124] "democracia_12"        "anomia_4_a"           "bienestar_19_c"      
+[127] "bienestar_19_d"       "bienestar_19_e"       "rol_gobierno_16"     
+[130] "ciudadania_16"        "ciudadania_34"        "sexo"                
+[133] "edad"                 "nac_dia"              "nac_mes"             
+[136] "nac_ano"              "info_enc_59_2_otro"   "info_enc_58"         
+[139] "info_enc_30_b"        "info_enc_30_b_otro"   "mtf_60_aux"          
+[142] "mtf_60"               "info_enc_50_a_aux"    "info_enc_50_a"       
+[145] "estado_civil_g"       "educacion_104_a"      "info_enc_61"         
+[148] "info_enc_57"          "info_hogar_28_c"      "info_enc_12_c"       
+[151] "info_enc_12_c_otro"   "info_enc_35"          "info_enc_20_c"       
+[154] "info_hogar_3_c"       "gse"                  "pond"                
+[157] "encuesta"             "encuesta_a"           "encuesta_m"          
+[160] "id_bu_encuesta"       "id_bu"                "percepcion_1_a"      
+[163] "percepcion_1_b"       "percepcion_1_c"       "democracia_20"       
+[166] "elec_pres_147"        "elec_parla_36_a"      "elec_parla_36_b"     
+[169] "elec_parla_36_c"      "elec_parla_36_d"      "elec_parla_36_e"     
+[172] "elec_parla_36_f"      "esc_nivel_1_c"        "info_enc_59_2"       
+[175] "estrato"              "secu"                </code></pre>
+</div>
+</div>
+</section>
+<section id="ojo-casos-perdidos-en-la-base-cep" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="ojo-casos-perdidos-en-la-base-cep"><span class="header-section-number">1.3</span> Ojo: casos perdidos en la base CEP</h2>
+<p>En esta base, los valores <strong>-8 (“No sabe”) y -9 (“No contesta”)</strong> son códigos de casos perdidos. Si no los recodificamos a <code>NA</code> antes de calcular, cualquier media, proporción o intervalo de confianza quedará <strong>sesgado</strong> por esos valores negativos.</p>
+<p>Veamos el caso de <code>iden_pol_2</code>, la escala de identificación ideológica (1 = izquierda, 10 = derecha):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Revisión inicial: aparecen los códigos -9 y -8</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cep<span class="sc">$</span>iden_pol_2)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ -9  -8   1   2   3   4   5   6   7   8   9  10 
+107 158  94  23  49  61 358  77  83  46  27 134 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recodificamos los códigos de perdidos a NA</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cep<span class="sc">$</span>ideologia <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">recode</span>(cep<span class="sc">$</span>iden_pol_2, <span class="st">"-8=NA; -9=NA"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificamos</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cep<span class="sc">$</span>ideologia)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  1   2   3   4   5   6   7   8   9  10 
+ 94  23  49  61 358  77  83  46  27 134 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cep<span class="sc">$</span>ideologia)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
+  1.000   5.000   5.000   5.583   7.000  10.000     265 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta:</strong> Compare la media de <code>iden_pol_2</code> (sin limpiar) con la de <code>ideologia</code> (limpia). ¿En qué dirección sesgan la media los códigos -8 y -9? Usaremos <code>ideologia</code> más adelante en este taller.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="repaso-puntaje-z-e-intervalos-de-confianza-para-medias" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Repaso: puntaje Z e intervalos de confianza para medias</h1>
+<p>En el taller anterior aprendimos que:</p>
+<ul>
+<li>El <strong>puntaje Z</strong> expresa cuán lejos está una observación de la media, en unidades de desviación estándar: <span class="math inline">\(z = \frac{x - \bar{x}}{s}\)</span></li>
+<li>Un <strong>intervalo de confianza</strong> es un rango de valores alrededor del estimador puntual dentro del cual asumimos, con cierto grado de confianza, que se encuentra el parámetro poblacional:</li>
+</ul>
+<p><span class="math display">\[IC = \bar{x} \pm t_{\alpha/2} \cdot \frac{s}{\sqrt{n}}\]</span></p>
+<section id="ejercicio-de-repaso-1-puntaje-z" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="ejercicio-de-repaso-1-puntaje-z"><span class="header-section-number">2.1</span> Ejercicio de repaso 1: puntaje Z</h2>
+<p>Los puntajes de una prueba de comprensión lectora tienen media <strong>500</strong> y desviación estándar <strong>100</strong>. ¿Qué porcentaje de estudiantes obtiene <strong>más de 650 puntos</strong>?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sd    <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>valor <span class="ot">&lt;-</span> <span class="dv">650</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> (valor <span class="sc">-</span> media) <span class="sc">/</span> sd</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>z</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidad de obtener MÁS que ese valor (cola superior)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(z)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0668072</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Interpretación:</strong> Complete: un puntaje z de 1.5 implica que aproximadamente el ____% de los estudiantes obtiene más de 650 puntos.</p>
+</blockquote>
+</section>
+<section id="ejercicio-de-repaso-2-ic-para-la-media-de-edad" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="ejercicio-de-repaso-2-ic-para-la-media-de-edad"><span class="header-section-number">2.2</span> Ejercicio de repaso 2: IC para la media de edad</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo automático con t.test() al 95%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> cep<span class="sc">$</span>edad, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  cep$edad
+t = 96.029, df = 1216, p-value &lt; 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 49.04689 51.09280
+sample estimates:
+mean of x 
+ 50.06984 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta:</strong> ¿Entre qué valores se encuentra, con un 95% de confianza, la edad promedio de la población? ¿Qué pasaría con la amplitud del intervalo si usáramos un 99% de confianza?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="intervalos-de-confianza-para-proporciones" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Intervalos de confianza para proporciones</h1>
+<p>Hasta ahora hemos calculado intervalos de confianza para <strong>medias</strong> de variables continuas (como la edad). Pero muchas de las variables que nos interesan en ciencias sociales son <strong>categóricas</strong>: ser víctima de la delincuencia, residir en zona urbana, identificarse políticamente, aprobar al gobierno, etc.</p>
+<p>Para estas variables el estimador puntual es la <strong>proporción</strong> (<span class="math inline">\(\hat{p}\)</span>), y también podemos construir un intervalo de confianza a su alrededor.</p>
+<section id="fórmula-general" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="fórmula-general"><span class="header-section-number">3.1</span> Fórmula general</h2>
+<p><span class="math display">\[IC = \hat{p} \pm t_{\alpha/2} \cdot se\]</span></p>
+<p>Donde el <strong>error estándar de una proporción</strong> se calcula como:</p>
+<p><span class="math display">\[se = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\]</span></p>
+<ul>
+<li><span class="math inline">\(\hat{p}\)</span> es la proporción muestral (estimador puntual)</li>
+<li><span class="math inline">\(n\)</span> es el tamaño de la muestra (sin valores perdidos)</li>
+<li><span class="math inline">\(t_{\alpha/2}\)</span> es el valor crítico asociado al nivel de confianza (1.96 al 95%, con muestras grandes)</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Truco que ya conocemos:</strong> si recodificamos una variable dicotómica como 0/1, la <strong>media</strong> de esa variable equivale a la <strong>proporción</strong> de la categoría codificada como 1.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="ejemplo-paso-a-paso-proporción-de-población-urbana" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="ejemplo-paso-a-paso-proporción-de-población-urbana"><span class="header-section-number">3.2</span> Ejemplo paso a paso: proporción de población urbana</h2>
+<section id="estimador-puntual" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="estimador-puntual"><span class="header-section-number">3.2.1</span> Estimador puntual</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Revisión inicial de la variable</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cep<span class="sc">$</span>zona_u_r)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   1    2 
+1057  160 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recodificamos a dummy (1 = Urbano, 0 = Rural)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>cep<span class="sc">$</span>zona_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(car<span class="sc">::</span><span class="fu">recode</span>(<span class="fu">as.character</span>(cep<span class="sc">$</span>zona_u_r),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"'1'=1; '2'=0"</span>))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cep<span class="sc">$</span>zona_num)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   0    1 
+ 160 1057 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimador puntual: proporción de encuestados/as en zona urbana</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>p_urbano <span class="ot">&lt;-</span> <span class="fu">mean</span>(cep<span class="sc">$</span>zona_num, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>p_urbano</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8685292</code></pre>
+</div>
+</div>
+</section>
+<section id="cálculo-manual-del-intervalo-95-de-confianza" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="cálculo-manual-del-intervalo-95-de-confianza"><span class="header-section-number">3.2.2</span> Cálculo manual del intervalo (95% de confianza)</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tamaño muestral sin casos perdidos</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>n_zona <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(cep<span class="sc">$</span>zona_num))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>n_zona</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1217</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Error estándar de la proporción</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>se_zona <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((p_urbano <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_urbano)) <span class="sc">/</span> n_zona)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>se_zona</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.009686383</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Valor crítico al 95% de confianza</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (con muestras grandes, t se aproxima a 1.96; verifiquemos con qt())</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="at">p =</span> <span class="fl">0.975</span>, <span class="at">df =</span> n_zona <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.961917</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>t_critico <span class="ot">&lt;-</span> <span class="fl">1.96</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Margen de error</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>me_zona <span class="ot">&lt;-</span> t_critico <span class="sc">*</span> se_zona</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>me_zona</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01898531</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Límites del intervalo</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>li_zona <span class="ot">&lt;-</span> p_urbano <span class="sc">-</span> me_zona</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>ls_zona <span class="ot">&lt;-</span> p_urbano <span class="sc">+</span> me_zona</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"IC al 95%: ["</span>, <span class="fu">round</span>(li_zona, <span class="dv">3</span>), <span class="st">","</span>, <span class="fu">round</span>(ls_zona, <span class="dv">3</span>), <span class="st">"]"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>IC al 95%: [ 0.85 , 0.888 ]</code></pre>
+</div>
+</div>
+</section>
+<section id="cálculo-automático-con-binom.test" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="cálculo-automático-con-binom.test"><span class="header-section-number">3.2.3</span> Cálculo automático con <code>binom.test()</code></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Necesitamos el número de "éxitos" (casos = 1) y el n total</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>x_urbano <span class="ot">&lt;-</span> <span class="fu">sum</span>(cep<span class="sc">$</span>zona_num <span class="sc">==</span> <span class="dv">1</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>x_urbano</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1057</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x =</span> x_urbano, <span class="at">n =</span> n_zona, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Exact binomial test
+
+data:  x_urbano and n_zona
+number of successes = 1057, number of trials = 1217, p-value &lt; 2.2e-16
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.8482410 0.8870169
+sample estimates:
+probability of success 
+             0.8685292 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Interpretación:</strong> Con un 95% de confianza, la proporción de personas que reside en zona urbana en la población se encuentra entre 85% y 88.8%.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Pregunta:</strong> Compare el intervalo manual con el de <code>binom.test()</code>. ¿Son idénticos? ¿Por qué podrían diferir levemente? (Pista: <code>binom.test()</code> usa un método exacto, no la aproximación normal).</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="ejercicios-ic-para-proporciones-con-datos-cep" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="ejercicios-ic-para-proporciones-con-datos-cep"><span class="header-section-number">3.3</span> Ejercicios: IC para proporciones con datos CEP</h2>
+<section id="ejercicio-1" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="ejercicio-1"><span class="header-section-number">3.3.1</span> Ejercicio 1</h3>
+<p>Recodifique la variable <code>sexo</code> (en esta base: 1 = Hombre, 2 = Mujer) para crear una dummy donde <strong>1 = Mujer</strong> y <strong>0 = Hombre</strong>. Luego:</p>
+<ol type="1">
+<li>Reporte el estimador puntual (proporción de mujeres en la muestra)</li>
+<li>Calcule el error estándar <strong>a mano</strong></li>
+<li>Calcule el intervalo de confianza al <strong>95%</strong> e interprete</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Revise primero las categorías de la variable</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cep<span class="sc">$</span>sexo)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  1   2 
+506 711 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Complete el código:</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cep$mujer &lt;- as.numeric(car::recode(as.character(cep$sexo),</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                                     "'2'=1; '1'=0"))</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># table(cep$mujer)</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co"># p_hat &lt;- mean(cep$mujer, na.rm = TRUE)</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="co"># n     &lt;- sum(!is.na(cep$mujer))</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co"># se    &lt;- sqrt((p_hat * (1 - p_hat)) / n)</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="co"># p_hat - 1.96 * se</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="co"># p_hat + 1.96 * se</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta:</strong> Según el Censo, las mujeres son aproximadamente el 51% de la población adulta en Chile. ¿Ese valor cae dentro de su intervalo de confianza? ¿Qué sugiere eso sobre la muestra?</p>
+</blockquote>
+<hr>
+</section>
+<section id="ejercicio-2" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="ejercicio-2"><span class="header-section-number">3.3.2</span> Ejercicio 2</h3>
+<p>Usando la misma variable dummy del ejercicio anterior, calcule el intervalo de confianza al <strong>99%</strong> y al <strong>99.9%</strong> con <code>binom.test()</code>. ¿Qué ocurre con la amplitud del intervalo a medida que aumenta el nivel de confianza?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recuerde los valores críticos: 99% -&gt; 2.58 ; 99.9% -&gt; 3.29</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Complete el código:</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># x &lt;- sum(cep$mujer == 1, na.rm = TRUE)</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># n &lt;- sum(!is.na(cep$mujer))</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co"># binom.test(x = x, n = n, conf.level = 0.99)</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co"># binom.test(x = x, n = n, conf.level = 0.999)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta:</strong> Si quisiéramos un intervalo más <strong>preciso</strong> (más angosto) manteniendo el mismo nivel de confianza, ¿qué tendría que ocurrir con el tamaño muestral?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+</section>
+<section id="tests-de-hipótesis-para-medias" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Tests de hipótesis para medias</h1>
+<p>Los intervalos de confianza nos entregan un <strong>rango</strong> plausible para el parámetro. Los <strong>tests de hipótesis</strong> nos permiten responder una pregunta más directa: ¿es compatible nuestro dato muestral con un determinado valor del parámetro poblacional?</p>
+<section id="la-lógica-del-test" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="la-lógica-del-test"><span class="header-section-number">4.1</span> La lógica del test</h2>
+<ol type="1">
+<li>Planteamos una <strong>hipótesis nula</strong> (<span class="math inline">\(H_0\)</span>): el parámetro poblacional es igual a cierto valor (<span class="math inline">\(\mu = \mu_0\)</span>).</li>
+<li>Planteamos una <strong>hipótesis alternativa</strong> (<span class="math inline">\(H_a\)</span>): el parámetro es distinto de ese valor (<span class="math inline">\(\mu \neq \mu_0\)</span>).</li>
+<li>Calculamos un <strong>estadístico t</strong>, que indica a cuántos errores estándar se encuentra nuestra media muestral del valor propuesto en <span class="math inline">\(H_0\)</span>:</li>
+</ol>
+<p><span class="math display">\[t = \frac{\bar{x} - \mu_0}{se} \quad \text{donde} \quad se = \frac{s}{\sqrt{n}}\]</span></p>
+<ol start="4" type="1">
+<li>Obtenemos el <strong>valor-p</strong>: la probabilidad de observar una media como la nuestra (o más extrema) si <span class="math inline">\(H_0\)</span> fuera verdadera.</li>
+<li>Decidimos: si el valor-p es menor que <span class="math inline">\(\alpha\)</span> (usualmente 0.05), <strong>rechazamos</strong> <span class="math inline">\(H_0\)</span>.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El estadístico t funciona igual que un puntaje Z: mide distancias en unidades de error estándar. La diferencia es que usa la distribución t, que es más conservadora con muestras pequeñas.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="ejemplo-paso-a-paso-la-edad-promedio-de-la-población-es-45-años" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="ejemplo-paso-a-paso-la-edad-promedio-de-la-población-es-45-años"><span class="header-section-number">4.2</span> Ejemplo paso a paso: ¿la edad promedio de la población es 45 años?</h2>
+<p>Supongamos que queremos evaluar la hipótesis de que la edad promedio de la población adulta chilena es de <strong>45 años</strong>.</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu = 45\)</span></li>
+<li><span class="math inline">\(H_a\)</span>: <span class="math inline">\(\mu \neq 45\)</span></li>
+</ul>
+<section id="exploración-de-la-variable" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="exploración-de-la-variable"><span class="header-section-number">4.2.1</span> Exploración de la variable</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cep<span class="sc">$</span>edad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  18.00   35.00   51.00   50.07   64.00   91.00 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(cep<span class="sc">$</span>edad, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18.1895</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tamaño muestral sin casos perdidos</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>n_edad <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(cep<span class="sc">$</span>edad))</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>n_edad</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1217</code></pre>
+</div>
+</div>
+</section>
+<section id="cálculo-manual-del-test" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="cálculo-manual-del-test"><span class="header-section-number">4.2.2</span> Cálculo manual del test</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>media_edad <span class="ot">&lt;-</span> <span class="fu">mean</span>(cep<span class="sc">$</span>edad, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>sd_edad    <span class="ot">&lt;-</span> <span class="fu">sd</span>(cep<span class="sc">$</span>edad, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Error estándar</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>se_edad <span class="ot">&lt;-</span> sd_edad <span class="sc">/</span> <span class="fu">sqrt</span>(n_edad)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>se_edad</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5214052</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estadístico t</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>t_edad <span class="ot">&lt;-</span> (media_edad <span class="sc">-</span> <span class="dv">45</span>) <span class="sc">/</span> se_edad</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>t_edad</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9.723423</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Valor-p (test de dos colas)</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_edad), <span class="at">df =</span> n_edad <span class="sc">-</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.427784e-21</code></pre>
+</div>
+</div>
+</section>
+<section id="cálculo-automático-con-t.test" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="cálculo-automático-con-t.test"><span class="header-section-number">4.2.3</span> Cálculo automático con <code>t.test()</code></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(cep<span class="sc">$</span>edad, <span class="at">mu =</span> <span class="dv">45</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  cep$edad
+t = 9.7234, df = 1216, p-value &lt; 2.2e-16
+alternative hypothesis: true mean is not equal to 45
+95 percent confidence interval:
+ 49.04689 51.09280
+sample estimates:
+mean of x 
+ 50.06984 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Interpretación:</strong> Con un valor-p &lt; 0.001, <strong>rechazamos</strong> <span class="math inline">\(H_0\)</span> y concluimos que la edad promedio de la población es <strong>distinta de 45 años</strong>. La media muestral (50.07) se encuentra a casi 10 errores estándar del valor propuesto: un resultado así sería extremadamente improbable si <span class="math inline">\(H_0\)</span> fuera verdadera.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Pregunta:</strong> Observe el intervalo de confianza que reporta <code>t.test()</code>. ¿El valor 45 está dentro o fuera del intervalo? ¿Qué relación existe entre el intervalo de confianza al 95% y el test de hipótesis con <span class="math inline">\(\alpha = 0.05\)</span>?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="ejercicios-tests-de-hipótesis-con-datos-cep" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="ejercicios-tests-de-hipótesis-con-datos-cep"><span class="header-section-number">4.3</span> Ejercicios: tests de hipótesis con datos CEP</h2>
+<section id="ejercicio-3" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="ejercicio-3"><span class="header-section-number">4.3.1</span> Ejercicio 3</h3>
+<p>Ponga a prueba la hipótesis de que la edad promedio de la población es de <strong>50 años</strong>:</p>
+<ol type="1">
+<li>Escriba <span class="math inline">\(H_0\)</span> y <span class="math inline">\(H_a\)</span></li>
+<li>Calcule el estadístico t <strong>a mano</strong> (error estándar incluido)</li>
+<li>Obtenga el valor-p con <code>pt()</code></li>
+<li>Verifique con <code>t.test()</code></li>
+<li>Redacte una conclusión sustantiva</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escriba aquí su código</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># H0: mu = 50</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ha: mu != 50</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="co"># media &lt;- mean(cep$edad, na.rm = TRUE)</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="co"># se    &lt;- sd(cep$edad, na.rm = TRUE) / sqrt(sum(!is.na(cep$edad)))</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="co"># t     &lt;- (media - 50) / se</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 * pt(abs(t), df = sum(!is.na(cep$edad)) - 1, lower.tail = FALSE)</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a><span class="co"># t.test(cep$edad, mu = 50)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+<section id="ejercicio-4" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="ejercicio-4"><span class="header-section-number">4.3.2</span> Ejercicio 4</h3>
+<p>En clases vimos el ejemplo de la ideología política con datos LAPOP. Repliquemos ese análisis con la CEP: usando la variable <code>ideologia</code> que creamos al inicio del taller (escala 1 = izquierda a 10 = derecha, ya sin códigos de perdidos), ponga a prueba la hipótesis de que la población se ubica, en promedio, <strong>en el punto medio de la escala</strong> (μ = 5.5):</p>
+<ol type="1">
+<li>Escriba <span class="math inline">\(H_0\)</span> y <span class="math inline">\(H_a\)</span></li>
+<li>Calcule además el intervalo de confianza al 95%</li>
+<li>Interprete sustantivamente: ¿la población se inclina hacia la izquierda, hacia la derecha, o es ideológicamente “neutral”?</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Explore primero la variable</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cep<span class="sc">$</span>ideologia)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
+  1.000   5.000   5.000   5.583   7.000  10.000     265 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(cep<span class="sc">$</span>ideologia, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.563483</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Complete el código:</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="co"># t.test(cep$ideologia, mu = 5.5)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta:</strong> ¿Por qué el punto medio de una escala es un valor de referencia interesante para <span class="math inline">\(H_0\)</span>? ¿Qué significa sustantivamente rechazar esa hipótesis nula? ¿Qué limitación tiene este análisis considerando cuántos casos perdidos tiene la variable?</p>
+</blockquote>
+<hr>
+</section>
+<section id="ejercicio-5-desafío" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="ejercicio-5-desafío"><span class="header-section-number">4.3.3</span> Ejercicio 5 (Desafío)</h3>
+<p>Combine lo aprendido en ambos talleres: calcule el intervalo de confianza al 95% para la <strong>edad</strong>, separado por <strong>zona urbana y rural</strong>, y luego responda:</p>
+<ol type="1">
+<li>¿Los intervalos se solapan?</li>
+<li>Ejecute <code>t.test(edad ~ zona_num, data = cep)</code>. Este es un test para <strong>diferencia de medias entre dos grupos</strong> (lo veremos en detalle la próxima clase). ¿El resultado es coherente con lo que observó al comparar los intervalos?</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># IC por grupo</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>edad_urbana <span class="ot">&lt;-</span> cep <span class="sc">%&gt;%</span> <span class="fu">filter</span>(zona_num <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(edad)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>edad_rural  <span class="ot">&lt;-</span> cep <span class="sc">%&gt;%</span> <span class="fu">filter</span>(zona_num <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(edad)</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> edad_urbana, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  edad_urbana
+t = 88.786, df = 1056, p-value &lt; 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 48.99119 51.20559
+sample estimates:
+mean of x 
+ 50.09839 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> edad_rural,  <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  edad_rural
+t = 36.725, df = 159, p-value &lt; 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 47.19871 52.56379
+sample estimates:
+mean of x 
+ 49.88125 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adelanto de la próxima clase: test de diferencia de medias</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="co"># t.test(edad ~ zona_num, data = cep)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="síntesis" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Síntesis</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Concepto</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Proporción muestral</strong> (<span class="math inline">\(\hat{p}\)</span>)</td>
+<td>Estimador puntual para variables dicotómicas; equivale a la media de una dummy 0/1</td>
+</tr>
+<tr class="even">
+<td><strong>Error estándar de la proporción</strong></td>
+<td><span class="math inline">\(se = \sqrt{\hat{p}(1-\hat{p})/n}\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>IC para proporciones</strong></td>
+<td><span class="math inline">\(\hat{p} \pm t_{\alpha/2} \cdot se\)</span>; en R, <code>binom.test()</code></td>
+</tr>
+<tr class="even">
+<td><strong>Hipótesis nula</strong> (<span class="math inline">\(H_0\)</span>)</td>
+<td>Afirmación sobre el parámetro que ponemos a prueba (ej. <span class="math inline">\(\mu = 45\)</span>)</td>
+</tr>
+<tr class="odd">
+<td><strong>Hipótesis alternativa</strong> (<span class="math inline">\(H_a\)</span>)</td>
+<td>Afirmación que aceptamos si rechazamos <span class="math inline">\(H_0\)</span> (ej. <span class="math inline">\(\mu \neq 45\)</span>)</td>
+</tr>
+<tr class="even">
+<td><strong>Estadístico t</strong></td>
+<td>Distancia entre la media muestral y <span class="math inline">\(\mu_0\)</span>, en unidades de error estándar</td>
+</tr>
+<tr class="odd">
+<td><strong>Valor-p</strong></td>
+<td>Probabilidad de observar un resultado como el nuestro (o más extremo) si <span class="math inline">\(H_0\)</span> fuera verdadera</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Regla general:</strong> valor-p &lt; <span class="math inline">\(\alpha\)</span> → rechazamos <span class="math inline">\(H_0\)</span>. Además, si el valor propuesto en <span class="math inline">\(H_0\)</span> queda <strong>fuera</strong> del intervalo de confianza al <span class="math inline">\((1-\alpha)\)</span>%, el test rechazará <span class="math inline">\(H_0\)</span> a ese mismo nivel: intervalos y tests son dos caras de la misma moneda.</p>
+</blockquote>
+<hr>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
