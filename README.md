@@ -8,6 +8,8 @@
 
 [Taller 07/05](https://renejcanales.github.io/estadistica_usach/presentations/taller_07_05.html) 
 
+[Taller 10/07](https://renejcanales.github.io/estadistica_usach/presentations/taller_09-07.html)
+
 ## Handout
 
 [Handout para R](https://renejcanales.github.io/estadistica_usach/extra/handout_page.html) 
