@@ -10,6 +10,10 @@
 
 [Taller 10/07](https://renejcanales.github.io/estadistica_usach/presentations/taller_09-07.html)
 
+## Ejercicios
+
+[Ejercicio 2](https://renejcanales.github.io/estadistica_usach/ejercicios/ejercicio_2.html)
+
 ## Handout
 
 [Handout para R](https://renejcanales.github.io/estadistica_usach/extra/handout_page.html) 
