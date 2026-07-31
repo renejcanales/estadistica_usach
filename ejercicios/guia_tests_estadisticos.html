@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Prof.&nbsp;René Canales">
+
+<title>Guía de Ejercicios: Tests estadísticos</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="guia_tests_estadisticos_files/libs/clipboard/clipboard.min.js"></script>
+<script src="guia_tests_estadisticos_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="guia_tests_estadisticos_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="guia_tests_estadisticos_files/libs/quarto-html/popper.min.js"></script>
+<script src="guia_tests_estadisticos_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="guia_tests_estadisticos_files/libs/quarto-html/anchor.min.js"></script>
+<link href="guia_tests_estadisticos_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="guia_tests_estadisticos_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="guia_tests_estadisticos_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="guia_tests_estadisticos_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="guia_tests_estadisticos_files/libs/bootstrap/bootstrap-45c8b106d82b6caeba2ba56229f1a62e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Guía de Ejercicios: Tests estadísticos</h1>
+            <p class="subtitle lead">Medias y proporciones, muestras dependientes e independientes, y tipos de error</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Autor/a</div>
+      <div class="quarto-title-meta-contents">
+               <p>Prof.&nbsp;René Canales </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Fecha de publicación</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">31 de julio de 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#presentación" id="toc-presentación" class="nav-link active" data-scroll-target="#presentación"><span class="header-section-number">1</span> Presentación</a>
+  <ul class="collapse">
+  <li><a href="#mapa-de-contenidos" id="toc-mapa-de-contenidos" class="nav-link" data-scroll-target="#mapa-de-contenidos"><span class="header-section-number">1.1</span> Mapa de contenidos</a></li>
+  </ul></li>
+  <li><a href="#preparación-de-los-datos" id="toc-preparación-de-los-datos" class="nav-link" data-scroll-target="#preparación-de-los-datos"><span class="header-section-number">2</span> Preparación de los datos</a>
+  <ul class="collapse">
+  <li><a href="#cargar-paquetes-y-datos" id="toc-cargar-paquetes-y-datos" class="nav-link" data-scroll-target="#cargar-paquetes-y-datos"><span class="header-section-number">2.1</span> Cargar paquetes y datos</a></li>
+  <li><a href="#recodificación" id="toc-recodificación" class="nav-link" data-scroll-target="#recodificación"><span class="header-section-number">2.2</span> Recodificación</a></li>
+  </ul></li>
+  <li><a href="#la-lógica-del-test-repaso-y-los-tipos-de-error" id="toc-la-lógica-del-test-repaso-y-los-tipos-de-error" class="nav-link" data-scroll-target="#la-lógica-del-test-repaso-y-los-tipos-de-error"><span class="header-section-number">3</span> La lógica del test (repaso) y los tipos de error</a></li>
+  <li><a href="#test-para-una-media" id="toc-test-para-una-media" class="nav-link" data-scroll-target="#test-para-una-media"><span class="header-section-number">4</span> Test para una media</a>
+  <ul class="collapse">
+  <li><a href="#dos-colas-la-población-es-de-centro-ejemplo-resuelto" id="toc-dos-colas-la-población-es-de-centro-ejemplo-resuelto" class="nav-link" data-scroll-target="#dos-colas-la-población-es-de-centro-ejemplo-resuelto"><span class="header-section-number">4.1</span> Dos colas — ¿la población es de centro? (ejemplo resuelto)</a></li>
+  <li><a href="#una-cola-la-población-se-inclina-a-la-izquierda-ejercicio" id="toc-una-cola-la-población-se-inclina-a-la-izquierda-ejercicio" class="nav-link" data-scroll-target="#una-cola-la-población-se-inclina-a-la-izquierda-ejercicio"><span class="header-section-number">4.2</span> Una cola — ¿la población se inclina a la izquierda? (ejercicio)</a></li>
+  </ul></li>
+  <li><a href="#correspondencia-entre-el-test-de-dos-colas-y-el-intervalo-de-confianza" id="toc-correspondencia-entre-el-test-de-dos-colas-y-el-intervalo-de-confianza" class="nav-link" data-scroll-target="#correspondencia-entre-el-test-de-dos-colas-y-el-intervalo-de-confianza"><span class="header-section-number">5</span> Correspondencia entre el test de dos colas y el intervalo de confianza</a></li>
+  <li><a href="#test-para-una-proporción" id="toc-test-para-una-proporción" class="nav-link" data-scroll-target="#test-para-una-proporción"><span class="header-section-number">6</span> Test para una proporción</a>
+  <ul class="collapse">
+  <li><a href="#dos-colas-aprueba-al-gobierno-la-mitad-del-país-ejemplo-resuelto" id="toc-dos-colas-aprueba-al-gobierno-la-mitad-del-país-ejemplo-resuelto" class="nav-link" data-scroll-target="#dos-colas-aprueba-al-gobierno-la-mitad-del-país-ejemplo-resuelto"><span class="header-section-number">6.1</span> Dos colas — ¿aprueba al gobierno la mitad del país? (ejemplo resuelto)</a></li>
+  <li><a href="#una-cola-aprueba-menos-de-la-mitad-del-país-ejercicio" id="toc-una-cola-aprueba-menos-de-la-mitad-del-país-ejercicio" class="nav-link" data-scroll-target="#una-cola-aprueba-menos-de-la-mitad-del-país-ejercicio"><span class="header-section-number">6.2</span> Una cola — ¿aprueba menos de la mitad del país? (ejercicio)</a></li>
+  </ul></li>
+  <li><a href="#muestras-independientes-comparar-dos-grupos" id="toc-muestras-independientes-comparar-dos-grupos" class="nav-link" data-scroll-target="#muestras-independientes-comparar-dos-grupos"><span class="header-section-number">7</span> Muestras independientes: comparar dos grupos</a>
+  <ul class="collapse">
+  <li><a href="#difiere-la-posición-ideológica-entre-hombres-y-mujeres-ejemplo-resuelto" id="toc-difiere-la-posición-ideológica-entre-hombres-y-mujeres-ejemplo-resuelto" class="nav-link" data-scroll-target="#difiere-la-posición-ideológica-entre-hombres-y-mujeres-ejemplo-resuelto"><span class="header-section-number">7.1</span> ¿Difiere la posición ideológica entre hombres y mujeres? (ejemplo resuelto)</a></li>
+  <li><a href="#ejercicio-edad-promedio-según-zona" id="toc-ejercicio-edad-promedio-según-zona" class="nav-link" data-scroll-target="#ejercicio-edad-promedio-según-zona"><span class="header-section-number">7.2</span> Ejercicio: edad promedio según zona</a></li>
+  </ul></li>
+  <li><a href="#muestras-dependientes-pareadas-comparar-dos-mediciones" id="toc-muestras-dependientes-pareadas-comparar-dos-mediciones" class="nav-link" data-scroll-target="#muestras-dependientes-pareadas-comparar-dos-mediciones"><span class="header-section-number">8</span> Muestras dependientes (pareadas): comparar dos mediciones</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-plantilla-lista-para-completar" id="toc-ejemplo-plantilla-lista-para-completar" class="nav-link" data-scroll-target="#ejemplo-plantilla-lista-para-completar"><span class="header-section-number">8.1</span> Ejemplo (plantilla lista para completar)</a></li>
+  </ul></li>
+  <li><a href="#tipos-de-error-en-la-práctica" id="toc-tipos-de-error-en-la-práctica" class="nav-link" data-scroll-target="#tipos-de-error-en-la-práctica"><span class="header-section-number">9</span> Tipos de error, en la práctica</a>
+  <ul class="collapse">
+  <li><a href="#error-tipo-i-cuando-h_0-es-verdadera" id="toc-error-tipo-i-cuando-h_0-es-verdadera" class="nav-link" data-scroll-target="#error-tipo-i-cuando-h_0-es-verdadera"><span class="header-section-number">9.1</span> Error tipo I: cuando <span class="math inline">\(H_0\)</span> es verdadera</a></li>
+  <li><a href="#error-tipo-ii-y-potencia-cuando-h_0-es-falsa" id="toc-error-tipo-ii-y-potencia-cuando-h_0-es-falsa" class="nav-link" data-scroll-target="#error-tipo-ii-y-potencia-cuando-h_0-es-falsa"><span class="header-section-number">9.2</span> Error tipo II y potencia: cuando <span class="math inline">\(H_0\)</span> es falsa</a></li>
+  <li><a href="#el-tamaño-muestral-manda" id="toc-el-tamaño-muestral-manda" class="nav-link" data-scroll-target="#el-tamaño-muestral-manda"><span class="header-section-number">9.3</span> El tamaño muestral manda</a></li>
+  </ul></li>
+  <li><a href="#conclusiones-del-informe" id="toc-conclusiones-del-informe" class="nav-link" data-scroll-target="#conclusiones-del-informe"><span class="header-section-number">10</span> Conclusiones del informe</a>
+  <ul class="collapse">
+  <li><a href="#ejercicio-final-integrador" id="toc-ejercicio-final-integrador" class="nav-link" data-scroll-target="#ejercicio-final-integrador"><span class="header-section-number">10.1</span> Ejercicio final (integrador)</a></li>
+  </ul></li>
+  <li><a href="#lista-de-cotejo-para-la-prueba" id="toc-lista-de-cotejo-para-la-prueba" class="nav-link" data-scroll-target="#lista-de-cotejo-para-la-prueba"><span class="header-section-number">11</span> Lista de cotejo para la prueba</a></li>
+  <li><a href="#lecturas-de-la-clase" id="toc-lecturas-de-la-clase" class="nav-link" data-scroll-target="#lecturas-de-la-clase"><span class="header-section-number">12</span> Lecturas de la clase</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Otros formatos</h2><ul><li><a href="../guia_tests_estadisticos.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="presentación" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Presentación</h1>
+<p>Esta guía practica <strong>todo el ciclo de un test de hipótesis</strong> sobre datos reales de la Encuesta CEP N°95: desde plantear <span class="math inline">\(H_0\)</span> y <span class="math inline">\(H_a\)</span> hasta redactar una conclusión sustantiva. A diferencia de la guía anterior —centrada en describir y estimar— aquí el foco está en <strong>decidir</strong>: contrastar el valor observado en la muestra contra un valor de referencia y evaluar si la diferencia es estadísticamente significativa en la población.</p>
+<p><strong>El encargo:</strong> Un centro de estudios les pide evaluar formalmente varias afirmaciones sobre las actitudes políticas de la población chilena. Algunas comparan un promedio con un valor teórico (¿la población es de centro?), otras comparan <strong>dos grupos</strong> (¿piensan distinto hombres y mujeres?), y otras comparan <strong>dos mediciones sobre las mismas personas</strong>. Además, deberán mostrar que entienden qué puede salir mal al decidir: los <strong>errores tipo I y tipo II</strong>.</p>
+<section id="mapa-de-contenidos" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="mapa-de-contenidos"><span class="header-section-number">1.1</span> Mapa de contenidos</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Etapa</th>
+<th>Contenido evaluado</th>
+<th>Herramienta en R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Recordar la lógica</td>
+<td>5 componentes de un test; errores tipo I y II</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Test para una media</td>
+<td>Una y dos colas; valor-p; correspondencia con IC</td>
+<td><code>t.test()</code>, <code>pt()</code></td>
+</tr>
+<tr class="odd">
+<td>Test para una proporción</td>
+<td>Una y dos colas</td>
+<td><code>prop.test()</code>, <code>binom.test()</code></td>
+</tr>
+<tr class="even">
+<td>Comparar dos grupos</td>
+<td>Muestras <strong>independientes</strong></td>
+<td><code>t.test(y ~ grupo)</code></td>
+</tr>
+<tr class="odd">
+<td>Comparar dos mediciones</td>
+<td>Muestras <strong>dependientes</strong> (pareadas)</td>
+<td><code>t.test(x, y, paired = TRUE)</code></td>
+</tr>
+<tr class="even">
+<td>Cuantificar el riesgo de equivocarse</td>
+<td>Errores, <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span> y potencia</td>
+<td><code>replicate()</code>, <code>power.t.test()</code></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Cómo usar esta guía.</strong> Cada sección tiene un <strong>ejemplo resuelto</strong> (léanlo y ejecútenlo) y un <strong>ejercicio</strong> con espacios en blanco (<code>___</code>) que ustedes completan. En la prueba no basta con ejecutar código: cada resultado debe ir acompañado de una <strong>interpretación sustantiva</strong> (¿qué nos dice este número sobre la población chilena?). Presten especial atención a la <strong>redacción de la conclusión</strong>: es lo que más se evalúa.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="preparación-de-los-datos" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Preparación de los datos</h1>
+<section id="cargar-paquetes-y-datos" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="cargar-paquetes-y-datos"><span class="header-section-number">2.1</span> Cargar paquetes y datos</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)    <span class="co"># manipulación de datos</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  <span class="co"># gráficos</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)     <span class="co"># rutas relativas</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)      <span class="co"># recodificación de variables</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">999</span>)   <span class="co"># evita la notación científica en los valores-p</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cep <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"bases"</span>, <span class="st">"raw"</span>, <span class="st">"cep95.csv"</span>),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">sep =</span> <span class="st">","</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">encoding =</span> <span class="st">"UTF-8"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(cep)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1217  176</code></pre>
+</div>
+</div>
+</section>
+<section id="recodificación" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="recodificación"><span class="header-section-number">2.2</span> Recodificación</h2>
+<p>Reutilizamos las variables de la guía anterior. Recuerden limpiar <strong>siempre</strong> los casos perdidos (<strong>-8 = No sabe</strong>, <strong>-9 = No contesta</strong>) antes de calcular nada.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variable creada</th>
+<th>Origen</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ideologia</code></td>
+<td><code>iden_pol_2</code></td>
+<td>Escala 1 (izquierda) – 10 (derecha)</td>
+</tr>
+<tr class="even">
+<td><code>mujer</code></td>
+<td><code>sexo</code></td>
+<td>1 = Mujer, 0 = Hombre</td>
+</tr>
+<tr class="odd">
+<td><code>urbano</code></td>
+<td><code>zona_u_r</code></td>
+<td>1 = Urbano, 0 = Rural</td>
+</tr>
+<tr class="even">
+<td><code>aprueba</code></td>
+<td><code>eval_gob_1</code></td>
+<td>1 = Aprueba, 0 = otra respuesta válida</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escala ideológica</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cep<span class="sc">$</span>ideologia <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">recode</span>(cep<span class="sc">$</span>iden_pol_2, <span class="st">"-8=NA; -9=NA"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Dummy mujer</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>cep<span class="sc">$</span>mujer <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(car<span class="sc">::</span><span class="fu">recode</span>(<span class="fu">as.character</span>(cep<span class="sc">$</span>sexo), <span class="st">"'2'=1; '1'=0"</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Dummy urbano</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>cep<span class="sc">$</span>urbano <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(car<span class="sc">::</span><span class="fu">recode</span>(<span class="fu">as.character</span>(cep<span class="sc">$</span>zona_u_r), <span class="st">"'1'=1; '2'=0"</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Dummy aprobación del gobierno</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>cep<span class="sc">$</span>aprueba <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">recode</span>(cep<span class="sc">$</span>eval_gob_1, <span class="st">"-8=NA; -9=NA; 1=1; else=0"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificación rápida</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cep<span class="sc">$</span>ideologia)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
+  1.000   5.000   5.000   5.583   7.000  10.000     265 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cep<span class="sc">$</span>mujer, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  0   1 
+506 711 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cep<span class="sc">$</span>aprueba, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 824  344   49 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 0.1:</strong> ¿Por qué el error estándar de un test cae a medida que crece <code>n</code>? ¿Qué consecuencia tiene eso sobre la facilidad para rechazar <span class="math inline">\(H_0\)</span>?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="la-lógica-del-test-repaso-y-los-tipos-de-error" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> La lógica del test (repaso) y los tipos de error</h1>
+<p>Antes de calcular, fijemos el vocabulario. Todo test tiene cinco componentes: <strong>supuestos</strong>, <strong>hipótesis</strong> (<span class="math inline">\(H_0\)</span> y <span class="math inline">\(H_a\)</span>), <strong>estadístico de prueba</strong>, <strong>valor-p</strong> y <strong>conclusión</strong>. La regla de decisión es siempre la misma:</p>
+<p><span class="math display">\[\text{valor-}p &lt; \alpha \;\Rightarrow\; \text{se rechaza } H_0.\]</span></p>
+<p>Al decidir con datos podemos equivocarnos de dos formas. Conviene tenerlas claras <strong>antes</strong> de resolver los ejercicios, porque cada conclusión que redacten arrastra este riesgo.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(H_0\)</span> es verdadera</th>
+<th><span class="math inline">\(H_0\)</span> es falsa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Rechazamos <span class="math inline">\(H_0\)</span></strong></td>
+<td>Error tipo I (prob. <span class="math inline">\(\alpha\)</span>)</td>
+<td>Decisión correcta (potencia = <span class="math inline">\(1-\beta\)</span>)</td>
+</tr>
+<tr class="even">
+<td><strong>No rechazamos <span class="math inline">\(H_0\)</span></strong></td>
+<td>Decisión correcta</td>
+<td>Error tipo II (prob. <span class="math inline">\(\beta\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Error tipo I (<span class="math inline">\(\alpha\)</span>):</strong> rechazar <span class="math inline">\(H_0\)</span> cuando en realidad es verdadera (“falso positivo”). Lo fijamos nosotros: usar <span class="math inline">\(\alpha = 0.05\)</span> es <em>aceptar de antemano</em> equivocarnos así un 5% de las veces.</li>
+<li><strong>Error tipo II (<span class="math inline">\(\beta\)</span>):</strong> no rechazar <span class="math inline">\(H_0\)</span> cuando en realidad es falsa (“falso negativo”).</li>
+<li><strong>Potencia (<span class="math inline">\(1-\beta\)</span>):</strong> probabilidad de detectar un efecto que <strong>sí existe</strong>. Crece con el tamaño muestral, con el tamaño del efecto y con un <span class="math inline">\(\alpha\)</span> más laxo.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Redacción.</strong> Cuando el valor-p es mayor a <span class="math inline">\(\alpha\)</span> <strong>no</strong> decimos que “aceptamos” o “probamos” <span class="math inline">\(H_0\)</span>: decimos que <strong>no hay evidencia suficiente para rechazarla</strong>. La diferencia no es cosmética —- afirmar <span class="math inline">\(H_0\)</span> es justamente arriesgar un error tipo II sin cuantificarlo.</p>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 1.1:</strong> Un titular afirma: “Un estudio <em>demostró</em> que no hay diferencia ideológica entre hombres y mujeres”. ¿Qué error de razonamiento comete? ¿Con qué tipo de error se relaciona?</p>
+</blockquote>
+<hr>
+</section>
+<section id="test-para-una-media" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Test para una media</h1>
+<section id="dos-colas-la-población-es-de-centro-ejemplo-resuelto" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="dos-colas-la-población-es-de-centro-ejemplo-resuelto"><span class="header-section-number">4.1</span> Dos colas — ¿la población es de centro? (ejemplo resuelto)</h2>
+<p>Si la población fuera ideológicamente “de centro”, su promedio en la escala 1–10 sería el punto medio, <strong>5.5</strong>. Contrastamos:</p>
+<p><span class="math display">\[H_0: \mu = 5.5 \qquad H_a: \mu \neq 5.5\]</span></p>
+<p>El estadístico de prueba mide a cuántos errores estándar está la media muestral del valor de <span class="math inline">\(H_0\)</span>:</p>
+<p><span class="math display">\[t = \frac{\bar{x} - \mu_0}{se}, \qquad se = \frac{s}{\sqrt{n}}\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Insumos</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>media_ideo <span class="ot">&lt;-</span> <span class="fu">mean</span>(cep<span class="sc">$</span>ideologia, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sd_ideo    <span class="ot">&lt;-</span> <span class="fu">sd</span>(cep<span class="sc">$</span>ideologia,   <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>n_ideo     <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(cep<span class="sc">$</span>ideologia))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Error estándar y estadístico t (a mano)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>se_ideo <span class="ot">&lt;-</span> sd_ideo <span class="sc">/</span> <span class="fu">sqrt</span>(n_ideo)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>t_ideo  <span class="ot">&lt;-</span> (media_ideo <span class="sc">-</span> <span class="fl">5.5</span>) <span class="sc">/</span> se_ideo</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>media_ideo</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.582983</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>se_ideo</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.08308296</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>t_ideo</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9987992</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Valor-p de dos colas: se multiplica por 2</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_ideo), <span class="at">df =</span> n_ideo <span class="sc">-</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3181461</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificación automática</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(cep<span class="sc">$</span>ideologia, <span class="at">mu =</span> <span class="fl">5.5</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  cep$ideologia
+t = 0.9988, df = 951, p-value = 0.3181
+alternative hypothesis: true mean is not equal to 5.5
+95 percent confidence interval:
+ 5.419936 5.746030
+sample estimates:
+mean of x 
+ 5.582983 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 2.1:</strong> Traduzca el resultado a una frase completa: ¿podemos afirmar, y con qué nivel de confianza, que la población chilena <strong>no</strong> se ubica en el centro exacto de la escala?</p>
+</blockquote>
+</section>
+<section id="una-cola-la-población-se-inclina-a-la-izquierda-ejercicio" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="una-cola-la-población-se-inclina-a-la-izquierda-ejercicio"><span class="header-section-number">4.2</span> Una cola — ¿la población se inclina a la izquierda? (ejercicio)</h2>
+<p>Con más información podemos plantear una hipótesis <strong>direccional</strong>. Supongamos que queremos evaluar no solo si el promedio difiere de 5.5, sino si es <strong>significativamente menor</strong> (inclinación hacia la izquierda de la escala):</p>
+<p><span class="math display">\[H_a: \mu &lt; 5.5 \qquad H_0: \mu \geq 5.5\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a) El estadístico t es el MISMO que calculó arriba (t_ideo). ¿Por qué?</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># b) Valor-p de UNA cola: NO se multiplica por 2.</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#    Como la hipótesis apunta a la cola izquierda, use lower.tail = TRUE.</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># pt(t_ideo, df = n_ideo - 1, lower.tail = ___)</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># c) Verificación automática (fíjese en el argumento alternative)</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># t.test(cep$ideologia, mu = 5.5, alternative = "___")</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 2.2:</strong> El valor-p de una cola es (aprox.) la <strong>mitad</strong> del de dos colas. Explique por qué, en términos de la región de rechazo.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Pregunta 2.3:</strong> ¿En qué situación un test de una cola podría llevar a rechazar <span class="math inline">\(H_0\)</span> cuando el de dos colas no lo haría? ¿Qué riesgo tiene “elegir” la cola <em>después</em> de ver los datos?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="correspondencia-entre-el-test-de-dos-colas-y-el-intervalo-de-confianza" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Correspondencia entre el test de dos colas y el intervalo de confianza</h1>
+<p>Un test de dos colas al 95% y un intervalo de confianza al 95% para el mismo estadístico <strong>siempre son coherentes</strong>: si el test rechaza <span class="math inline">\(H_0: \mu = \mu_0\)</span>, entonces <span class="math inline">\(\mu_0\)</span> queda <strong>fuera</strong> del intervalo; si no lo rechaza, <span class="math inline">\(\mu_0\)</span> queda <strong>dentro</strong>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># IC al 95% para la media de ideologia</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(cep<span class="sc">$</span>ideologia, <span class="at">conf.level =</span> <span class="fl">0.95</span>)<span class="sc">$</span>conf.int</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.419936 5.746030
+attr(,"conf.level")
+[1] 0.95</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 3.1:</strong> ¿El valor 5.5 cae dentro o fuera de ese intervalo? Muestre que su respuesta es coherente con la decisión del test de la sección anterior.</p>
+</blockquote>
+<hr>
+</section>
+<section id="test-para-una-proporción" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Test para una proporción</h1>
+<p>Con variables categóricas hacemos inferencia sobre una <strong>proporción</strong>: comparamos la proporción muestral <span class="math inline">\(\hat{p}\)</span> con un valor de referencia <span class="math inline">\(\pi_0\)</span>.</p>
+<p><span class="math display">\[t = \frac{\hat{p} - \pi_0}{se}, \qquad se = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\]</span></p>
+<section id="dos-colas-aprueba-al-gobierno-la-mitad-del-país-ejemplo-resuelto" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="dos-colas-aprueba-al-gobierno-la-mitad-del-país-ejemplo-resuelto"><span class="header-section-number">6.1</span> Dos colas — ¿aprueba al gobierno la mitad del país? (ejemplo resuelto)</h2>
+<p><span class="math display">\[H_0: \pi = 0.5 \qquad H_a: \pi \neq 0.5\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p_aprueba <span class="ot">&lt;-</span> <span class="fu">mean</span>(cep<span class="sc">$</span>aprueba, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>n_aprueba <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(cep<span class="sc">$</span>aprueba))</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>x_aprueba <span class="ot">&lt;-</span> <span class="fu">sum</span>(cep<span class="sc">$</span>aprueba <span class="sc">==</span> <span class="dv">1</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># número de éxitos</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Error estándar y estadístico (a mano)</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>se_p <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p_aprueba <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_aprueba) <span class="sc">/</span> n_aprueba)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>t_p  <span class="ot">&lt;-</span> (p_aprueba <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> se_p</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>p_aprueba</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2945205</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>t_p</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -15.406</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_p), <span class="at">df =</span> n_aprueba <span class="sc">-</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0000000000000000000000000000000000000000000000006878072</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificación automática (dos alternativas equivalentes en la práctica)</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="at">x =</span> x_aprueba, <span class="at">n =</span> n_aprueba, <span class="at">p =</span> <span class="fl">0.5</span>)          <span class="co"># aproximación normal</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1-sample proportions test with continuity correction
+
+data:  x_aprueba out of n_aprueba, null probability 0.5
+X-squared = 196.44, df = 1, p-value &lt; 0.00000000000000022
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.2686714 0.3217389
+sample estimates:
+        p 
+0.2945205 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x =</span> x_aprueba, <span class="at">n =</span> n_aprueba, <span class="at">p =</span> <span class="fl">0.5</span>)         <span class="co"># test binomial exacto</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Exact binomial test
+
+data:  x_aprueba and n_aprueba
+number of successes = 344, number of trials = 1168, p-value &lt;
+0.00000000000000022
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.2684959 0.3215842
+sample estimates:
+probability of success 
+             0.2945205 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 4.1:</strong> ¿Se rechaza <span class="math inline">\(H_0\)</span>? Redacte la conclusión mencionando la dirección (¿la aprobación está por sobre o por debajo del 50%?) y el nivel de confianza.</p>
+</blockquote>
+</section>
+<section id="una-cola-aprueba-menos-de-la-mitad-del-país-ejercicio" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="una-cola-aprueba-menos-de-la-mitad-del-país-ejercicio"><span class="header-section-number">6.2</span> Una cola — ¿aprueba menos de la mitad del país? (ejercicio)</h2>
+<p><span class="math display">\[H_a: \pi &lt; 0.5 \qquad H_0: \pi \geq 0.5\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a) Valor-p de una cola a mano (cola izquierda)</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pt(t_p, df = n_aprueba - 1, lower.tail = ___)</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># b) Verificación automática</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co"># prop.test(x = x_aprueba, n = n_aprueba, p = 0.5, alternative = "___")</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 4.2:</strong> Las fichas técnicas reportan un “margen de error” (p.&nbsp;ej. ±2.8%). ¿Con cuál de los números que aparecen en el test se corresponde ese concepto?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="muestras-independientes-comparar-dos-grupos" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Muestras independientes: comparar dos grupos</h1>
+<p>Hasta aquí comparamos un estadístico contra un <strong>valor fijo</strong>. Ahora comparamos <strong>dos grupos distintos</strong> de personas (hombres vs.&nbsp;mujeres, urbano vs.&nbsp;rural). Como son grupos separados, las muestras son <strong>independientes</strong>. El error estándar combina la variabilidad de ambos grupos:</p>
+<p><span class="math display">\[t = \frac{\bar{x}_1 - \bar{x}_2}{se}, \qquad se = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}\]</span></p>
+<section id="difiere-la-posición-ideológica-entre-hombres-y-mujeres-ejemplo-resuelto" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="difiere-la-posición-ideológica-entre-hombres-y-mujeres-ejemplo-resuelto"><span class="header-section-number">7.1</span> ¿Difiere la posición ideológica entre hombres y mujeres? (ejemplo resuelto)</h2>
+<p><span class="math display">\[H_0: \mu_{\text{hombres}} = \mu_{\text{mujeres}} \qquad H_a: \mu_{\text{hombres}} \neq \mu_{\text{mujeres}}\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Medias, desviaciones y n por grupo</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>m_h <span class="ot">&lt;-</span> <span class="fu">mean</span>(cep<span class="sc">$</span>ideologia[cep<span class="sc">$</span>mujer <span class="sc">==</span> <span class="dv">0</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>m_m <span class="ot">&lt;-</span> <span class="fu">mean</span>(cep<span class="sc">$</span>ideologia[cep<span class="sc">$</span>mujer <span class="sc">==</span> <span class="dv">1</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>s_h <span class="ot">&lt;-</span> <span class="fu">sd</span>(cep<span class="sc">$</span>ideologia[cep<span class="sc">$</span>mujer <span class="sc">==</span> <span class="dv">0</span>],   <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>s_m <span class="ot">&lt;-</span> <span class="fu">sd</span>(cep<span class="sc">$</span>ideologia[cep<span class="sc">$</span>mujer <span class="sc">==</span> <span class="dv">1</span>],   <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>n_h <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(cep<span class="sc">$</span>ideologia[cep<span class="sc">$</span>mujer <span class="sc">==</span> <span class="dv">0</span>]))</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>n_m <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(cep<span class="sc">$</span>ideologia[cep<span class="sc">$</span>mujer <span class="sc">==</span> <span class="dv">1</span>]))</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Error estándar y estadístico t (a mano, versión de Welch)</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>se_dif <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(s_h<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n_h <span class="sc">+</span> s_m<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n_m)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>t_dif  <span class="ot">&lt;-</span> (m_h <span class="sc">-</span> m_m) <span class="sc">/</span> se_dif</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">media_hombres =</span> m_h, <span class="at">media_mujeres =</span> m_m, <span class="at">dif =</span> m_h <span class="sc">-</span> m_m)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>media_hombres media_mujeres           dif 
+  5.583924350   5.582230624   0.001693726 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>t_dif</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01007321</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificación automática: la fórmula y ~ grupo compara la media de y entre grupos</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(ideologia <span class="sc">~</span> mujer, <span class="at">data =</span> cep)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  ideologia by mujer
+t = 0.010073, df = 885.81, p-value = 0.992
+alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+95 percent confidence interval:
+ -0.3283088  0.3316963
+sample estimates:
+mean in group 0 mean in group 1 
+       5.583924        5.582231 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 5.1:</strong> ¿La diferencia entre grupos es estadísticamente significativa? Cuidado: una diferencia <strong>pequeña</strong> puede ser significativa si <code>n</code> es grande. Comente el <strong>tamaño</strong> de la diferencia (en puntos de la escala), no solo el valor-p.</p>
+</blockquote>
+</section>
+<section id="ejercicio-edad-promedio-según-zona" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="ejercicio-edad-promedio-según-zona"><span class="header-section-number">7.2</span> Ejercicio: edad promedio según zona</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ¿Difiere la edad promedio entre zona urbana y rural?</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># H0: mu_urbano = mu_rural ; Ha: mu_urbano != mu_rural</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># t.test(___ ~ ___, data = cep)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 5.2:</strong> Formule <span class="math inline">\(H_0\)</span> y <span class="math inline">\(H_a\)</span>, ejecute el test y redacte la conclusión. ¿Podría el resultado deberse a que una zona concentra población de más edad? Discuta.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="muestras-dependientes-pareadas-comparar-dos-mediciones" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Muestras dependientes (pareadas): comparar dos mediciones</h1>
+<p>Las muestras son <strong>dependientes</strong> (o <strong>pareadas</strong>) cuando las dos mediciones provienen de las <strong>mismas personas</strong>: por ejemplo, evaluar dos instituciones en la misma escala, o comparar una evaluación “antes” y “después”. La clave es que cada persona aporta un <strong>par</strong> de valores, por lo que analizamos la <strong>diferencia individual</strong> <span class="math inline">\(d_i = x_i - y_i\)</span>:</p>
+<p><span class="math display">\[t = \frac{\bar{d}}{se}, \qquad se = \frac{s_d}{\sqrt{n}}\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>¿Qué cuenta como pareado en el CEP?</strong> Cualquier par de ítems respondidos por la <strong>misma persona</strong> en una <strong>escala comparable</strong>. Ejemplos típicos: nota de evaluación a dos autoridades o instituciones; percepción de la situación económica <strong>actual</strong> vs.&nbsp;<strong>futura</strong>; confianza en el gobierno vs.&nbsp;confianza en el Congreso. Elijan un par de este tipo y reemplacen <code>item_1</code> / <code>item_2</code> por los nombres reales del libro de códigos del CEP N°95.</p>
+</div>
+</div>
+<section id="ejemplo-plantilla-lista-para-completar" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="ejemplo-plantilla-lista-para-completar"><span class="header-section-number">8.1</span> Ejemplo (plantilla lista para completar)</h2>
+<p><span class="math display">\[H_0: \mu_d = 0 \qquad H_a: \mu_d \neq 0\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) Reemplace item_1 e item_2 por dos variables del CEP en la MISMA escala.</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co">#    Si tienen códigos de perdidos (-8/-9), recodifíquelas a NA primero.</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># cep$item_1 &lt;- car::recode(cep$NOMBRE_REAL_1, "-8=NA; -9=NA")</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># cep$item_2 &lt;- car::recode(cep$NOMBRE_REAL_2, "-8=NA; -9=NA")</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) Diferencia individual (solo casos con ambas respuestas)</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> cep<span class="sc">$</span>item_1 <span class="sc">-</span> cep<span class="sc">$</span>item_2</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>n_d <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(d))</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) Estadístico a mano</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>se_d <span class="ot">&lt;-</span> <span class="fu">sd</span>(d, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(n_d)</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>t_d  <span class="ot">&lt;-</span> <span class="fu">mean</span>(d, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> se_d</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(d, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># diferencia promedio</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>t_d</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 4) Verificación automática. OJO: paired = TRUE es lo que cambia todo.</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(cep<span class="sc">$</span>item_1, cep<span class="sc">$</span>item_2, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 6.1:</strong> ¿Qué pasaría si, teniendo datos pareados, corriéramos por error un test de muestras <strong>independientes</strong> (<code>paired = FALSE</code>)? ¿Por qué el test pareado suele tener <strong>más potencia</strong> para detectar diferencias? (Pista: piense en qué fuente de variación se elimina al mirar la diferencia dentro de cada persona.)</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Pregunta 6.2:</strong> Escriba la conclusión sustantiva de su test pareado, nombrando explícitamente <strong>cuál</strong> de las dos mediciones resultó mayor y por cuánto.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="tipos-de-error-en-la-práctica" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Tipos de error, en la práctica</h1>
+<p>La teoría de la sección 2 se puede <strong>ver</strong> con simulaciones. Aquí no analizamos el CEP, sino que generamos datos donde <strong>sabemos</strong> cuál es la verdad, y observamos con qué frecuencia el test se equivoca.</p>
+<section id="error-tipo-i-cuando-h_0-es-verdadera" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="error-tipo-i-cuando-h_0-es-verdadera"><span class="header-section-number">9.1</span> Error tipo I: cuando <span class="math inline">\(H_0\)</span> es verdadera</h2>
+<p>Generamos 2000 muestras de una población donde <span class="math inline">\(H_0: \mu = 5.5\)</span> es <strong>verdadera</strong> y contamos qué proporción de tests la rechaza al 5%. Debería acercarse a… 0.05.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>p_valores <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, {</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  muestra <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">40</span>, <span class="at">mean =</span> <span class="fl">5.5</span>, <span class="at">sd =</span> <span class="fl">2.3</span>)  <span class="co"># H0 es verdadera</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(muestra, <span class="at">mu =</span> <span class="fl">5.5</span>)<span class="sc">$</span>p.value</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(p_valores <span class="sc">&lt;</span> <span class="fl">0.05</span>)   <span class="co"># tasa empírica de error tipo I</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0415</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 7.1:</strong> El resultado ronda 0.05 aunque <span class="math inline">\(H_0\)</span> era verdadera en <strong>todas</strong> las muestras. Explique en qué sentido ese 5% de rechazos son, por definición, <strong>errores tipo I</strong>. ¿Qué pasaría con esta tasa si usáramos <span class="math inline">\(\alpha = 0.01\)</span>?</p>
+</blockquote>
+</section>
+<section id="error-tipo-ii-y-potencia-cuando-h_0-es-falsa" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="error-tipo-ii-y-potencia-cuando-h_0-es-falsa"><span class="header-section-number">9.2</span> Error tipo II y potencia: cuando <span class="math inline">\(H_0\)</span> es falsa</h2>
+<p>Ahora la verdad es <span class="math inline">\(\mu = 5.9\)</span> (la población <strong>no</strong> es de centro), pero seguimos testeando contra 5.5. Cada vez que el test <strong>no</strong> rechaza, comete un error tipo II.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>rechazos <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, {</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  muestra <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">40</span>, <span class="at">mean =</span> <span class="fl">5.9</span>, <span class="at">sd =</span> <span class="fl">2.3</span>)  <span class="co"># H0 es FALSA</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(muestra, <span class="at">mu =</span> <span class="fl">5.5</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.05</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rechazos)        <span class="co"># potencia estimada (1 - beta)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1755</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(rechazos)    <span class="co"># tasa de error tipo II estimada (beta)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8245</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo analítico de la potencia con la misma configuración</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(<span class="at">n =</span> <span class="dv">40</span>, <span class="at">delta =</span> <span class="fl">5.9</span> <span class="sc">-</span> <span class="fl">5.5</span>, <span class="at">sd =</span> <span class="fl">2.3</span>,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">type =</span> <span class="st">"one.sample"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     One-sample t test power calculation 
+
+              n = 40
+          delta = 0.4
+             sd = 2.3
+      sig.level = 0.05
+          power = 0.1875445
+    alternative = two.sided</code></pre>
+</div>
+</div>
+</section>
+<section id="el-tamaño-muestral-manda" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="el-tamaño-muestral-manda"><span class="header-section-number">9.3</span> El tamaño muestral manda</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># EJERCICIO: repita el cálculo de potencia para n = 40, 100, 300 y 1000,</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co"># manteniendo delta = 0.4 y sd = 2.3. ¿Cómo cambia la potencia?</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co"># for (nn in c(40, 100, 300, 1000)) {</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   pot &lt;- power.t.test(n = nn, delta = 0.4, sd = 2.3,</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                       sig.level = 0.05, type = "one.sample")$power</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   cat("n =", nn, "-&gt; potencia =", round(pot, 3), "\n")</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Pregunta 7.2:</strong> Con la simulación anterior, ¿la potencia sube o baja al aumentar <code>n</code>? Conecte esto con la Pregunta 0.1: ¿por qué un <code>n</code> grande hace <strong>más fácil</strong> rechazar <span class="math inline">\(H_0\)</span>?</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Pregunta 7.3:</strong> Un efecto trivialmente pequeño puede volverse “significativo” con una muestra enorme. ¿Por qué esto obliga a <strong>siempre</strong> reportar el tamaño del efecto (la diferencia en las unidades de la variable) junto con el valor-p?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="conclusiones-del-informe" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Conclusiones del informe</h1>
+<section id="ejercicio-final-integrador" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="ejercicio-final-integrador"><span class="header-section-number">10.1</span> Ejercicio final (integrador)</h2>
+<p>Redacte un párrafo de conclusiones (8–12 líneas) que integre los principales hallazgos, como cerraría un informe real. Debe incluir, con su respaldo estadístico:</p>
+<ol type="1">
+<li>El resultado del test sobre la posición ideológica de la población (¿es de centro?), con su conclusión sustantiva.</li>
+<li>El resultado del test sobre la aprobación del gobierno.</li>
+<li>Al menos <strong>una</strong> comparación entre grupos (muestras independientes o pareadas), nombrando la dirección y el tamaño de la diferencia.</li>
+<li>Una frase sobre el <strong>riesgo de error</strong> asumido: qué <span class="math inline">\(\alpha\)</span> usó y qué significa en términos de error tipo I.</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Criterio de calidad:</strong> un buen párrafo no dice “el valor-p fue 0.03”, sino “la evidencia permite descartar que la población se ubique en el centro exacto de la escala (p &lt; 0.05); el promedio poblacional se estima entre X e Y, y la diferencia entre hombres y mujeres, aunque significativa, es de apenas Z puntos”.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="lista-de-cotejo-para-la-prueba" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Lista de cotejo para la prueba</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Tarea</th>
+<th>¿Listo?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Plantear <span class="math inline">\(H_0\)</span>/<span class="math inline">\(H_a\)</span> y distinguir una cola de dos colas</td>
+<td>☐</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Calcular a mano el error estándar y el estadístico t para una media</td>
+<td>☐</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Obtener el valor-p con <code>pt()</code> (recordar el ×2 solo en dos colas)</td>
+<td>☐</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Verificar con <code>t.test(mu = ...)</code> y con <code>alternative = "less"/"greater"</code></td>
+<td>☐</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Mostrar la correspondencia entre test al 95% e IC al 95%</td>
+<td>☐</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Hacer un test para una proporción con <code>prop.test()</code> / <code>binom.test()</code></td>
+<td>☐</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Comparar dos grupos con <code>t.test(y ~ grupo)</code> (muestras independientes)</td>
+<td>☐</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Comparar dos mediciones con <code>t.test(x, y, paired = TRUE)</code> (pareadas)</td>
+<td>☐</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Definir error tipo I, error tipo II y potencia, y relacionarlos con <span class="math inline">\(\alpha\)</span> y <code>n</code></td>
+<td>☐</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Redactar conclusiones sustantivas (dirección + tamaño del efecto, no solo el valor-p)</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="lecturas-de-la-clase" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Lecturas de la clase</h1>
+<ul>
+<li>Moore [pp.&nbsp;421–475]</li>
+<li>Agresti [pp.&nbsp;151–177]</li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

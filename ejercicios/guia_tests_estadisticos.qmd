@@ -1,0 +1,520 @@
+---
+title: "Guía de Ejercicios: Tests estadísticos"
+subtitle: "Medias y proporciones, muestras dependientes e independientes, y tipos de error"
+author: "Prof. René Canales"
+date: today
+lang: es
+fontsize: 12pt
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 2
+    toc-expand: 2
+    toc-title: Contents
+    number-sections: true
+    number-depth: 3
+    code-link: true
+    title-block-banner: true
+  pdf:
+    number-sections: true
+    number-depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+# Presentación
+
+Esta guía practica **todo el ciclo de un test de hipótesis** sobre datos reales de la
+Encuesta CEP N°95: desde plantear $H_0$ y $H_a$ hasta redactar una conclusión sustantiva.
+A diferencia de la guía anterior —centrada en describir y estimar— aquí el foco está en
+**decidir**: contrastar el valor observado en la muestra contra un valor de referencia y
+evaluar si la diferencia es estadísticamente significativa en la población.
+
+**El encargo:** Un centro de estudios les pide evaluar formalmente varias afirmaciones sobre
+las actitudes políticas de la población chilena. Algunas comparan un promedio con un valor
+teórico (¿la población es de centro?), otras comparan **dos grupos** (¿piensan distinto
+hombres y mujeres?), y otras comparan **dos mediciones sobre las mismas personas**. Además,
+deberán mostrar que entienden qué puede salir mal al decidir: los **errores tipo I y tipo II**.
+
+## Mapa de contenidos
+
+| Etapa | Contenido evaluado | Herramienta en R |
+|---|---|---|
+| Recordar la lógica | 5 componentes de un test; errores tipo I y II | — |
+| Test para una media | Una y dos colas; valor-p; correspondencia con IC | `t.test()`, `pt()` |
+| Test para una proporción | Una y dos colas | `prop.test()`, `binom.test()` |
+| Comparar dos grupos | Muestras **independientes** | `t.test(y ~ grupo)` |
+| Comparar dos mediciones | Muestras **dependientes** (pareadas) | `t.test(x, y, paired = TRUE)` |
+| Cuantificar el riesgo de equivocarse | Errores, $\alpha$, $\beta$ y potencia | `replicate()`, `power.t.test()` |
+
+::: {.callout-tip}
+**Cómo usar esta guía.** Cada sección tiene un **ejemplo resuelto** (léanlo y ejecútenlo) y
+un **ejercicio** con espacios en blanco (`___`) que ustedes completan. En la prueba no basta
+con ejecutar código: cada resultado debe ir acompañado de una **interpretación sustantiva**
+(¿qué nos dice este número sobre la población chilena?). Presten especial atención a la
+**redacción de la conclusión**: es lo que más se evalúa.
+:::
+
+---
+
+# Preparación de los datos
+
+## Cargar paquetes y datos
+
+```{r}
+#| label: paquetes
+#| warning: false
+#| message: false
+
+library(dplyr)    # manipulación de datos
+library(ggplot2)  # gráficos
+library(here)     # rutas relativas
+library(car)      # recodificación de variables
+
+theme_set(theme_bw())
+options(scipen = 999)   # evita la notación científica en los valores-p
+```
+
+```{r}
+#| label: datos
+#| warning: false
+
+cep <- read.csv(file = here("bases", "raw", "cep95.csv"),
+                sep = ",",
+                encoding = "UTF-8",
+                stringsAsFactors = FALSE)
+
+dim(cep)
+```
+
+## Recodificación
+
+Reutilizamos las variables de la guía anterior. Recuerden limpiar **siempre** los casos
+perdidos (**-8 = No sabe**, **-9 = No contesta**) antes de calcular nada.
+
+| Variable creada | Origen | Contenido |
+|---|---|---|
+| `ideologia` | `iden_pol_2` | Escala 1 (izquierda) – 10 (derecha) |
+| `mujer` | `sexo` | 1 = Mujer, 0 = Hombre |
+| `urbano` | `zona_u_r` | 1 = Urbano, 0 = Rural |
+| `aprueba` | `eval_gob_1` | 1 = Aprueba, 0 = otra respuesta válida |
+
+```{r}
+#| label: recodificacion
+
+# Escala ideológica
+cep$ideologia <- car::recode(cep$iden_pol_2, "-8=NA; -9=NA")
+
+# Dummy mujer
+cep$mujer <- as.numeric(car::recode(as.character(cep$sexo), "'2'=1; '1'=0"))
+
+# Dummy urbano
+cep$urbano <- as.numeric(car::recode(as.character(cep$zona_u_r), "'1'=1; '2'=0"))
+
+# Dummy aprobación del gobierno
+cep$aprueba <- car::recode(cep$eval_gob_1, "-8=NA; -9=NA; 1=1; else=0")
+
+# Verificación rápida
+summary(cep$ideologia)
+table(cep$mujer, useNA = "ifany")
+table(cep$aprueba, useNA = "ifany")
+```
+
+> **Pregunta 0.1:** ¿Por qué el error estándar de un test cae a medida que crece `n`?
+> ¿Qué consecuencia tiene eso sobre la facilidad para rechazar $H_0$?
+
+---
+
+# La lógica del test (repaso) y los tipos de error
+
+Antes de calcular, fijemos el vocabulario. Todo test tiene cinco componentes: **supuestos**,
+**hipótesis** ($H_0$ y $H_a$), **estadístico de prueba**, **valor-p** y **conclusión**.
+La regla de decisión es siempre la misma:
+
+$$\text{valor-}p < \alpha \;\Rightarrow\; \text{se rechaza } H_0.$$
+
+Al decidir con datos podemos equivocarnos de dos formas. Conviene tenerlas claras **antes**
+de resolver los ejercicios, porque cada conclusión que redacten arrastra este riesgo.
+
+|  | $H_0$ es verdadera | $H_0$ es falsa |
+|---|---|---|
+| **Rechazamos $H_0$** | Error tipo I (prob. $\alpha$) | Decisión correcta (potencia = $1-\beta$) |
+| **No rechazamos $H_0$** | Decisión correcta | Error tipo II (prob. $\beta$) |
+
+- **Error tipo I ($\alpha$):** rechazar $H_0$ cuando en realidad es verdadera ("falso positivo").
+  Lo fijamos nosotros: usar $\alpha = 0.05$ es *aceptar de antemano* equivocarnos así un 5% de las veces.
+- **Error tipo II ($\beta$):** no rechazar $H_0$ cuando en realidad es falsa ("falso negativo").
+- **Potencia ($1-\beta$):** probabilidad de detectar un efecto que **sí existe**. Crece con
+  el tamaño muestral, con el tamaño del efecto y con un $\alpha$ más laxo.
+
+::: {.callout-important}
+**Redacción.** Cuando el valor-p es mayor a $\alpha$ **no** decimos que "aceptamos" o
+"probamos" $H_0$: decimos que **no hay evidencia suficiente para rechazarla**. La diferencia
+no es cosmética —- afirmar $H_0$ es justamente arriesgar un error tipo II sin cuantificarlo.
+:::
+
+> **Pregunta 1.1:** Un titular afirma: "Un estudio *demostró* que no hay diferencia ideológica
+> entre hombres y mujeres". ¿Qué error de razonamiento comete? ¿Con qué tipo de error se relaciona?
+
+---
+
+# Test para una media
+
+## Dos colas — ¿la población es de centro? (ejemplo resuelto)
+
+Si la población fuera ideológicamente "de centro", su promedio en la escala 1–10 sería el
+punto medio, **5.5**. Contrastamos:
+
+$$H_0: \mu = 5.5 \qquad H_a: \mu \neq 5.5$$
+
+El estadístico de prueba mide a cuántos errores estándar está la media muestral del valor de $H_0$:
+
+$$t = \frac{\bar{x} - \mu_0}{se}, \qquad se = \frac{s}{\sqrt{n}}$$
+
+```{r}
+#| label: media-dos-colas
+
+# Insumos
+media_ideo <- mean(cep$ideologia, na.rm = TRUE)
+sd_ideo    <- sd(cep$ideologia,   na.rm = TRUE)
+n_ideo     <- sum(!is.na(cep$ideologia))
+
+# Error estándar y estadístico t (a mano)
+se_ideo <- sd_ideo / sqrt(n_ideo)
+t_ideo  <- (media_ideo - 5.5) / se_ideo
+
+media_ideo
+se_ideo
+t_ideo
+
+# Valor-p de dos colas: se multiplica por 2
+2 * pt(abs(t_ideo), df = n_ideo - 1, lower.tail = FALSE)
+
+# Verificación automática
+t.test(cep$ideologia, mu = 5.5)
+```
+
+> **Pregunta 2.1:** Traduzca el resultado a una frase completa: ¿podemos afirmar, y con qué
+> nivel de confianza, que la población chilena **no** se ubica en el centro exacto de la escala?
+
+## Una cola — ¿la población se inclina a la izquierda? (ejercicio)
+
+Con más información podemos plantear una hipótesis **direccional**. Supongamos que queremos
+evaluar no solo si el promedio difiere de 5.5, sino si es **significativamente menor**
+(inclinación hacia la izquierda de la escala):
+
+$$H_a: \mu < 5.5 \qquad H_0: \mu \geq 5.5$$
+
+```{r}
+#| label: media-una-cola-ejercicio
+
+# a) El estadístico t es el MISMO que calculó arriba (t_ideo). ¿Por qué?
+
+# b) Valor-p de UNA cola: NO se multiplica por 2.
+#    Como la hipótesis apunta a la cola izquierda, use lower.tail = TRUE.
+# pt(t_ideo, df = n_ideo - 1, lower.tail = ___)
+
+# c) Verificación automática (fíjese en el argumento alternative)
+# t.test(cep$ideologia, mu = 5.5, alternative = "___")
+```
+
+> **Pregunta 2.2:** El valor-p de una cola es (aprox.) la **mitad** del de dos colas.
+> Explique por qué, en términos de la región de rechazo.
+
+> **Pregunta 2.3:** ¿En qué situación un test de una cola podría llevar a rechazar $H_0$
+> cuando el de dos colas no lo haría? ¿Qué riesgo tiene "elegir" la cola *después* de ver los datos?
+
+---
+
+# Correspondencia entre el test de dos colas y el intervalo de confianza
+
+Un test de dos colas al 95% y un intervalo de confianza al 95% para el mismo estadístico
+**siempre son coherentes**: si el test rechaza $H_0: \mu = \mu_0$, entonces $\mu_0$ queda
+**fuera** del intervalo; si no lo rechaza, $\mu_0$ queda **dentro**.
+
+```{r}
+#| label: correspondencia
+
+# IC al 95% para la media de ideologia
+t.test(cep$ideologia, conf.level = 0.95)$conf.int
+```
+
+> **Pregunta 3.1:** ¿El valor 5.5 cae dentro o fuera de ese intervalo? Muestre que su respuesta
+> es coherente con la decisión del test de la sección anterior.
+
+---
+
+# Test para una proporción
+
+Con variables categóricas hacemos inferencia sobre una **proporción**: comparamos la
+proporción muestral $\hat{p}$ con un valor de referencia $\pi_0$.
+
+$$t = \frac{\hat{p} - \pi_0}{se}, \qquad se = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+
+## Dos colas — ¿aprueba al gobierno la mitad del país? (ejemplo resuelto)
+
+$$H_0: \pi = 0.5 \qquad H_a: \pi \neq 0.5$$
+
+```{r}
+#| label: prop-dos-colas
+
+p_aprueba <- mean(cep$aprueba, na.rm = TRUE)
+n_aprueba <- sum(!is.na(cep$aprueba))
+x_aprueba <- sum(cep$aprueba == 1, na.rm = TRUE)   # número de éxitos
+
+# Error estándar y estadístico (a mano)
+se_p <- sqrt(p_aprueba * (1 - p_aprueba) / n_aprueba)
+t_p  <- (p_aprueba - 0.5) / se_p
+
+p_aprueba
+t_p
+2 * pt(abs(t_p), df = n_aprueba - 1, lower.tail = FALSE)
+
+# Verificación automática (dos alternativas equivalentes en la práctica)
+prop.test(x = x_aprueba, n = n_aprueba, p = 0.5)          # aproximación normal
+binom.test(x = x_aprueba, n = n_aprueba, p = 0.5)         # test binomial exacto
+```
+
+> **Pregunta 4.1:** ¿Se rechaza $H_0$? Redacte la conclusión mencionando la dirección
+> (¿la aprobación está por sobre o por debajo del 50%?) y el nivel de confianza.
+
+## Una cola — ¿aprueba menos de la mitad del país? (ejercicio)
+
+$$H_a: \pi < 0.5 \qquad H_0: \pi \geq 0.5$$
+
+```{r}
+#| label: prop-una-cola-ejercicio
+
+# a) Valor-p de una cola a mano (cola izquierda)
+# pt(t_p, df = n_aprueba - 1, lower.tail = ___)
+
+# b) Verificación automática
+# prop.test(x = x_aprueba, n = n_aprueba, p = 0.5, alternative = "___")
+```
+
+> **Pregunta 4.2:** Las fichas técnicas reportan un "margen de error" (p. ej. ±2.8%).
+> ¿Con cuál de los números que aparecen en el test se corresponde ese concepto?
+
+---
+
+# Muestras independientes: comparar dos grupos
+
+Hasta aquí comparamos un estadístico contra un **valor fijo**. Ahora comparamos **dos grupos
+distintos** de personas (hombres vs. mujeres, urbano vs. rural). Como son grupos separados,
+las muestras son **independientes**. El error estándar combina la variabilidad de ambos grupos:
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{se}, \qquad se = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$
+
+## ¿Difiere la posición ideológica entre hombres y mujeres? (ejemplo resuelto)
+
+$$H_0: \mu_{\text{hombres}} = \mu_{\text{mujeres}} \qquad H_a: \mu_{\text{hombres}} \neq \mu_{\text{mujeres}}$$
+
+```{r}
+#| label: indep-ejemplo
+
+# Medias, desviaciones y n por grupo
+m_h <- mean(cep$ideologia[cep$mujer == 0], na.rm = TRUE)
+m_m <- mean(cep$ideologia[cep$mujer == 1], na.rm = TRUE)
+s_h <- sd(cep$ideologia[cep$mujer == 0],   na.rm = TRUE)
+s_m <- sd(cep$ideologia[cep$mujer == 1],   na.rm = TRUE)
+n_h <- sum(!is.na(cep$ideologia[cep$mujer == 0]))
+n_m <- sum(!is.na(cep$ideologia[cep$mujer == 1]))
+
+# Error estándar y estadístico t (a mano, versión de Welch)
+se_dif <- sqrt(s_h^2 / n_h + s_m^2 / n_m)
+t_dif  <- (m_h - m_m) / se_dif
+
+c(media_hombres = m_h, media_mujeres = m_m, dif = m_h - m_m)
+t_dif
+
+# Verificación automática: la fórmula y ~ grupo compara la media de y entre grupos
+t.test(ideologia ~ mujer, data = cep)
+```
+
+> **Pregunta 5.1:** ¿La diferencia entre grupos es estadísticamente significativa? Cuidado:
+> una diferencia **pequeña** puede ser significativa si `n` es grande. Comente el **tamaño**
+> de la diferencia (en puntos de la escala), no solo el valor-p.
+
+## Ejercicio: edad promedio según zona
+
+```{r}
+#| label: indep-ejercicio
+
+# ¿Difiere la edad promedio entre zona urbana y rural?
+# H0: mu_urbano = mu_rural ; Ha: mu_urbano != mu_rural
+# t.test(___ ~ ___, data = cep)
+```
+
+> **Pregunta 5.2:** Formule $H_0$ y $H_a$, ejecute el test y redacte la conclusión.
+> ¿Podría el resultado deberse a que una zona concentra población de más edad? Discuta.
+
+---
+
+# Muestras dependientes (pareadas): comparar dos mediciones
+
+Las muestras son **dependientes** (o **pareadas**) cuando las dos mediciones provienen de las
+**mismas personas**: por ejemplo, evaluar dos instituciones en la misma escala, o comparar una
+evaluación "antes" y "después". La clave es que cada persona aporta un **par** de valores, por
+lo que analizamos la **diferencia individual** $d_i = x_i - y_i$:
+
+$$t = \frac{\bar{d}}{se}, \qquad se = \frac{s_d}{\sqrt{n}}$$
+
+::: {.callout-note}
+**¿Qué cuenta como pareado en el CEP?** Cualquier par de ítems respondidos por la **misma
+persona** en una **escala comparable**. Ejemplos típicos: nota de evaluación a dos autoridades
+o instituciones; percepción de la situación económica **actual** vs. **futura**; confianza en
+el gobierno vs. confianza en el Congreso. Elijan un par de este tipo y reemplacen
+`item_1` / `item_2` por los nombres reales del libro de códigos del CEP N°95.
+:::
+
+## Ejemplo (plantilla lista para completar)
+
+$$H_0: \mu_d = 0 \qquad H_a: \mu_d \neq 0$$
+
+```{r}
+#| label: pareadas-plantilla
+#| eval: false
+
+# 1) Reemplace item_1 e item_2 por dos variables del CEP en la MISMA escala.
+#    Si tienen códigos de perdidos (-8/-9), recodifíquelas a NA primero.
+# cep$item_1 <- car::recode(cep$NOMBRE_REAL_1, "-8=NA; -9=NA")
+# cep$item_2 <- car::recode(cep$NOMBRE_REAL_2, "-8=NA; -9=NA")
+
+# 2) Diferencia individual (solo casos con ambas respuestas)
+d <- cep$item_1 - cep$item_2
+n_d <- sum(!is.na(d))
+
+# 3) Estadístico a mano
+se_d <- sd(d, na.rm = TRUE) / sqrt(n_d)
+t_d  <- mean(d, na.rm = TRUE) / se_d
+mean(d, na.rm = TRUE)   # diferencia promedio
+t_d
+
+# 4) Verificación automática. OJO: paired = TRUE es lo que cambia todo.
+t.test(cep$item_1, cep$item_2, paired = TRUE)
+```
+
+> **Pregunta 6.1:** ¿Qué pasaría si, teniendo datos pareados, corriéramos por error un test de
+> muestras **independientes** (`paired = FALSE`)? ¿Por qué el test pareado suele tener **más
+> potencia** para detectar diferencias? (Pista: piense en qué fuente de variación se elimina
+> al mirar la diferencia dentro de cada persona.)
+
+> **Pregunta 6.2:** Escriba la conclusión sustantiva de su test pareado, nombrando
+> explícitamente **cuál** de las dos mediciones resultó mayor y por cuánto.
+
+---
+
+# Tipos de error, en la práctica
+
+La teoría de la sección 2 se puede **ver** con simulaciones. Aquí no analizamos el CEP, sino
+que generamos datos donde **sabemos** cuál es la verdad, y observamos con qué frecuencia el
+test se equivoca.
+
+## Error tipo I: cuando $H_0$ es verdadera
+
+Generamos 2000 muestras de una población donde $H_0: \mu = 5.5$ es **verdadera** y contamos
+qué proporción de tests la rechaza al 5%. Debería acercarse a... 0.05.
+
+```{r}
+#| label: sim-error-tipo-i
+
+set.seed(2024)
+p_valores <- replicate(2000, {
+  muestra <- rnorm(n = 40, mean = 5.5, sd = 2.3)  # H0 es verdadera
+  t.test(muestra, mu = 5.5)$p.value
+})
+
+mean(p_valores < 0.05)   # tasa empírica de error tipo I
+```
+
+> **Pregunta 7.1:** El resultado ronda 0.05 aunque $H_0$ era verdadera en **todas** las
+> muestras. Explique en qué sentido ese 5% de rechazos son, por definición, **errores tipo I**.
+> ¿Qué pasaría con esta tasa si usáramos $\alpha = 0.01$?
+
+## Error tipo II y potencia: cuando $H_0$ es falsa
+
+Ahora la verdad es $\mu = 5.9$ (la población **no** es de centro), pero seguimos testeando
+contra 5.5. Cada vez que el test **no** rechaza, comete un error tipo II.
+
+```{r}
+#| label: sim-potencia
+
+set.seed(2024)
+rechazos <- replicate(2000, {
+  muestra <- rnorm(n = 40, mean = 5.9, sd = 2.3)  # H0 es FALSA
+  t.test(muestra, mu = 5.5)$p.value < 0.05
+})
+
+mean(rechazos)        # potencia estimada (1 - beta)
+1 - mean(rechazos)    # tasa de error tipo II estimada (beta)
+
+# Cálculo analítico de la potencia con la misma configuración
+power.t.test(n = 40, delta = 5.9 - 5.5, sd = 2.3,
+             sig.level = 0.05, type = "one.sample")
+```
+
+## El tamaño muestral manda
+
+```{r}
+#| label: potencia-vs-n
+#| eval: false
+
+# EJERCICIO: repita el cálculo de potencia para n = 40, 100, 300 y 1000,
+# manteniendo delta = 0.4 y sd = 2.3. ¿Cómo cambia la potencia?
+# for (nn in c(40, 100, 300, 1000)) {
+#   pot <- power.t.test(n = nn, delta = 0.4, sd = 2.3,
+#                       sig.level = 0.05, type = "one.sample")$power
+#   cat("n =", nn, "-> potencia =", round(pot, 3), "\n")
+# }
+```
+
+> **Pregunta 7.2:** Con la simulación anterior, ¿la potencia sube o baja al aumentar `n`?
+> Conecte esto con la Pregunta 0.1: ¿por qué un `n` grande hace **más fácil** rechazar $H_0$?
+
+> **Pregunta 7.3:** Un efecto trivialmente pequeño puede volverse "significativo" con una
+> muestra enorme. ¿Por qué esto obliga a **siempre** reportar el tamaño del efecto (la
+> diferencia en las unidades de la variable) junto con el valor-p?
+
+---
+
+# Conclusiones del informe
+
+## Ejercicio final (integrador)
+
+Redacte un párrafo de conclusiones (8–12 líneas) que integre los principales hallazgos,
+como cerraría un informe real. Debe incluir, con su respaldo estadístico:
+
+1. El resultado del test sobre la posición ideológica de la población (¿es de centro?), con su conclusión sustantiva.
+2. El resultado del test sobre la aprobación del gobierno.
+3. Al menos **una** comparación entre grupos (muestras independientes o pareadas), nombrando la dirección y el tamaño de la diferencia.
+4. Una frase sobre el **riesgo de error** asumido: qué $\alpha$ usó y qué significa en términos de error tipo I.
+
+> **Criterio de calidad:** un buen párrafo no dice "el valor-p fue 0.03", sino "la evidencia
+> permite descartar que la población se ubique en el centro exacto de la escala (p < 0.05);
+> el promedio poblacional se estima entre X e Y, y la diferencia entre hombres y mujeres,
+> aunque significativa, es de apenas Z puntos".
+
+---
+
+# Lista de cotejo para la prueba
+
+| # | Tarea | ¿Listo? |
+|---|---|---|
+| 1 | Plantear $H_0$/$H_a$ y distinguir una cola de dos colas | ☐ |
+| 2 | Calcular a mano el error estándar y el estadístico t para una media | ☐ |
+| 3 | Obtener el valor-p con `pt()` (recordar el ×2 solo en dos colas) | ☐ |
+| 4 | Verificar con `t.test(mu = ...)` y con `alternative = "less"/"greater"` | ☐ |
+| 5 | Mostrar la correspondencia entre test al 95% e IC al 95% | ☐ |
+| 6 | Hacer un test para una proporción con `prop.test()` / `binom.test()` | ☐ |
+| 7 | Comparar dos grupos con `t.test(y ~ grupo)` (muestras independientes) | ☐ |
+| 8 | Comparar dos mediciones con `t.test(x, y, paired = TRUE)` (pareadas) | ☐ |
+| 9 | Definir error tipo I, error tipo II y potencia, y relacionarlos con $\alpha$ y `n` | ☐ |
+| 10 | Redactar conclusiones sustantivas (dirección + tamaño del efecto, no solo el valor-p) | ☐ |
+
+---
+
+# Lecturas de la clase
+
+- Moore [pp. 421–475]
+- Agresti [pp. 151–177]
