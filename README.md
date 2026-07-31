@@ -14,6 +14,8 @@
 
 [Ejercicio 2](https://renejcanales.github.io/estadistica_usach/ejercicios/ejercicio_2.html)
 
+[Ejercicios Test Estadísticos](https://renejcanales.github.io/estadistica_usach/ejercicios/guia_tests_estadisticos.html)
+
 ## Handout
 
 [Handout para R](https://renejcanales.github.io/estadistica_usach/extra/handout_page.html) 
