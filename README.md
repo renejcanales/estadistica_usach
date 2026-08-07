@@ -10,6 +10,8 @@
 
 [Taller 10/07](https://renejcanales.github.io/estadistica_usach/presentations/taller_09-07.html)
 
+[Repaso Prueba 2](https://renejcanales.github.io/estadistica_usach/presentations/taller_repaso.html)
+
 ## Ejercicios
 
 [Ejercicio 2](https://renejcanales.github.io/estadistica_usach/ejercicios/ejercicio_2.html)
