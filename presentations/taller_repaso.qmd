@@ -1,0 +1,545 @@
+---
+title: "Repaso general para la prueba"
+subtitle: "Estadística — EEII USACH · 44326"
+author: "Prof. René Canales"
+date: today
+lang: es
+format:
+  revealjs:
+    theme: default
+    slide-number: true
+    show-slide-number: all
+    scrollable: true
+    smaller: true
+    transition: fade
+    footer: "Estadística 44326 — Repaso para la prueba"
+    df-print: default
+execute:
+  echo: true
+  warning: false
+  message: false
+editor_options: 
+  chunk_output_type: console
+---
+
+## ¿Qué vamos a repasar hoy?
+
+Un recorrido por **todo lo que entra en la prueba**, con la materia explicada en detalle y un
+**ejemplo con la Encuesta CEP N°95** en cada tema.
+
+- Puntaje **Z** y distribución normal
+- **Intervalos de confianza** (medias y proporciones)
+- La lógica de un **test de hipótesis**
+- Pruebas para **medias** y **proporciones** (una y dos colas)
+- **Asociación entre variables**: tablas de contingencia, **chi-cuadrado** y **correlación de Pearson**
+
+::: {.callout-tip}
+La idea no es memorizar código, sino entender **qué significa cada fórmula**, **qué prueba usar**
+y sobre todo **cómo se interpreta** el resultado.
+:::
+
+## ¿Qué prueba uso? (mapa mental)
+
+| Lo que tengo | Lo que quiero saber | Herramienta |
+|---|---|---|
+| 1 variable continua | ¿La media difiere de un valor? | **Test t para una media** |
+| 1 variable categórica | ¿La proporción difiere de un valor? | **Test para una proporción** |
+| 2 categóricas | ¿Están asociadas? | **Chi-cuadrado** |
+| 2 continuas | ¿Están correlacionadas? | **R de Pearson** |
+
+: Todo lo demás (Z, IC) son las **herramientas de base** que alimentan estas decisiones.
+
+## Preparación: datos y recodificación {.smaller}
+
+Cargamos el CEP y dejamos listas las variables que usaremos en los ejemplos.
+
+```{r}
+#| label: setup
+library(dplyr)
+library(ggplot2)
+library(car)
+library(here)
+options(scipen = 999)
+theme_set(theme_bw())
+
+cep <- read.csv(here("bases", "raw", "cep95.csv"),
+                sep = ",", encoding = "UTF-8", stringsAsFactors = FALSE)
+
+# Continuas
+cep$ideologia <- car::recode(cep$iden_pol_2, "-8=NA; -9=NA")   # escala 1–10
+
+# Factores para asociación
+cep$sexo_f  <- factor(car::recode(cep$sexo,     "1='Hombre'; 2='Mujer'; else=NA"))
+cep$zona_f  <- factor(car::recode(cep$zona_u_r, "1='Urbano'; 2='Rural'; else=NA"))
+cep$aprob_f <- factor(car::recode(cep$eval_gob_1,
+                       "1='Aprueba'; -8=NA; -9=NA; else='No aprueba'"))
+
+# Dummy de aprobación (0/1) para proporciones
+cep$aprueba <- car::recode(cep$eval_gob_1, "-8=NA; -9=NA; 1=1; else=0")
+```
+
+# 1. Puntaje Z
+
+## Puntaje Z: ¿para qué sirve?
+
+Cada variable está en sus **propias unidades** (años, pesos, puntos de una escala), y eso hace
+difícil comparar. El puntaje Z **estandariza**: traduce cualquier valor a una unidad común,
+**cuántas desviaciones estándar** está por encima o por debajo del promedio.
+
+Con esa traducción podemos:
+
+- **Ubicar un caso** dentro de su distribución (¿es alto, bajo, típico?).
+- Comparar valores de **escalas distintas** en la misma "regla".
+- Calcular **probabilidades** (qué % de casos hay por sobre o bajo cierto valor), si asumimos
+  que la variable se distribuye **normal**.
+
+## Puntaje Z: la fórmula, símbolo por símbolo
+
+$$z = \frac{x - \bar{x}}{s}$$
+
+En la fórmula:
+
+- $x$ → el **valor individual** que queremos ubicar (ej.: una persona de 30 años).
+- $\bar{x}$ ("equis barra") → la **media** de la variable en la muestra; es el punto de referencia (el "centro").
+- $x - \bar{x}$ → la **distancia** entre el caso y el promedio, en las unidades originales.
+- $s$ → la **desviación estándar**: cuánto varían típicamente los datos en torno a la media.
+- Dividir por $s$ → convierte esa distancia en **número de desviaciones estándar**. Ese es el $z$.
+
+**Cómo leerlo:** $z=0$ está en la media; $z=+1$ está una desviación por **sobre**; $z=-2$, dos por **debajo**.
+
+## Puntaje Z: de z a probabilidad
+
+Si la variable es aproximadamente **normal**, cada valor de $z$ tiene asociada una probabilidad
+bajo la curva. En R:
+
+- `pnorm(z)` → **probabilidad acumulada**: qué proporción de casos hay **por debajo** de ese $z$.
+  Para la cola superior ("por sobre"), usamos $1 - \texttt{pnorm}(z)$.
+- `qnorm(p)` → el **inverso**: dado un porcentaje, entrega el valor que lo deja por debajo
+  (sirve para encontrar percentiles).
+
+::: {.callout-note}
+**Supuesto clave:** estas probabilidades valen **si la variable es normal**. Si la distribución
+es muy asimétrica, el $z$ sigue ubicando el caso, pero las probabilidades pierden precisión.
+:::
+
+## Puntaje Z: ejemplo (edad en el CEP)
+
+```{r}
+#| label: z-ejemplo
+media_edad <- mean(cep$edad, na.rm = TRUE)
+sd_edad    <- sd(cep$edad,   na.rm = TRUE)
+
+# a) ¿Qué z corresponde a una persona de 30 años?
+z_30 <- (30 - media_edad) / sd_edad
+z_30
+
+# b) ¿Qué % de la población tiene 65 años o más? (cola superior)
+1 - pnorm((65 - media_edad) / sd_edad)
+
+# c) ¿Desde qué edad hacia arriba está el 10% de mayor edad?
+qnorm(0.90, mean = media_edad, sd = sd_edad)
+```
+
+> **Cómo se lee:** en (a), un $z$ negativo indica que 30 años está **por debajo** del promedio;
+> en (b) obtenemos la proporción de la **cola derecha**; en (c), la edad que deja al 90% por debajo
+> (y por tanto al 10% más viejo por encima).
+
+# 2. Intervalos de confianza
+
+## IC: ¿qué problema resuelve?
+
+La media (o la proporción) de la **muestra** es solo **una** estimación: si tomáramos otra muestra,
+saldría un número algo distinto. El intervalo de confianza reconoce esa incertidumbre y, en vez de
+un solo número, entrega un **rango de valores plausibles** para el parámetro de la **población**,
+con un nivel de confianza declarado (típicamente 95%).
+
+$$\text{estimador} \;\pm\; \underbrace{(\text{valor crítico}) \times (\text{error estándar})}_{\text{margen de error}}$$
+
+- **Estimador** → lo que calculamos en la muestra ($\bar{x}$ o $\hat{p}$).
+- **Margen de error** → cuánto le sumamos y restamos para cubrir la incertidumbre.
+
+## IC para una media: términos
+
+$$IC = \bar{x} \;\pm\; t_{\alpha/2}\cdot \frac{s}{\sqrt{n}}$$
+
+- $\bar{x}$ → **media muestral** (el estimador puntual, el centro del intervalo).
+- $t_{\alpha/2}$ → **valor crítico** de la distribución t. El $\alpha$ es el error que aceptamos
+  (5% para 95% de confianza) y se reparte en las **dos colas** ($\alpha/2$ a cada lado). Con muestras
+  grandes, $t_{\alpha/2}\approx 1.96$ al 95% y $\approx 2.58$ al 99%.
+- $s$ → **desviación estándar** de la muestra (cuánto varían los datos).
+- $n$ → **tamaño muestral** (cuántos casos válidos hay).
+- $\dfrac{s}{\sqrt{n}}$ → el **error estándar (se)**: la variabilidad esperada **de la media**.
+  Ojo con el $\sqrt{n}$: a más casos, más chico el se → intervalo **más angosto** y estimación más precisa.
+
+## IC para una media: ejemplo (ideología)
+
+```{r}
+#| label: ic-media
+media_ideo <- mean(cep$ideologia, na.rm = TRUE)
+sd_ideo    <- sd(cep$ideologia,   na.rm = TRUE)
+n_ideo     <- sum(!is.na(cep$ideologia))
+
+se_ideo <- sd_ideo / sqrt(n_ideo)      # error estándar
+media_ideo + c(-1, 1) * 1.96 * se_ideo # IC 95% a mano
+
+t.test(cep$ideologia, conf.level = 0.95)$conf.int  # verificación
+```
+
+> **Interpretación correcta:** con un 95% de confianza, la posición ideológica **promedio de la
+> población** se encuentra en este rango. *No* significa que el 95% de las personas estén ahí;
+> se refiere al **parámetro** (la media poblacional), no a los casos individuales.
+
+## IC para una proporción: términos
+
+$$IC = \hat{p} \;\pm\; z_{\alpha/2}\cdot \sqrt{\frac{\hat{p}\,(1-\hat{p})}{n}}$$
+
+- $\hat{p}$ ("pe sombrero") → **proporción muestral**: la fracción de casos en la categoría de interés
+  (ej.: proporción que aprueba). Se calcula como la **media de una variable 0/1**.
+- $1-\hat{p}$ → la proporción del **resto** (los que no están en esa categoría).
+- $\hat{p}(1-\hat{p})$ → mide la **variabilidad** de una proporción; es máxima cerca de 0.5 y mínima cerca de 0 o 1.
+- $n$ → tamaño muestral.
+- $\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}$ → **error estándar de una proporción**.
+- $z_{\alpha/2}$ → valor crítico normal (1.96 al 95%).
+
+## IC para una proporción: ejemplo (aprobación)
+
+```{r}
+#| label: ic-prop
+p_ap <- mean(cep$aprueba, na.rm = TRUE)   # proporción que aprueba
+n_ap <- sum(!is.na(cep$aprueba))
+
+se_p <- sqrt(p_ap * (1 - p_ap) / n_ap)
+p_ap + c(-1, 1) * 1.96 * se_p          # IC 95% a mano
+
+x_ap <- sum(cep$aprueba == 1, na.rm = TRUE)
+binom.test(x = x_ap, n = n_ap)$conf.int # verificación
+```
+
+> El **margen de error** que reportan las encuestas ($\pm$ algo %) es exactamente
+> $1.96 \times se$. Titular responsable: *"entre X% y Y% de la población aprueba, con 95% de confianza"*.
+
+# 3. La lógica de un test de hipótesis
+
+## Los 5 componentes
+
+1. **Supuestos** — muestreo aleatorio, tipo de variable adecuado, tamaño muestral suficiente.
+2. **Hipótesis** — $H_0$ (la "hipótesis nula": no hay efecto / igualdad) y $H_a$ (la "alternativa":
+   lo que el investigador sospecha).
+3. **Estadístico de prueba** (t, z, χ²…) — un número que resume **cuán lejos** está lo observado
+   de lo que predice $H_0$.
+4. **Valor-p** — la probabilidad de obtener un resultado **así de extremo (o más)** *si $H_0$ fuera verdadera*.
+5. **Conclusión** — se decide comparando el valor-p con el umbral $\alpha$.
+
+$$\boxed{\text{valor-}p < \alpha \;\Rightarrow\; \text{se rechaza } H_0}$$
+
+## ¿Qué es exactamente el valor-p y qué es α?
+
+- **$\alpha$ (nivel de significación)** → el **riesgo que aceptamos de antemano** de rechazar $H_0$
+  estando equivocados. Lo fijamos nosotros: $\alpha=0.05$ significa "acepto equivocarme así un 5% de las veces".
+  De ahí salen los niveles de confianza: $95\% = 1-\alpha$.
+- **Valor-p** → lo **calcula el test** a partir de los datos. Es qué tan **inusual** sería nuestro
+  resultado en un mundo donde $H_0$ es cierta.
+- **La regla:** si el resultado es demasiado inusual bajo $H_0$ (valor-p pequeño), **dudamos de $H_0$** y la rechazamos.
+
+::: {.callout-note}
+Menor valor-p → **más evidencia en contra de $H_0$**. Por eso $p<0.05$, $p<0.01$ y $p<0.001$
+corresponden a rechazar con 95%, 99% y 99.9% de confianza.
+:::
+
+## Una cola vs. dos colas
+
+- **Dos colas** ($H_a: \mu \neq \mu_0$) → nos interesa **cualquier** diferencia (mayor *o* menor).
+  El $\alpha$ se reparte en **ambos** extremos, por eso el valor-p **se multiplica por 2**.
+- **Una cola** ($H_a: \mu < \mu_0$ **o** $\mu > \mu_0$) → tenemos una **dirección** esperada.
+  Todo el $\alpha$ va a **un** extremo; el valor-p **no** se multiplica por 2.
+
+$$t = \frac{\bar{x} - \mu_0}{se}$$
+
+Donde $\bar{x}$ es la media muestral, $\mu_0$ el valor de referencia de $H_0$, y $se$ el error estándar.
+El **mismo** estadístico $t$ sirve para una o dos colas; lo que cambia es **cómo se calcula el valor-p**.
+
+## Los dos errores posibles
+
+| | $H_0$ verdadera | $H_0$ falsa |
+|---|---|---|
+| **Rechazo $H_0$** | Error **tipo I** (prob. $\alpha$) | ✔ Acierto (potencia $=1-\beta$) |
+| **No rechazo $H_0$** | ✔ Acierto | Error **tipo II** (prob. $\beta$) |
+
+- **Error tipo I ($\alpha$)** → rechazar $H_0$ cuando **era verdadera** (falso positivo).
+- **Error tipo II ($\beta$)** → no rechazar $H_0$ cuando **era falsa** (falso negativo).
+- **Potencia ($1-\beta$)** → probabilidad de **detectar** un efecto que sí existe; crece con el $n$.
+
+::: {.callout-important}
+Si $p > \alpha$ **no** "aceptamos" $H_0$: decimos que **no hay evidencia suficiente para rechazarla**.
+Afirmar $H_0$ sería arriesgar un error tipo II sin medirlo.
+:::
+
+# 4. Pruebas para medias y proporciones
+
+## Test para una media: términos
+
+$$t = \frac{\bar{x} - \mu_0}{se}, \qquad se = \frac{s}{\sqrt{n}}$$
+
+- $\bar{x}$ → **media observada** en la muestra.
+- $\mu_0$ ("mu sub cero") → el **valor de referencia** que propone $H_0$ (con qué comparamos).
+- $\bar{x}-\mu_0$ → la **diferencia** entre lo observado y lo hipotético.
+- $se = s/\sqrt{n}$ → **error estándar de la media** (variabilidad esperada de $\bar{x}$).
+- $t$ → cuántos errores estándar separan a $\bar{x}$ de $\mu_0$. **Mientras más grande en valor absoluto, más lejos** de $H_0$.
+- **Grados de libertad** $= n-1$: gobiernan la forma exacta de la distribución t con la que se calcula el valor-p.
+
+## Test para una media: ejemplo (dos colas)
+
+¿La población es ideológicamente de centro? El centro de la escala 1–10 es **5.5**.
+
+$$H_0: \mu = 5.5 \qquad H_a: \mu \neq 5.5$$
+
+```{r}
+#| label: test-media
+t.test(cep$ideologia, mu = 5.5)
+```
+
+> Si el **valor-p < 0.05**, rechazamos $H_0$: la población **no** está en el centro exacto.
+> Además, el valor 5.5 quedará **fuera** del IC 95% que entrega el mismo `t.test()`
+> (test e intervalo son siempre **coherentes**).
+
+## Test para una media: una cola
+
+¿Es la posición ideológica **significativamente menor** a 5.5 (inclinación a la izquierda)?
+
+$$H_a: \mu < 5.5 \qquad H_0: \mu \geq 5.5$$
+
+```{r}
+#| label: test-media-cola
+t.test(cep$ideologia, mu = 5.5, alternative = "less")
+```
+
+> El estadístico $t$ es el **mismo** que en dos colas; cambia el **valor-p** (aprox. la mitad)
+> y la conclusión, que ahora afirma una **dirección**. `alternative = "less"` o `"greater"`
+> según hacia dónde apunte $H_a$.
+
+## Test para una proporción: términos
+
+$$t = \frac{\hat{p} - \pi_0}{se}, \qquad se = \sqrt{\frac{\hat{p}\,(1-\hat{p})}{n}}$$
+
+- $\hat{p}$ → **proporción observada** en la muestra.
+- $\pi_0$ ("pi sub cero") → la **proporción de referencia** de $H_0$ (ej.: 0.5 = "la mitad del país").
+- $\hat{p}-\pi_0$ → diferencia entre lo observado y lo hipotético.
+- $se$ → **error estándar de la proporción** (misma lógica que en el IC).
+- $t$ → cuántos errores estándar separan a $\hat{p}$ de $\pi_0$.
+
+## Test para una proporción: ejemplo
+
+¿Aprueba al gobierno **la mitad** del país? $\;H_0: \pi = 0.5$.
+
+```{r}
+#| label: test-prop
+prop.test(x = x_ap, n = n_ap, p = 0.5)   # aproximación normal
+```
+
+- `x` → número de "éxitos" (casos que aprueban); `n` → total de casos válidos; `p` → la proporción de $H_0$.
+
+> `binom.test()` da la versión **exacta**; `alternative = "less"/"greater"` la vuelve de una cola.
+> La lectura es idéntica: comparo el valor-p con 0.05 y **reporto la dirección**.
+
+# 5. Asociación entre variables categóricas: Chi-cuadrado
+
+## Tablas de contingencia: cómo se leen
+
+Para dos variables **categóricas** cruzamos sus categorías y contamos cuántos casos caen en cada
+combinación. Cada número interior es una **frecuencia observada** ($O$); los bordes son los **totales
+marginales** (por fila y por columna).
+
+```{r}
+#| label: tabla-cont
+tabla <- table(cep$aprob_f, cep$sexo_f)
+addmargins(tabla)                       # con totales marginales
+
+round(prop.table(tabla, margin = 2), 3) # proporciones DENTRO de cada columna (cada sexo)
+```
+
+> `margin = 2` calcula proporciones **por columna**. Comparar columnas responde la pregunta clave:
+> **¿aprueba una proporción distinta de hombres y de mujeres?** Si las columnas se parecen mucho,
+> probablemente **no hay asociación**.
+
+## Visualizar la asociación
+
+```{r}
+#| label: barras
+#| fig-height: 3.2
+cep %>%
+  filter(!is.na(aprob_f), !is.na(sexo_f)) %>%
+  ggplot(aes(x = sexo_f, fill = aprob_f)) +
+  geom_bar(position = "fill") +
+  labs(x = "Sexo", y = "Proporción", fill = "Gobierno")
+```
+
+> Barras apiladas al 100%: si los bloques **cambian de tamaño** entre columnas, hay indicios de asociación.
+> El chi-cuadrado nos dirá si esa diferencia es **estadísticamente significativa** o pudo ser azar.
+
+## Chi-cuadrado: la lógica y los términos
+
+Comparamos lo que **observamos** con lo que **esperaríamos si las variables fueran independientes**
+(si no hubiera ninguna asociación).
+
+$$E_{ij} = \frac{(\text{total fila}_i)\times(\text{total columna}_j)}{N}
+\qquad\qquad
+\chi^2 = \sum \frac{(O - E)^2}{E}$$
+
+- $O$ → frecuencia **observada** en una celda (los datos reales).
+- $E$ → frecuencia **esperada** en esa celda **bajo $H_0$** (si no hubiera asociación).
+- $E_{ij}$ → se obtiene multiplicando el total de su fila por el total de su columna, dividido por $N$ (total de casos).
+- $O-E$ → **cuánto se desvía** cada celda de lo esperado; se eleva al cuadrado para que no se cancelen positivos y negativos.
+- Dividir por $E$ → pondera la desviación según el tamaño esperado de la celda.
+- $\chi^2$ → la **suma** de todas esas desviaciones: mientras más grande, más se alejan los datos de la independencia.
+
+## Chi-cuadrado: hipótesis y grados de libertad
+
+- $H_0$: las variables son **independientes** (no hay asociación).
+- $H_a$: las variables **están asociadas**.
+- **Grados de libertad**: $(\text{n° de filas}-1)\times(\text{n° de columnas}-1)$. Determinan la distribución
+  χ² de referencia con la que se calcula el valor-p.
+
+**Regla de decisión (igual que siempre):** si el valor-p $< 0.05$, rechazamos $H_0$ → **hay asociación**.
+
+## Chi-cuadrado: ejemplo en R
+
+```{r}
+#| label: chi-ejemplo
+chisq.test(cep$aprob_f, cep$sexo_f)$expected  # frecuencias esperadas E bajo H0
+
+chisq.test(cep$aprob_f, cep$sexo_f)           # el test (X², gl y valor-p)
+```
+
+> **Conclusión (modelo):** si el valor-p es < 0.05, rechazamos $H_0$ y concluimos que
+> la aprobación del gobierno **está asociada** al sexo. Si es > 0.05, **no hay evidencia**
+> de asociación: la aprobación sería independiente del sexo en la población.
+
+## Ejercicio 1 — Chi-cuadrado {.smaller}
+
+Usando el CEP, evalúe si la **aprobación del gobierno** está asociada a la **zona** (urbano/rural).
+
+1. Construya la tabla de contingencia `aprob_f × zona_f` y mírela en proporciones por columna.
+2. Formule $H_0$ y $H_a$.
+3. Estime `chisq.test()` y reporte el estadístico χ², los grados de libertad y el valor-p.
+4. Interprete y concluya en una frase sustantiva.
+
+```{r}
+#| label: ej-chi
+#| eval: false
+# tabla_z <- table(cep$aprob_f, cep$zona_f)
+# round(prop.table(tabla_z, margin = 2), 3)
+# chisq.test(cep$aprob_f, cep$zona_f)
+```
+
+> **Pista de redacción:** "Con un 95% de confianza, [existe / no existe] una asociación
+> estadísticamente significativa entre la aprobación del gobierno y la zona (χ² = ___, gl = ___, p = ___)."
+
+# 6. Asociación entre variables continuas: R de Pearson
+
+## Correlación de Pearson: qué mide
+
+Para dos variables **continuas**, el coeficiente $r$ resume en un solo número la **fuerza** y la
+**dirección** de la relación **lineal** entre ellas.
+
+$$-1 \;\leq\; r \;\leq\; 1$$
+
+- **Signo** → dirección: $r>0$ (cuando una sube, la otra tiende a subir); $r<0$ (cuando una sube, la otra baja).
+- **Magnitud** → fuerza: cerca de $\pm 1$ la relación lineal es fuerte; cerca de $0$, débil o inexistente.
+- **Referencia gruesa:** $|r|\approx 0.1$ débil, $\approx 0.3$ moderada, $\approx 0.5$ o más fuerte (varía según disciplina).
+
+## Correlación de Pearson: la fórmula
+
+$$r = \frac{\operatorname{cov}(x,y)}{s_x \, s_y}$$
+
+- $x, y$ → las **dos variables continuas** que relacionamos.
+- $\operatorname{cov}(x,y)$ → la **covarianza**: mide si $x$ e $y$ **varían juntas** (positiva) o en sentido
+  contrario (negativa). El problema es que depende de las unidades.
+- $s_x,\; s_y$ → las **desviaciones estándar** de cada variable. Dividir por ellas **estandariza** la covarianza,
+  dejando a $r$ **sin unidades** y acotado entre $-1$ y $1$ → por eso es comparable entre estudios.
+
+**Hipótesis del test:** $H_0: \rho = 0$ (no hay correlación en la población) vs. $H_a: \rho \neq 0$.
+$\rho$ ("rho") es la correlación **poblacional**; $r$ es su estimación en la **muestra**.
+
+::: {.callout-note}
+$r$ solo capta lo **lineal**. Siempre miren primero la **nube de puntos**: una relación curva puede
+dar $r\approx 0$ y aun así existir.
+:::
+
+## Pearson: nube de puntos (edad e ideología)
+
+```{r}
+#| label: scatter
+#| fig-height: 3.2
+cep %>%
+  filter(!is.na(edad), !is.na(ideologia)) %>%
+  ggplot(aes(x = edad, y = ideologia)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = "Edad", y = "Posición ideológica (1–10)")
+```
+
+> ¿La recta sube o baja? Eso anticipa el **signo** de $r$. ¿Los puntos están apretados en torno a la
+> recta o muy dispersos? Eso anticipa su **fuerza**.
+
+## Pearson: cálculo y test en R
+
+```{r}
+#| label: pearson
+# Coeficiente de correlación
+with(cep, cor(edad, ideologia, use = "complete.obs"))
+
+# Test de significancia
+with(cep, cor.test(edad, ideologia, use = "complete.obs"))
+```
+
+`cor.test()` entrega, además del $r$ (`cor`): un estadístico $t$, sus **grados de libertad**
+($n-2$), el **valor-p** y un **IC 95%** para $\rho$. Se interpreta en **tres capas**:
+
+- **Dirección** → el signo de $r$.
+- **Fuerza** → la magnitud de $r$.
+- **Significancia** → el valor-p ($< 0.05$ ⇒ la correlación es distinta de 0 en la población).
+
+## Ejercicio 2 — Correlación de Pearson {.smaller}
+
+Con las variables `edad` e `ideologia` del CEP:
+
+1. Formule $H_0$ y $H_a$ para la correlación.
+2. Grafique la nube de puntos con la recta de tendencia.
+3. Calcule $r$ con `cor()` y corra `cor.test()`.
+4. Interprete **dirección**, **fuerza** y **significancia**, y comente si la relación se ve **lineal** en el gráfico.
+
+```{r}
+#| label: ej-pearson
+#| eval: false
+# with(cep, cor(edad, ideologia, use = "complete.obs"))
+# with(cep, cor.test(edad, ideologia, use = "complete.obs"))
+```
+
+> **Ojo:** un $r$ cercano a 0 **no** significa "sin relación", solo "sin relación **lineal**".
+> Si la base tiene otra variable de escala, repita el ejercicio con ese par.
+
+# Cierre
+
+## Síntesis: qué llevarse a la prueba
+
+- **Z e IC** son las herramientas de base: $Z$ ubica un caso (y da probabilidades); el **IC** estima
+  el parámetro poblacional con un **margen de error**.
+- Todo **test** sigue el mismo guion: $H_0/H_a$ → estadístico → valor-p → **comparar con α** → concluir.
+  Menor valor-p = más evidencia contra $H_0$.
+- **Medias** → `t.test()`; **proporciones** → `prop.test()`/`binom.test()`; una vs. dos colas cambia el
+  cálculo del valor-p y la redacción.
+- **Asociación**: dos **categóricas** → **chi-cuadrado** ($O$ vs. $E$); dos **continuas** → **Pearson** ($r$).
+- Lo que más se evalúa: **interpretar** (dirección + tamaño del efecto), no solo reportar el valor-p.
+
+::: {.callout-tip}
+Cuando dude, vuelva al **mapa mental** de la diapositiva 2: primero identifique el **tipo de
+variables**, y de ahí sale la prueba.
+:::
+
+## 
+
+::: {style="text-align:center; margin-top:1.5em;"}
+**¡Éxito en la prueba!**
+
+Dudas y consultas quedan abiertas.
+:::
